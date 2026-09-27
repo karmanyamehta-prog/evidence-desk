@@ -12,6 +12,8 @@ def test_precision_denominator_and_duplicates():
 
 def test_empty_faithfulness_is_not_perfect():
     assert faithfulness([]) is None
+    assert faithfulness(["non_factual"]) is None
+    assert faithfulness(["supported", "non_factual", "unsupported"]) == 0.5
     assert faithfulness(["supported", "contradicted"]) == 0.5
     with pytest.raises(ValueError):
         faithfulness(["looks fine"])

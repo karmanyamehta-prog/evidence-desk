@@ -7,11 +7,13 @@ def precision_at_k(relevant_ids, retrieved_ids, k):
 
 
 def faithfulness(claim_labels):
-    if not claim_labels:
-        return None
-    if any(x not in {"supported", "unsupported", "contradicted"} for x in claim_labels):
+    allowed = {"supported", "unsupported", "contradicted", "non_factual"}
+    if any(x not in allowed for x in claim_labels):
         raise ValueError("Unknown claim label")
-    return sum(x == "supported" for x in claim_labels) / len(claim_labels)
+    factual = [x for x in claim_labels if x != "non_factual"]
+    if not factual:
+        return None
+    return sum(x == "supported" for x in factual) / len(factual)
 
 
 def evidence_coverage(gold, retrieved):

@@ -34,6 +34,8 @@ def main():
             continue
         q = gold[r["query_id"]]
         review = labels[r["query_id"]]
+        if not 0 <= review["correct_facts"] <= len(q["required_facts"]):
+            raise ValueError("Reviewed fact count outside gold bounds")
         result = r.get("result")
         if result:
             ids = [h["id"] for h in result["retrieved"]]
@@ -46,6 +48,12 @@ def main():
                 "id": q["id"],
                 "split": q["split"],
                 "answerable": q["answerable"],
+                "p1": precision_at_k(set(review["relevant_chunk_ids"]), ids, 1)
+                if q["answerable"]
+                else None,
+                "p3": precision_at_k(set(review["relevant_chunk_ids"]), ids, 3)
+                if q["answerable"]
+                else None,
                 "p5": precision_at_k(set(review["relevant_chunk_ids"]), ids, 5)
                 if q["answerable"]
                 else None,
@@ -65,6 +73,8 @@ def main():
                 "id": q["id"],
                 "split": q["split"],
                 "answerable": q["answerable"],
+                "p1": None,
+                "p3": None,
                 "p5": None,
                 "faithfulness": None,
                 "completeness": 0 if q["answerable"] else None,
@@ -81,11 +91,23 @@ def main():
     complete = [r["completeness"] for r in rows if r["completeness"] is not None]
     unanswerable = [r for r in rows if not r["answerable"]]
     answerable = [r for r in rows if r["answerable"]]
+    statements = [
+        label
+        for row in rows
+        for label in labels[row["id"]]["claim_labels"]
+        if label != "non_factual"
+    ]
     summary = {
         "queries": len(rows),
+        "precision_at_1": mean([r["p1"] for r in rows if r["p1"] is not None]),
+        "precision_at_3": mean([r["p3"] for r in rows if r["p3"] is not None]),
         "precision_at_5": mean(ps),
+        "retrieval_scored_queries": len(ps),
         "faithfulness_macro": mean(fs),
         "faithfulness_scored_answers": len(fs),
+        "factual_statements": len(statements),
+        "supported_statements": sum(x == "supported" for x in statements),
+        "faithfulness_micro": faithfulness(statements),
         "completeness": mean(complete),
         "correct_abstentions": sum(r["abstain"] is True for r in unanswerable),
         "unanswerable_queries": len(unanswerable),
@@ -110,7 +132,7 @@ def main():
         "",
         f"Model: `{run['settings']['llm_model']}`. 24 real local queries. One pass; not laptop benchmarks.",
         "",
-        "Labels are assistant-reviewed, not independent human judgments. Faithfulness is scored only on emitted claims; abstentions have N/A, and completeness penalizes missed answers. Latency includes cold first-query effects and any retries. Separate p50/p95 are descriptive, not stable warm-load estimates.",
+        "Labels are assistant-reviewed, not independent human judgments. Faithfulness is scored only on factual statements; abstentions and heading-only outputs have N/A, and completeness penalizes missed answers. Latency includes cold first-query effects and any retries. Separate p50/p95 are descriptive, not stable warm-load estimates.",
         "",
         "| Query | Split | P@5 | Faithfulness | Completeness | Abstained | Seconds |",
         "|---|---|---:|---:|---:|---|---:|",
