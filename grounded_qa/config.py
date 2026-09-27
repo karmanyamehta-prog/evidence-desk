@@ -1,8 +1,10 @@
 """Validated environment-only configuration; no credentials in source."""
+
 from pathlib import Path
 from typing import Literal
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
@@ -24,10 +26,13 @@ class Settings(BaseSettings):
     cpu_threads: int = Field(4, ge=1)
     max_upload_mb: int = Field(20, ge=1, le=100)
     max_pages: int = Field(200, ge=1)
+
     @model_validator(mode="after")
     def validate_combination(self):
         if self.chunk_overlap >= self.chunk_tokens:
             raise ValueError("CHUNK_OVERLAP must be smaller than CHUNK_TOKENS")
-        if self.llm_provider in {"openai", "anthropic"} and (not self.api_key or not self.provider_url):
+        if self.llm_provider in {"openai", "anthropic"} and (
+            not self.api_key or not self.provider_url
+        ):
             raise ValueError("Paid provider requires explicit API_KEY and PROVIDER_URL")
         return self

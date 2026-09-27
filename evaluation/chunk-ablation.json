@@ -1,0 +1,12 @@
+[
+  {
+    "strategy": "fixed",
+    "chunks": 79,
+    "dev_gold_span_recall_at_5": 0.7857142857142857
+  },
+  {
+    "strategy": "recursive-action-aware",
+    "chunks": 146,
+    "dev_gold_span_recall_at_5": 0.7857142857142857
+  }
+]

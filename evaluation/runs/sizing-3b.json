@@ -169,6 +169,156 @@
           "total": 71415.20417800029
         }
       }
+    },
+    {
+      "query_id": "q02",
+      "split": "test",
+      "repetition": 0,
+      "result": {
+        "question": "Name the four functions of the AI RMF Core.",
+        "abstain": false,
+        "reason": "",
+        "claims": [
+          {
+            "text": "The four functions of the AI RMF Core are GOVERN, MAP, MEASURE, and MANAGE.",
+            "evidence": [
+              {
+                "source_id": "S1",
+                "quote": "The AI RMF Core provides outcomes and actions that enable dialogue, understanding, and activities to manage AI risks and responsibly develop trustworthy AI systems. As illustrated in Figure 5, the Core is composed of four functions: GOVERN, MAP, MEASURE, and MANAGE."
+              }
+            ]
+          },
+          {
+            "text": "GOVERN is a cross-cutting function designed to inform and be infused throughout the other three functions.",
+            "evidence": [
+              {
+                "source_id": "S1",
+                "quote": "Governance is designed to be a cross-cutting function to inform and be infused throughout the other three functions."
+              }
+            ]
+          },
+          {
+            "text": "The MAP, MEASURE, and MANAGE functions can be applied in AI system-specific contexts and at specific stages of the AI lifecycle.",
+            "evidence": [
+              {
+                "source_id": "S2",
+                "quote": "While GOVERN applies to all stages of organizations’ AI risk management processes and procedures, the MAP, MEASURE, and MANAGE functions can be applied in AI system-specific contexts and at specific stages of the AI lifecycle."
+              }
+            ]
+          }
+        ],
+        "mode": "ollama",
+        "sources": {
+          "S1": {
+            "text": "NIST AI 100-1 AI RMF 1.0\nPart 2: Core and Profiles\n5. AI RMF Core\nThe AI RMF Core provides outcomes and actions that enable dialogue, understanding, and\nactivities to manage AI risks and responsibly develop trustworthy AI systems. As illustrated in Figure 5, the Core is composed of four functions: GOVERN, MAP, MEASURE,\nand MANAGE. Each of these high-level functions is broken down into categories and subcategories. Categories and subcategories are subdivided into specific actions and outcomes.\nActions do not constitute a checklist, nor are they necessarily an ordered set of steps.\nFig. 5. Functions organize AI risk management activities at their highest level to govern, map,\nmeasure, and manage AI risks. Governance is designed to be a cross-cutting function to inform\nand be infused throughout the other three functions.\nRisk management should be continuous, timely, and performed throughout the AI system\nlifecycle dimensions. AI RMF Core functions should be carried out in a way that reflects\ndiverse and multidisciplinary perspectives, potentially including the views of AI actors outside the organization. Having a diverse team contributes to more open sharing of ideas and\nassumptions about purposes and functions of the technology being designed, developed,\nPage 20",
+            "chunk_id": "c67d8cf2274a6b4ba3b9edf64c9c22b10375aef636b2dfbe4d5d71166aefeba1",
+            "end": 1280,
+            "start": 0,
+            "title": "NIST AI RMF 1.0 (2023)",
+            "pipeline": "pdfplumber-0.11.7-action-column-v2",
+            "section": "5. AI RMF Core",
+            "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+            "page": 25,
+            "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+            "distance": 0.08138656616210938
+          },
+          "S2": {
+            "text": "NIST AI 100-1 AI RMF 1.0\nvalid and reliable, safe, secure and resilient, accountable and transparent, explainable and\ninterpretable, privacy enhanced, and fair with their harmful biases managed.\nPart 2 comprises the “Core” of the Framework. It describes four specific functions to help\norganizations address the risks of AI systems in practice. These functions – GOVERN,\nMAP, MEASURE, and MANAGE – are broken down further into categories and subcategories. While GOVERN applies to all stages of organizations’ AI risk management processes and procedures, the MAP, MEASURE, and MANAGE functions can be applied in AI\nsystem-specific contexts and at specific stages of the AI lifecycle.\nAdditional resources related to the Framework are included in the AI RMF Playbook,\nwhich is available via the NIST AI RMF website:\nhttps://www.nist.gov/itl/ai-risk-management-framework.\nDevelopment of the AI RMF by NIST in collaboration with the private and public sectors is directed and consistent with its broader AI efforts called for by the National AI\nInitiative Act of 2020, the National Security Commission on Artificial Intelligence recommendations, and the Plan for Federal Engagement in Developing Technical Standards and\nRelated Tools. Engagement with the AI community during this Framework’s development\n– via responses to a formal Request for Information, three widely attended workshops,\npublic comments on a concept paper and two drafts of the Framework, discussions at multiple public forums, and many small group meetings – has informed development of the AI\nRMF 1.0 as well as AI research and development and evaluation conducted by NIST and\nothers. Priority research and additional guidance that will enhance this Framework will be",
+            "chunk_id": "886e4c185e954df25042b4b36413854d51caa8293181b13155c27203ff9197fd",
+            "end": 1735,
+            "page": 8,
+            "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+            "title": "NIST AI RMF 1.0 (2023)",
+            "start": 0,
+            "pipeline": "pdfplumber-0.11.7-action-column-v2",
+            "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+            "section": "",
+            "distance": 0.11242049932479858
+          }
+        },
+        "retrieved": [
+          {
+            "id": "c67d8cf2274a6b4ba3b9edf64c9c22b10375aef636b2dfbe4d5d71166aefeba1",
+            "text": "NIST AI 100-1 AI RMF 1.0\nPart 2: Core and Profiles\n5. AI RMF Core\nThe AI RMF Core provides outcomes and actions that enable dialogue, understanding, and\nactivities to manage AI risks and responsibly develop trustworthy AI systems. As illustrated in Figure 5, the Core is composed of four functions: GOVERN, MAP, MEASURE,\nand MANAGE. Each of these high-level functions is broken down into categories and subcategories. Categories and subcategories are subdivided into specific actions and outcomes.\nActions do not constitute a checklist, nor are they necessarily an ordered set of steps.\nFig. 5. Functions organize AI risk management activities at their highest level to govern, map,\nmeasure, and manage AI risks. Governance is designed to be a cross-cutting function to inform\nand be infused throughout the other three functions.\nRisk management should be continuous, timely, and performed throughout the AI system\nlifecycle dimensions. AI RMF Core functions should be carried out in a way that reflects\ndiverse and multidisciplinary perspectives, potentially including the views of AI actors outside the organization. Having a diverse team contributes to more open sharing of ideas and\nassumptions about purposes and functions of the technology being designed, developed,\nPage 20",
+            "metadata": {
+              "end": 1280,
+              "start": 0,
+              "title": "NIST AI RMF 1.0 (2023)",
+              "pipeline": "pdfplumber-0.11.7-action-column-v2",
+              "section": "5. AI RMF Core",
+              "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+              "page": 25,
+              "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf"
+            },
+            "distance": 0.08138656616210938
+          },
+          {
+            "id": "886e4c185e954df25042b4b36413854d51caa8293181b13155c27203ff9197fd",
+            "text": "NIST AI 100-1 AI RMF 1.0\nvalid and reliable, safe, secure and resilient, accountable and transparent, explainable and\ninterpretable, privacy enhanced, and fair with their harmful biases managed.\nPart 2 comprises the “Core” of the Framework. It describes four specific functions to help\norganizations address the risks of AI systems in practice. These functions – GOVERN,\nMAP, MEASURE, and MANAGE – are broken down further into categories and subcategories. While GOVERN applies to all stages of organizations’ AI risk management processes and procedures, the MAP, MEASURE, and MANAGE functions can be applied in AI\nsystem-specific contexts and at specific stages of the AI lifecycle.\nAdditional resources related to the Framework are included in the AI RMF Playbook,\nwhich is available via the NIST AI RMF website:\nhttps://www.nist.gov/itl/ai-risk-management-framework.\nDevelopment of the AI RMF by NIST in collaboration with the private and public sectors is directed and consistent with its broader AI efforts called for by the National AI\nInitiative Act of 2020, the National Security Commission on Artificial Intelligence recommendations, and the Plan for Federal Engagement in Developing Technical Standards and\nRelated Tools. Engagement with the AI community during this Framework’s development\n– via responses to a formal Request for Information, three widely attended workshops,\npublic comments on a concept paper and two drafts of the Framework, discussions at multiple public forums, and many small group meetings – has informed development of the AI\nRMF 1.0 as well as AI research and development and evaluation conducted by NIST and\nothers. Priority research and additional guidance that will enhance this Framework will be",
+            "metadata": {
+              "end": 1735,
+              "page": 8,
+              "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+              "title": "NIST AI RMF 1.0 (2023)",
+              "start": 0,
+              "pipeline": "pdfplumber-0.11.7-action-column-v2",
+              "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+              "section": ""
+            },
+            "distance": 0.11242049932479858
+          },
+          {
+            "id": "b07872eac7ca6d07345d97c7d6160c096ebb51cb5b0d13361d8a12cca76b42ca",
+            "text": "NIST AI 100-1 AI RMF 1.0\nAppendix D:\nAttributes of the AI RMF\nNIST described several key attributes of the AI RMF when work on the Framework first\nbegan. These attributes have remained intact and were used to guide the AI RMF’s development. They are provided here as a reference.\nThe AI RMF strives to:\n1. Be risk-based, resource-efficient, pro-innovation, and voluntary.\n2. Be consensus-driven and developed and regularly updated through an open, transparent process. All stakeholders should have the opportunity to contribute to the AI\nRMF’s development.\n3. Use clear and plain language that is understandable by a broad audience, including\nsenior executives, government officials, non-governmental organization leadership,\nand those who are not AI professionals – while still of sufficient technical depth to\nbe useful to practitioners. The AI RMF should allow for communication of AI risks\nacross an organization, between organizations, with customers, and to the public at\nlarge.\n4. Provide common language and understanding to manage AI risks. The AI RMF\nshould offer taxonomy, terminology, definitions, metrics, and characterizations for\nAI risk.\n5. Be easily usable and fit well with other aspects of risk management. Use of the\nFramework should be intuitive and readily adaptable as part of an organization’s\nbroader risk management strategy and processes. It should be consistent or aligned\nwith other approaches to managing AI risks.\n6. Be useful to a wide range of perspectives, sectors, and technology domains. The AI\nRMF should be universally applicable to any AI technology and to context-specific\nuse cases.\n7. Be outcome-focused and non-prescriptive. The Framework should provide a catalog",
+            "metadata": {
+              "end": 1706,
+              "title": "NIST AI RMF 1.0 (2023)",
+              "page": 47,
+              "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+              "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+              "start": 0,
+              "section": "1. Be risk-based, resource-efficient, pro-innovation, and voluntary.",
+              "pipeline": "pdfplumber-0.11.7-action-column-v2"
+            },
+            "distance": 0.12691473960876465
+          },
+          {
+            "id": "680cc0120bdd8f37ff1d070d1226072c9561c2bdb021b6b38e503b1c1fbf73fa",
+            "text": "NIST AI 100-1 AI RMF 1.0\nFig. 2. Lifecycle and Key Dimensions of an AI System. Modified from OECD (2022) OECD\nFramework for the Classification of AI systems — OECD Digital Economy Papers. The two inner\ncircles show AI systems’ key dimensions and the outer circle shows AI lifecycle stages. Ideally,\nrisk management efforts start with the Plan and Design function in the application context and are\nperformed throughout the AI system lifecycle. See Figure 3 for representative AI actors.\nenvironmental groups, civil society organizations, end users, and potentially impacted individuals and communities. These actors can:\n• assist in providing context and understanding potential and actual impacts;\n• be a source of formal or quasi-formal norms and guidance for AI risk management;\n• designate boundaries for AI operation (technical, societal, legal, and ethical); and\n• promote discussion of the tradeoffs needed to balance societal values and priorities\nrelated to civil liberties and rights, equity, the environment and the planet, and the\neconomy.\nSuccessful risk management depends upon a sense of collective responsibility among AI\nactors shown in Figure 3. The AI RMF functions, described in Section 5, require diverse\nperspectives, disciplines, professions, and experiences. Diverse teams contribute to more\nopen sharing of ideas and assumptions about the purposes and functions of technology –\nmaking these implicit aspects more explicit. This broader collective perspective creates\nopportunities for surfacing problems and identifying existing and emergent risks.\nPage 10",
+            "metadata": {
+              "start": 0,
+              "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+              "page": 15,
+              "pipeline": "pdfplumber-0.11.7-action-column-v2",
+              "end": 1581,
+              "title": "NIST AI RMF 1.0 (2023)",
+              "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+              "section": ""
+            },
+            "distance": 0.12796539068222046
+          },
+          {
+            "id": "7dc28098aeceb1729e4fb9cc924c0ac7a11a3d2e18c7d6de29346f38cd8cd588",
+            "text": "NIST AI 100-1 AI RMF 1.0\n4. Presenting AI system information to humans is complex. Humans perceive and\nderive meaning from AI system output and explanations in different ways, reflecting\ndifferent individual preferences, traits, and skills.\nThe GOVERN function provides organizations with the opportunity to clarify and define\nthe roles and responsibilities for the humans in the Human-AI team configurations and\nthose who are overseeing the AI system performance. The GOVERN function also creates\nmechanisms for organizations to make their decision-making processes more explicit, to\nhelp counter systemic biases.\nThe MAP function suggests opportunities to define and document processes for operator\nand practitioner proficiency with AI system performance and trustworthiness concepts, and\nto define relevant technical standards and certifications. Implementing MAP function categories and subcategories may help organizations improve their internal competency for\nanalyzing context, identifying procedural and system limitations, exploring and examining\nimpacts of AI-based systems in the real world, and evaluating decision-making processes\nthroughout the AI lifecycle.\nThe GOVERN and MAP functions describe the importance of interdisciplinarity and demographically diverse teams and utilizing feedback from potentially impacted individuals and\ncommunities. AI actors called out in the AI RMF who perform human factors tasks and\nactivities can assist technical teams by anchoring in design and development practices to\nuser intentions and representatives of the broader AI community, and societal values. These\nactors further help to incorporate context-specific norms and values in system design and\nevaluate end user experiences – in conjunction with AI systems.\nAI risk management approaches for human-AI configurations will be augmented by ongoing research and evaluation. For example, the degree to which humans are empowered",
+            "metadata": {
+              "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+              "end": 1933,
+              "section": "4. Presenting AI system information to humans is complex. Humans perceive and",
+              "title": "NIST AI RMF 1.0 (2023)",
+              "page": 46,
+              "pipeline": "pdfplumber-0.11.7-action-column-v2",
+              "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+              "start": 0
+            },
+            "distance": 0.13053178787231445
+          }
+        ],
+        "timing_ms": {
+          "retrieval": 189.04626399989866,
+          "generation_and_validation": 126784.43675599965,
+          "total": 126973.48301999955
+        }
+      }
     }
   ],
   "ollama_models": {

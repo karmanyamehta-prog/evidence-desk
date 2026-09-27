@@ -2,7 +2,7 @@
 FROM python:3.12.11-slim
 WORKDIR /app
 ENV DATA_DIR=/app/data HF_HOME=/app/.cache/huggingface LLM_PROVIDER=extractive \
-    API_URL=http://127.0.0.1:8000 MAX_UPLOAD_MB=5 MAX_PAGES=60 DEMO_READ_ONLY=1
+    API_URL=http://127.0.0.1:8000 MAX_UPLOAD_MB=5 MAX_PAGES=60 DEMO_READ_ONLY=1 PUBLIC_API_URL=""
 COPY . .
 RUN pip install --no-cache-dir torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu \
     && pip install --no-cache-dir . \

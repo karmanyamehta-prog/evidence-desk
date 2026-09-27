@@ -1,0 +1,524 @@
+[
+  {
+    "id": "q01",
+    "split": "dev",
+    "category": "fact",
+    "answerable": true,
+    "question": "Is AI RMF 1.0 voluntary or mandatory?",
+    "expected_answer": "It is voluntary.",
+    "required_facts": [
+      "voluntary"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 7,
+        "start": 1296,
+        "end": 1400,
+        "quote": "The Framework is intended to be\nvoluntary, rights-preserving, non-sector-specific, and use-case agnostic"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q02",
+    "split": "test",
+    "category": "fact",
+    "answerable": true,
+    "question": "Name the four functions of the AI RMF Core.",
+    "expected_answer": "GOVERN, MAP, MEASURE, MANAGE.",
+    "required_facts": [
+      "GOVERN",
+      "MAP",
+      "MEASURE",
+      "MANAGE"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 8,
+        "start": 345,
+        "end": 395,
+        "quote": "These functions – GOVERN,\nMAP, MEASURE, and MANAGE"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q03",
+    "split": "test",
+    "category": "fact",
+    "answerable": true,
+    "question": "What characteristics of trustworthy AI does the Framework list?",
+    "expected_answer": "Valid and reliable; safe; secure and resilient; accountable and transparent; explainable and interpretable; privacy-enhanced; fair with harmful bias managed.",
+    "required_facts": [
+      "valid and reliable",
+      "safe",
+      "secure and resilient",
+      "accountable and transparent",
+      "explainable and interpretable",
+      "privacy-enhanced",
+      "fair with harmful bias managed"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 17,
+        "start": 436,
+        "end": 596,
+        "quote": "valid and reliable, safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy-enhanced, and fair with harmful bias\nmanaged"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q04",
+    "split": "dev",
+    "category": "fact",
+    "answerable": true,
+    "question": "Does the Framework prescribe an acceptable risk tolerance?",
+    "expected_answer": "No. Risk tolerance depends on the organization and context.",
+    "required_facts": [
+      "does not prescribe",
+      "context-dependent"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 12,
+        "start": 46,
+        "end": 132,
+        "quote": "While the AI RMF can be used to prioritize risk, it does not prescribe risk tolerance."
+      },
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 12,
+        "start": 370,
+        "end": 514,
+        "quote": "Risk tolerance and the level of risk that\nis acceptable to organizations or society are highly contextual and application and use-case\nspecific."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q05",
+    "split": "test",
+    "category": "fact",
+    "answerable": true,
+    "question": "What does validation mean in the Valid and Reliable section?",
+    "expected_answer": "Confirmation through objective evidence that requirements for a specific intended use or application are fulfilled.",
+    "required_facts": [
+      "objective evidence",
+      "requirements for intended use fulfilled"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 18,
+        "start": 2227,
+        "end": 2370,
+        "quote": "confirmation, through the provision of objective evidence, that the requirements for a specific intended use or application have been fulfilled"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q06",
+    "split": "test",
+    "category": "fact",
+    "answerable": true,
+    "question": "What is reliability as described in the Framework?",
+    "expected_answer": "Ability to perform as required without failure for a given interval under given conditions.",
+    "required_facts": [
+      "perform as required",
+      "without failure",
+      "time interval and conditions"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 18,
+        "start": 2642,
+        "end": 2751,
+        "quote": "ability of an item to perform as required,\nwithout failure, for a given time interval, under given conditions"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q07",
+    "split": "dev",
+    "category": "fact",
+    "answerable": true,
+    "question": "What security properties can protection mechanisms preserve in a secure AI system?",
+    "expected_answer": "Confidentiality, integrity, and availability.",
+    "required_facts": [
+      "confidentiality",
+      "integrity",
+      "availability"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 20,
+        "start": 1277,
+        "end": 1447,
+        "quote": "AI systems that can maintain confidentiality, integrity, and\navailability through protection mechanisms that prevent unauthorized access and use may\nbe said to be secure."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q08",
+    "split": "test",
+    "category": "fact",
+    "answerable": true,
+    "question": "Which values should guide privacy-related AI design choices?",
+    "expected_answer": "Anonymity, confidentiality, and control.",
+    "required_facts": [
+      "anonymity",
+      "confidentiality",
+      "control"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 22,
+        "start": 1174,
+        "end": 1318,
+        "quote": "Privacy values such as anonymity, confidentiality, and control generally should guide choices\nfor AI system design, development, and deployment."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q09",
+    "split": "dev",
+    "category": "action",
+    "answerable": true,
+    "question": "What does GOVERN 1.6 say about inventorying AI systems?",
+    "expected_answer": "Maintain mechanisms to inventory AI systems, resourced according to organizational risk priorities.",
+    "required_facts": [
+      "inventory mechanisms",
+      "resources match risk priorities"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 28,
+        "start": 244,
+        "end": 366,
+        "quote": "GOVERN 1.6: Mechanisms are in place to inventory AI systems\nand are resourced according to organizational risk priorities."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q10",
+    "split": "test",
+    "category": "action",
+    "answerable": true,
+    "question": "Who takes responsibility under GOVERN 2.3?",
+    "expected_answer": "Executive leadership takes responsibility for AI development and deployment risk decisions.",
+    "required_facts": [
+      "executive leadership",
+      "development and deployment risk decisions"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 28,
+        "start": 978,
+        "end": 1131,
+        "quote": "GOVERN 2.3: Executive leadership of the organization takes responsibility for decisions about risks associated with AI system\ndevelopment and deployment."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q11",
+    "split": "test",
+    "category": "action",
+    "answerable": true,
+    "question": "What privacy assessment does MEASURE 2.10 describe?",
+    "expected_answer": "Examine and document AI privacy risk identified in MAP.",
+    "required_facts": [
+      "privacy risk from MAP",
+      "examined and documented"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 35,
+        "start": 897,
+        "end": 1006,
+        "quote": "MEASURE 2.10: Privacy risk of the AI system – as identified in\nthe MAP function – is examined and documented."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q12",
+    "split": "test",
+    "category": "action",
+    "answerable": true,
+    "question": "What TEVV documentation is described in MEASURE 2.1?",
+    "expected_answer": "Document test sets, metrics, and details of tools used during TEVV.",
+    "required_facts": [
+      "test sets",
+      "metrics",
+      "tools"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 34,
+        "start": 868,
+        "end": 961,
+        "quote": "MEASURE 2.1: Test sets, metrics, and details about the tools used\nduring TEVV are documented."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q13",
+    "split": "test",
+    "category": "action",
+    "answerable": true,
+    "question": "What does MANAGE 2.4 say about systems performing inconsistently with intended use?",
+    "expected_answer": "Assign and understand responsibilities and apply mechanisms to supersede, disengage, or deactivate such systems.",
+    "required_facts": [
+      "assigned responsibilities",
+      "supersede disengage or deactivate"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 37,
+        "start": 1103,
+        "end": 1324,
+        "quote": "MANAGE 2.4: Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or\ndeactivate AI systems that demonstrate performance or outcomes\ninconsistent with intended use."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q14",
+    "split": "dev",
+    "category": "action",
+    "answerable": true,
+    "question": "How are pre-trained models handled in MANAGE 3.2?",
+    "expected_answer": "Monitor pre-trained models used for development during regular system monitoring and maintenance.",
+    "required_facts": [
+      "pre-trained models",
+      "regular monitoring and maintenance"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 37,
+        "start": 1457,
+        "end": 1589,
+        "quote": "MANAGE 3.2: Pre-trained models which are used for development are monitored as part of AI system regular monitoring and\nmaintenance."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q15",
+    "split": "test",
+    "category": "synthesis",
+    "answerable": true,
+    "question": "How do explainability and interpretability differ?",
+    "expected_answer": "Explainability concerns mechanisms; interpretability concerns output meaning in context.",
+    "required_facts": [
+      "mechanisms",
+      "output meaning in context"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 21,
+        "start": 1820,
+        "end": 2036,
+        "quote": "Explainability refers to a representation of the mechanisms underlying AI systems’ operation, whereas interpretability refers to the meaning of AI systems’ output in the context\nof their designed functional purposes."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q16",
+    "split": "test",
+    "category": "synthesis",
+    "answerable": true,
+    "question": "How do validity monitoring and GOVERN 1.5 complement each other?",
+    "expected_answer": "Ongoing tests or monitoring assess system validity and reliability; GOVERN 1.5 plans review of the risk-management process and assigns roles and review frequency.",
+    "required_facts": [
+      "ongoing system testing or monitoring",
+      "risk process review roles and frequency"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 19,
+        "start": 1434,
+        "end": 1584,
+        "quote": "Validity and reliability for deployed AI systems are often assessed by ongoing testing or\nmonitoring that confirms a system is performing as intended."
+      },
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 28,
+        "start": 14,
+        "end": 243,
+        "quote": "GOVERN 1.5: Ongoing monitoring and periodic review of the\nrisk management process and its outcomes are planned and organizational roles and responsibilities clearly defined, including\ndetermining the frequency of periodic review."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q17",
+    "split": "dev",
+    "category": "synthesis",
+    "answerable": true,
+    "question": "How does MAP 1.5 operationalize the discussion of organizational risk tolerance?",
+    "expected_answer": "The contextual tolerance discussion is put into practice by determining and documenting organizational tolerances.",
+    "required_facts": [
+      "contextual tolerance",
+      "determined and documented"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 12,
+        "start": 370,
+        "end": 514,
+        "quote": "Risk tolerance and the level of risk that\nis acceptable to organizations or society are highly contextual and application and use-case\nspecific."
+      },
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 31,
+        "start": 1124,
+        "end": 1194,
+        "quote": "MAP 1.5: Organizational risk tolerances are determined and\ndocumented."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q18",
+    "split": "test",
+    "category": "synthesis",
+    "answerable": true,
+    "question": "Why does transparency matter for accountability, and does transparency guarantee accuracy?",
+    "expected_answer": "Accountability presupposes transparency, but transparency alone does not imply accuracy.",
+    "required_facts": [
+      "accountability presupposes transparency",
+      "no accuracy guarantee"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 20,
+        "start": 2092,
+        "end": 2132,
+        "quote": "Accountability presupposes transparency."
+      },
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 21,
+        "start": 150,
+        "end": 244,
+        "quote": "A transparent system is not necessarily an accurate,\nprivacy-enhanced, secure, or fair system."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q19",
+    "split": "dev",
+    "category": "unanswerable",
+    "answerable": false,
+    "question": "What was NIST’s exact annual AI RMF implementation budget for 2025?",
+    "expected_answer": "Not specified in this corpus.",
+    "required_facts": [],
+    "gold_evidence": [],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q20",
+    "split": "test",
+    "category": "unanswerable",
+    "answerable": false,
+    "question": "What is the exact current penalty in euros for failing to follow this Framework?",
+    "expected_answer": "No current penalty schedule is provided.",
+    "required_facts": [],
+    "gold_evidence": [],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q21",
+    "split": "test",
+    "category": "unanswerable",
+    "answerable": false,
+    "question": "Which LLM has the highest benchmark accuracy in September 2026?",
+    "expected_answer": "No such comparison is present in this historical corpus.",
+    "required_facts": [],
+    "gold_evidence": [],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q22",
+    "split": "test",
+    "category": "unanswerable",
+    "answerable": false,
+    "question": "What is my company’s approved risk-tolerance threshold?",
+    "expected_answer": "The report cannot establish a particular company’s threshold.",
+    "required_facts": [],
+    "gold_evidence": [],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q23",
+    "split": "dev",
+    "category": "misleading",
+    "answerable": true,
+    "question": "Since AI RMF 1.0 is mandatory, what says that everyone must implement it?",
+    "expected_answer": "The premise is false: the Framework is intended to be voluntary.",
+    "required_facts": [
+      "reject mandatory premise",
+      "voluntary"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 7,
+        "start": 1296,
+        "end": 1400,
+        "quote": "The Framework is intended to be\nvoluntary, rights-preserving, non-sector-specific, and use-case agnostic"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "q24",
+    "split": "test",
+    "category": "misleading",
+    "answerable": true,
+    "question": "Explain why security and resilience mean exactly the same thing in AI RMF.",
+    "expected_answer": "The premise is false: they are related but distinct; resilience is recovery while security also includes attack avoidance and protection.",
+    "required_facts": [
+      "related but distinct",
+      "recovery versus broader attack protection"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 20,
+        "start": 1568,
+        "end": 1853,
+        "quote": "Security and resilience are related but distinct characteristics. While resilience is the ability to return to normal function after an unexpected adverse event, security includes resilience but also encompasses protocols to avoid, protect against, respond to, or recover\nfrom attacks."
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  }
+]

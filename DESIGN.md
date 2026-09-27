@@ -119,3 +119,7 @@ User authorized autonomous technical decisions. CPU: i5-1240P; usable RAM: 15.7 
 Ollama lists 3B at 1.9 GB and 7B at 4.7 GB; downloads are not runtime memory measurements. Native Windows requires Windows 10 22H2 or later. Primary sources: https://docs.ollama.com/windows, https://docs.ollama.com/gpu, https://ollama.com/library/qwen2.5/tags, https://docs.ollama.com/api/chat.
 
 Evaluation annotations created by the assistant must be labeled assistant-reviewed; human validation is not implied. RAGAS-style labels require recorded review rather than treating quote membership as semantic faithfulness. If model execution cannot run in the build environment, publish the blocker and runnable evaluator, never fabricated metrics.
+
+## Implementation record superseding the proposal
+
+See README.md and RESEARCH.md for the executed configuration and validation evidence. The benchmark is the one verified GPO-hosted RMF PDF, with GenAI Profile ingestion deferred after download failures. CPU 3B remains the default, 1.5B is an experimental evaluated speed profile, and 7B is optional and unbenchmarked. Citation offsets reference processed page text, raw extraction is retained, and section headings are heuristics. Table subcategory columns are handled explicitly; category descriptions are not included. The evaluator uses assistant-reviewed statement-level judgments and a single exploratory timing pass. No independent human review, sealed holdout claim, Windows execution, Docker execution or public deployment has occurred.

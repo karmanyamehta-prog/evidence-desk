@@ -206,8 +206,8 @@
       {
         "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
         "page": 28,
-        "start": 244,
-        "end": 366,
+        "start": 320,
+        "end": 442,
         "quote": "GOVERN 1.6: Mechanisms are in place to inventory AI systems\nand are resourced according to organizational risk priorities."
       }
     ],
@@ -228,8 +228,8 @@
       {
         "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
         "page": 28,
-        "start": 978,
-        "end": 1131,
+        "start": 1054,
+        "end": 1207,
         "quote": "GOVERN 2.3: Executive leadership of the organization takes responsibility for decisions about risks associated with AI system\ndevelopment and deployment."
       }
     ],
@@ -250,8 +250,8 @@
       {
         "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
         "page": 35,
-        "start": 897,
-        "end": 1006,
+        "start": 974,
+        "end": 1083,
         "quote": "MEASURE 2.10: Privacy risk of the AI system – as identified in\nthe MAP function – is examined and documented."
       }
     ],
@@ -273,8 +273,8 @@
       {
         "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
         "page": 34,
-        "start": 868,
-        "end": 961,
+        "start": 1083,
+        "end": 1176,
         "quote": "MEASURE 2.1: Test sets, metrics, and details about the tools used\nduring TEVV are documented."
       }
     ],
@@ -295,8 +295,8 @@
       {
         "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
         "page": 37,
-        "start": 1103,
-        "end": 1324,
+        "start": 1315,
+        "end": 1536,
         "quote": "MANAGE 2.4: Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or\ndeactivate AI systems that demonstrate performance or outcomes\ninconsistent with intended use."
       }
     ],
@@ -317,8 +317,8 @@
       {
         "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
         "page": 37,
-        "start": 1457,
-        "end": 1589,
+        "start": 1669,
+        "end": 1801,
         "quote": "MANAGE 3.2: Pre-trained models which are used for development are monitored as part of AI system regular monitoring and\nmaintenance."
       }
     ],
@@ -368,8 +368,8 @@
       {
         "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
         "page": 28,
-        "start": 14,
-        "end": 243,
+        "start": 90,
+        "end": 319,
         "quote": "GOVERN 1.5: Ongoing monitoring and periodic review of the\nrisk management process and its outcomes are planned and organizational roles and responsibilities clearly defined, including\ndetermining the frequency of periodic review."
       }
     ],
@@ -397,8 +397,8 @@
       {
         "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
         "page": 31,
-        "start": 1124,
-        "end": 1194,
+        "start": 1185,
+        "end": 1255,
         "quote": "MAP 1.5: Organizational risk tolerances are determined and\ndocumented."
       }
     ],
