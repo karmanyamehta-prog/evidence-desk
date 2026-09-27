@@ -1,0 +1,407 @@
+{
+  "q01": {
+    "relevant_chunk_ids": [
+      "5709e84d506012262b3574228c62a07901a8860f6797db09bfeb2c11a9c38fcb",
+      "c33042f829e3344f482acc8d31dc89fcdb2ff9000d1a9d225665b683f9ee4d71"
+    ],
+    "relevant_ranks": [
+      1,
+      2
+    ],
+    "rationale": "Direct voluntary statements on pages 7 and 47. Non-prescriptive alone does not establish voluntary status.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [],
+    "correct_facts": 0,
+    "answer_rationale": "Strict quote validation abstained despite relevant retrieved evidence."
+  },
+  "q02": {
+    "relevant_chunk_ids": [
+      "caf3d111797c9746a6192c4898f42f3121391d0953a190435ef2c837a8c36181",
+      "d59a5eb507c8f0abd4a7dba84184783e4c9db544a60d7803205f55e46acd64b5",
+      "d3979a987f776f5c2bd47261822376be2cde856b0fafe6da2870e5b10caecf96",
+      "d8ffccec07a5659cbb9fd0241550253a9d83a94b82906e6222a6155d2bff38ca"
+    ],
+    "relevant_ranks": [
+      1,
+      2,
+      3,
+      5
+    ],
+    "rationale": "Core text and overview name all four; table captions also name them; MANAGE-only caption supports one required fact.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 4,
+    "answer_rationale": "S1 explicitly names all four functions; the answer conveys all four."
+  },
+  "q03": {
+    "relevant_chunk_ids": [
+      "6a3fa6a9cc64c940e421357ca2b32e8d9ae75b134de5318b299711a5f8ae64c4",
+      "152d791032235305ddab90ee18030edbf47f353d2e94062128d876586655a3f1",
+      "df0ae938ad664a2cdf6c4118d81b04f86299120b6f43cf0f6cd4a0c964424af9"
+    ],
+    "relevant_ranks": [
+      1,
+      4,
+      5
+    ],
+    "rationale": "Main list gives all characteristics. Tradeoff paragraph supports privacy/interpretability; figure caption supports valid/reliable and accountable/transparent. Generic mentions without named characteristics are excluded.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [],
+    "correct_facts": 0,
+    "answer_rationale": "Strict quote validation abstained; no answer facts emitted."
+  },
+  "q04": {
+    "relevant_chunk_ids": [
+      "9af6e9158a4b26432cb553eaedc4394b8af88e224ebd8c5f15b03fe4f95d4ed5",
+      "1e709b0acf64bdee39ec0437dde45b117fb2f298114b47bfe73ed80c4d3ac614",
+      "e6d0fdbe9d1c9174e68377330bfb80fd4bc7615fbde7b73c592ccd49e85f0302"
+    ],
+    "relevant_ranks": [
+      1,
+      2,
+      3
+    ],
+    "rationale": "Direct non-prescription plus contextual guidance and appendix non-prescriptive principle. Other broad risk discussion excluded.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 1,
+    "answer_rationale": "The full cited S1 chunk explicitly states non-prescription. The chosen quote alone omits that sentence. Answer omits contextual dependence."
+  },
+  "q05": {
+    "relevant_chunk_ids": [
+      "6107b1271f508598f30d98a54525c425b71b52e6f149963ff3b205b048a5e886"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "Only the formal validation definition directly supports the requested meaning.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 2,
+    "answer_rationale": "Definition is directly supported by S1 and includes both required components."
+  },
+  "q06": {
+    "relevant_chunk_ids": [],
+    "relevant_ranks": [],
+    "rationale": "Retrieved passages discuss framework goals and measurement, not the reliability definition on page 18.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 0,
+    "answer_rationale": "Faithful paraphrase of appendix design principles, but irrelevant to the requested reliability definition; none of the required facts answered."
+  },
+  "q07": {
+    "relevant_chunk_ids": [
+      "169f9721e88668423fd62a0800a3f1f47beb8f007e8874c895bd93b8ab46aeb8"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "Secure/resilient paragraph explicitly states confidentiality, integrity and availability.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 3,
+    "answer_rationale": "S1 supports the CIA properties and protection mechanism statement."
+  },
+  "q08": {
+    "relevant_chunk_ids": [
+      "e99f36ad707f372f1a0fd01b9820fe1b0503c92853efccd555b9928c1d7227f8"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "Privacy section explicitly identifies anonymity, confidentiality and control.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 3,
+    "answer_rationale": "S1 directly supports anonymity, confidentiality and control."
+  },
+  "q09": {
+    "relevant_chunk_ids": [
+      "1568a2583a7b5cfde7738ef0374a3c27394e7ce38e513d1736325f2ddc308a8b"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "The specifically requested action is directly supported only by its own numbered action chunk.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 2,
+    "answer_rationale": "Exact GOVERN 1.6 statement covers inventory and risk-priority resourcing."
+  },
+  "q10": {
+    "relevant_chunk_ids": [
+      "0aafe7b78fe5d2c47b42482ab4a75bd4428c6d1461c43372b74fc56ca965f60e"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "The specifically requested action is directly supported only by its own numbered action chunk.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 1,
+    "answer_rationale": "Executive leadership and general risk responsibility are supported. Answer text omits development/deployment scope; the quote contains it but is not counted as answer completeness."
+  },
+  "q11": {
+    "relevant_chunk_ids": [
+      "3a5be61cd0a510b1df2938f7392bb0d7653abe71cbed5d04cb22e87774d51557"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "The specifically requested action is directly supported only by its own numbered action chunk.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "non_factual",
+      "non_factual"
+    ],
+    "correct_facts": 0,
+    "answer_rationale": "Two topic headings, not factual propositions. Answer text neither identifies MAP nor says examined/documented. Quotes contain facts but do not replace the missing answer; fairness is also off-question."
+  },
+  "q12": {
+    "relevant_chunk_ids": [
+      "c4a366aa6f7495d492039875abdda846e26c326556510d5de3a75e7bce088fbe"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "The specifically requested action is directly supported only by its own numbered action chunk.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "non_factual",
+      "non_factual"
+    ],
+    "correct_facts": 0,
+    "answer_rationale": "Only an action label and a heading; answer text never lists test sets, metrics or tools. Non-factual headings are excluded from faithfulness denominator."
+  },
+  "q13": {
+    "relevant_chunk_ids": [
+      "3e5e75a52937e7b3e69fe8ce5f3bd632042e1824cb7b30924eabe1d5fbebc168"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "The specifically requested action is directly supported only by its own numbered action chunk.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported",
+      "contradicted"
+    ],
+    "correct_facts": 2,
+    "answer_rationale": "First claim correctly conveys MANAGE 2.4 and both requested facts. Second falsely attributes MEASURE 2.5 text to MANAGE 2.5, despite an exact quote naming MEASURE. Valid quote membership did not prevent this attribution error."
+  },
+  "q14": {
+    "relevant_chunk_ids": [
+      "0850fae2fba49a770cd8f5b21b99aa04d33e72b34434a77b1d50d52d91b98348"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "The specifically requested action is directly supported only by its own numbered action chunk.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported",
+      "unsupported"
+    ],
+    "correct_facts": 2,
+    "answer_rationale": "First claim is supported by MANAGE 3.2 and covers both required facts. Second cites MANAGE 3.1, which does not establish its claimed performance/outcomes monitoring scope for pre-trained models under MANAGE 3.2."
+  },
+  "q15": {
+    "relevant_chunk_ids": [
+      "ee0f30327a6c0b60e5740803a211ad981c7d835c9efdda9c9fea0bd9e392b7d7",
+      "9bc933cee5ae5accee524c06a0f51a7f3002cc5b6fa5a102add9bce7a6db1a46"
+    ],
+    "relevant_ranks": [
+      1,
+      2
+    ],
+    "rationale": "Mechanism/output distinction on page 21 and how/why contrast on page 22.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 2,
+    "answer_rationale": "S1 explicitly distinguishes mechanisms from output meaning in functional context."
+  },
+  "q16": {
+    "relevant_chunk_ids": [
+      "0c7d7de5249b6796aae0ebb7543c8577def6849b32a314cd7576174ec93a2509",
+      "265a0fd867f7f229835df8429147933a9f1201592f4eaa4d0320e386007c46e3",
+      "33a8d8b828b51f29b5f5f6ba735609dda56c0ba5de56c40ec06f10a2e5bae365"
+    ],
+    "relevant_ranks": [
+      1,
+      2,
+      4
+    ],
+    "rationale": "GOVERN 1.5 supplies process review; MEASURE 4.2 validates consistent intended behavior; MEASURE prose supplies regular operational testing.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "unsupported"
+    ],
+    "correct_facts": 0,
+    "answer_rationale": "Compound claim invents a relationship to GOVERN 1.1, which is absent from the supplied evidence. It discusses GOVERN 5.2 instead of validity monitoring. Although process monitoring is mentioned, the required roles/frequency detail and ongoing validity testing fact are not conveyed in the answer text."
+  },
+  "q17": {
+    "relevant_chunk_ids": [
+      "94173592196f1c1734bf079351ec46381e645edc20b756a1eab4b522106687ba"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "Only MAP 1.5 directly supplies determining/documenting tolerances. The context-specific tolerance passage was not retrieved.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 1,
+    "answer_rationale": "S1 supports determining/documenting organizational tolerance. The answer omits its contextual nature and the requested connection to the narrative discussion."
+  },
+  "q18": {
+    "relevant_chunk_ids": [
+      "e30da2bd6591dad2047d3120ea7dbef3e0ca26b7363d20491bed2cd791eadbab",
+      "b8f68260d854bc5e780cb18cbbe2f923637b2a28d7df1b9fe08e45c2dc7ec9d7"
+    ],
+    "relevant_ranks": [
+      1,
+      4
+    ],
+    "rationale": "Accountability presupposes transparency on page 20; no accuracy guarantee on page 21.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [],
+    "correct_facts": 0,
+    "answer_rationale": "Abstained after quote validation failed; no facts conveyed."
+  },
+  "q19": {
+    "relevant_chunk_ids": [],
+    "relevant_ranks": [],
+    "rationale": "Out-of-scope/private/current information is not present; precision is excluded for unanswerables.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [],
+    "correct_facts": 0,
+    "answer_rationale": "Unanswerable question ends in abstention after citation validation fails. Counted as a correct final abstention, not evidence of successful semantic out-of-scope detection."
+  },
+  "q20": {
+    "relevant_chunk_ids": [],
+    "relevant_ranks": [],
+    "rationale": "Out-of-scope/private/current information is not present; precision is excluded for unanswerables.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "unsupported"
+    ],
+    "correct_facts": 0,
+    "answer_rationale": "Text says the penalty is not specified, but the cited risk-tolerance chunk does not establish this absence across the Framework. No penalty is invented. The structured abstain flag is false, so this does not count as a correct structured abstention; this is stricter than a semantic refusal judgment."
+  },
+  "q21": {
+    "relevant_chunk_ids": [],
+    "relevant_ranks": [],
+    "rationale": "Out-of-scope/private/current information is not present; precision is excluded for unanswerables.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [],
+    "correct_facts": 0,
+    "answer_rationale": "Out-of-scope date-dependent benchmark question ends in abstention after invalid/truncated JSON. Counted as a correct final structured abstention, not evidence of semantic out-of-scope detection."
+  },
+  "q22": {
+    "relevant_chunk_ids": [],
+    "relevant_ranks": [],
+    "rationale": "Out-of-scope/private/current information is not present; precision is excluded for unanswerables.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported",
+      "supported"
+    ],
+    "correct_facts": 0,
+    "answer_rationale": "Both generic risk-tolerance statements follow directly from S1, but neither supplies the private company threshold or explicitly abstains. Faithful background does not answer this out-of-scope question."
+  },
+  "q23": {
+    "relevant_chunk_ids": [
+      "c33042f829e3344f482acc8d31dc89fcdb2ff9000d1a9d225665b683f9ee4d71"
+    ],
+    "relevant_ranks": [
+      2
+    ],
+    "rationale": "Voluntary attribute directly contradicts the premise. Non-prescriptive is not treated as equivalent to voluntary.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [],
+    "correct_facts": 0,
+    "answer_rationale": "Invalid/truncated JSON causes abstention. The question has a source-supported correction (voluntary, not mandatory); no correction facts are conveyed, so this is a false abstention."
+  },
+  "q24": {
+    "relevant_chunk_ids": [
+      "169f9721e88668423fd62a0800a3f1f47beb8f007e8874c895bd93b8ab46aeb8"
+    ],
+    "relevant_ranks": [
+      1
+    ],
+    "rationale": "Page 20 explicitly distinguishes resilience from broader security protections.",
+    "reviewer": "assistant",
+    "independent_human_review": false,
+    "criterion": "Supports at least one expected fact; partial support counts, topical similarity alone does not.",
+    "claim_labels": [
+      "supported"
+    ],
+    "correct_facts": 2,
+    "answer_rationale": "The full cited S1 chunk explicitly gives the distinction and definitions reproduced in the answer. The selected quote alone is narrower and omits the key distinction; faithfulness is assessed against the full cited chunk. Both expected correction facts are conveyed."
+  }
+}

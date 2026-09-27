@@ -39,6 +39,9 @@ but inspection and debugging during development mean this is not a sealed test.
    faithfulness and zero on completeness.
 5. Record abstentions on answerable and unanswerable questions separately.
    Faithfulness is N/A for abstentions and heading-only outputs, not 1.0.
+   A final abstention caused by schema/quote rejection counts as a correct final
+   refusal on an unanswerable question, but is not proof that the model recognized
+   the missing evidence. The recorded reason preserves that distinction.
 
 These judgments are subjective and should be reviewed independently. For a
 stronger portfolio claim, have two people label outputs without seeing each

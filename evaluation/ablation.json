@@ -2,31 +2,31 @@
   {
     "model": "intfloat/e5-small-v2",
     "revision": "ffb93f3bd4047442299a41ebb6fa998a38507c52",
-    "chunks": 176,
+    "chunks": 200,
     "dev_answerable_queries": 7,
     "gold_span_hit_rate_at_5": 1.0,
     "gold_span_recall_at_5": 0.9285714285714286,
-    "cold_load_and_index_seconds": 42.809329441000045,
-    "batch_query_seconds": 0.08634685700008049
+    "cold_load_and_index_seconds": 35.44503854100003,
+    "batch_query_seconds": 0.0783685129999867
   },
   {
     "model": "sentence-transformers/all-MiniLM-L6-v2",
     "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
-    "chunks": 176,
+    "chunks": 200,
     "dev_answerable_queries": 7,
     "gold_span_hit_rate_at_5": 1.0,
     "gold_span_recall_at_5": 1.0,
-    "cold_load_and_index_seconds": 41.064706444999956,
-    "batch_query_seconds": 0.04241044399987004
+    "cold_load_and_index_seconds": 8.302488697000172,
+    "batch_query_seconds": 0.04084931899978983
   },
   {
     "model": "sentence-transformers/all-mpnet-base-v2",
     "revision": "e8c3b32edf5434bc2275fc9bab85f82640a19130",
-    "chunks": 176,
+    "chunks": 200,
     "dev_answerable_queries": 7,
     "gold_span_hit_rate_at_5": 1.0,
     "gold_span_recall_at_5": 0.9285714285714286,
-    "cold_load_and_index_seconds": 78.90406452499974,
-    "batch_query_seconds": 0.31686330899992754
+    "cold_load_and_index_seconds": 51.439118045000214,
+    "batch_query_seconds": 0.2623794950000047
   }
 ]

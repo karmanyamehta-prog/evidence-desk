@@ -29,8 +29,12 @@ The direct NIST and alternative GenAI Profile PDF downloads returned 403 in this
 - Original 3B sizing responses took 71.4 and 127.0 seconds. Their prompt allowed longer quotations. A preliminary even larger prompt was interrupted before producing an answer; it is not included as a completed query.
 - The speed-profile run uses a shorter prompt and 1.5B quantized model. Models and prompts differ, so this is not a controlled size-only speed comparison. Invalid citation/abstention behavior is preserved as failures, not repaired into success.
 - The benchmark environment exposes an Intel Xeon Platinum 8573C, an 8-CPU quota, and an 8 GiB memory limit. Generation uses four threads. Other build tasks ran during parts of evaluation; timings are noisy and cannot predict i5 performance.
-- All three embedding comparisons used the same 176 passages (220 E5-token target); every model rejected oversize inputs rather than silently truncating. Seven answerable development queries were scored for exact annotated-span coverage. E5/MPNet span recall@5: 0.929; MiniLM: 1.000. All had 1.000 query-level span-hit@5. This is not semantic P@5 and is too small for a broad quality claim.
-- Fixed windows (79 chunks) and recursive/action chunks (146 chunks), both targeting 350 tokens with 50 overlap, tied at 0.786 development span recall@5. Action chunks were retained for inspectable action boundaries. This does not prove better retrieval.
+- All three embedding comparisons used the same 200 passages (220 E5-token target); every model rejected oversize inputs rather than silently truncating. Seven answerable development queries were scored for exact annotated-span coverage. E5/MPNet span recall@5: 0.929; MiniLM: 1.000. All had 1.000 query-level span-hit@5. This is not semantic P@5 and is too small for a broad quality claim.
+- Fixed windows (83 chunks) and recursive/action chunks (168 chunks), both targeting 350 tokens with 50 overlap, tied at 0.786 development span recall@5. Action chunks were retained for inspectable action boundaries. This does not prove better retrieval.
+
+## Completed quality run
+
+The final 1.5B run completed all 24 queries: P@1 0.900, P@5 0.310, macro statement faithfulness 0.8125 over 16 factual answers, and mean answer completeness 0.525 over 20 answerable questions. Four answerable questions ended in abstention. Two of four out-of-scope questions ended in structured abstention, both following validation failures. Median request latency was 35.4 seconds and descriptive p95 was 91.5 seconds. The full reviewed record and chart are in `evaluation/results/`. No output was repaired into a success.
 
 ## Design deviations made explicit
 

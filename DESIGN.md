@@ -97,9 +97,9 @@ Local Docker Compose will run API/UI with persistent data and an Ollama service 
 
 After design approval, commit this document first (`docs: approve grounded QA design`), then separate ingestion/tests, retrieval/tests, generation/citations, API/UI, evaluation, containers, and README commits. Commit evaluation artifacts only after actual runs. No public push or deployment without explicit confirmation. Current limitations include small historical corpus, English text PDFs, single-user operation, imperfect parsing/entailment, and no production monitoring.
 
-## Approval requested
+## Original approval checkpoint (superseded)
 
-Confirm (or amend): **NIST corpus; recursive 350/50 page-bound chunks; Chroma; E5-small-v2; Qwen 7B subject to hardware; human-reviewed custom grounding evaluation; local full app plus prepared hosting config/static showcase.** Share available RAM, OS, and GPU/VRAM before we finalize model settings. All choices remain proposals until approved.
+Confirm (or amend): **NIST corpus; recursive 350/50 page-bound chunks; Chroma; E5-small-v2; Qwen 7B subject to hardware; human-reviewed custom grounding evaluation; local full app plus prepared hosting config/static showcase.** Share available RAM, OS, and GPU/VRAM before we finalize model settings. This checkpoint was superseded by the user’s subsequent authorization for autonomous technical decisions and the implementation amendments below.
 
 ## Primary references
 

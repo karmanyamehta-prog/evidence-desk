@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Evidence Desk · recorded evaluation</title>
+<style>
+body{margin:0;background:#f5f3ed;color:#192d3b;font:17px/1.65 system-ui,sans-serif}
+main{max-width:1000px;margin:auto;padding:48px 24px}h1{font-size:clamp(36px,6vw,60px);line-height:1.1}
+h2{margin-top:48px}h3{line-height:1.4}a{color:#165d87}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#526a77}
+.notice{background:#e6edf0;padding:18px 24px;border-left:4px solid #286d8a}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+article{background:white;border:1px solid #d8dfdf;border-radius:8px;padding:24px}
+summary{cursor:pointer;color:#165d87}blockquote{margin:12px 0;padding:12px;border-left:3px solid #8babb8}
+img{width:100%;height:auto;background:white}footer{margin-top:48px;color:#526a77}
+</style><main><p class="eyebrow">Local RAG · source audit · CPU evaluation</p>
+<h1>Evidence Desk</h1><p>Trace AI governance answers back to their source passages.</p>
+<p class="notice"><strong>Recorded showcase.</strong> These are saved outputs from a real
+24-question run. This static page does not run a model or accept new questions.
+The downloadable Python project provides the live local application.</p>
+<h2>Measured results, with the failures visible</h2>
+<p>Corpus: NIST AI RMF 1.0 (2023), one 48-page PDF. Model: Qwen2.5 1.5B Q4_K_M,
+CPU-only, one exploratory pass on the build machine. These are not laptop timings.
+Labels are assistant-reviewed; independent human review is pending.</p>
+<img src="metrics.png" alt="Measured retrieval precision, statement faithfulness, answer completeness and latency">
+<p>Correct abstentions: 2/4. False abstentions: 4/20. Heading-only responses and abstentions do not inflate faithfulness.</p><h2>Inspect the evidence</h2><div class="grid"><article><p class='eyebrow'>A supported action lookup</p><h3>What does GOVERN 1.6 say about inventorying AI systems?</h3><p>GOVERN 1.6: Mechanisms are in place to inventory AI systems and are resourced according to organizational risk priorities.</p><details><summary>Evidence · PDF page 28</summary><blockquote>GOVERN 1.6: Mechanisms are in place to inventory AI systems
+and are resourced according to organizational risk priorities.</blockquote><a href="https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf#page=28">Open source PDF</a></details></article><article><p class='eyebrow'>A grounded answer that misses the question</p><h3>What is reliability as described in the Framework?</h3><p>The Framework should provide a catalog of outcomes and approaches rather than prescribe one-size-fits-all requirements.</p><details><summary>Evidence · PDF page 47</summary><blockquote>7. Be outcome-focused and non-prescriptive. The Framework should provide a catalog of outcomes and approaches rather than prescribe one-size-fits-all requirements.</blockquote><a href="https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf#page=47">Open source PDF</a></details></article><article><p class='eyebrow'>An attribution error despite a valid quote</p><h3>What does MANAGE 2.4 say about systems performing inconsistently with intended use?</h3><p>MANAGE 2.4: Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use.</p><details><summary>Evidence · PDF page 37</summary><blockquote>MANAGE 2.4: Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or
+deactivate AI systems that demonstrate performance or outcomes
+inconsistent with intended use.</blockquote><a href="https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf#page=37">Open source PDF</a></details><p>MANAGE 2.5: The AI system to be deployed is demonstrated to be valid and reliable. Limitations of the generalizability beyond the conditions under which the technology was developed are documented.</p><details><summary>Evidence · PDF page 34</summary><blockquote>MEASURE 2.5: The AI system to be deployed is demonstrated
+to be valid and reliable. Limitations of the generalizability beyond the conditions under which the technology was developed
+are documented.
+
+Continued on next page
+Page 29</blockquote><a href="https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf#page=34">Open source PDF</a></details></article><article><p class='eyebrow'>A false abstention</p><h3>Is AI RMF 1.0 voluntary or mandatory?</h3><p>Abstained: Citation quote does not occur in retrieved text</p></article></div>
+<footer>The system verifies quote membership, not entailment. A valid citation can still accompany
+an irrelevant or misattributed answer. Local-first, single-user portfolio prototype;
+not a production compliance product. Nothing has been deployed by this build.</footer></main></html>

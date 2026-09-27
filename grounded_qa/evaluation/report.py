@@ -103,6 +103,9 @@ def main():
         "precision_at_3": mean([r["p3"] for r in rows if r["p3"] is not None]),
         "precision_at_5": mean(ps),
         "retrieval_scored_queries": len(ps),
+        "gold_span_recall_at_5": mean(
+            [r["evidence_recall"] for r in rows if r["evidence_recall"] is not None]
+        ),
         "faithfulness_macro": mean(fs),
         "faithfulness_scored_answers": len(fs),
         "factual_statements": len(statements),
@@ -123,6 +126,7 @@ def main():
     }
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "summary.json").write_text(json.dumps(summary, indent=2))
+    (args.out / "per-query.json").write_text(json.dumps(rows, indent=2))
 
     def fmt(x):
         return "N/A" if x is None else f"{x:.3f}"
@@ -149,7 +153,7 @@ def main():
             "",
             "![Measured scores](metrics.png)",
             "",
-            "All raw answers, citations, and timings are retained in the run JSON; review.json supplies semantic labels and rationales. P@5 uses judged relevance, not same-page matching or citation validity. Alternate relevant passages count even when not in the selected gold spans.",
+            "All raw answers, citations, and timings are retained in the run JSON; review.json supplies semantic labels and rationales. P@5 uses judged relevance, not same-page matching or citation validity. Alternate relevant passages count even when not in the selected gold spans. The errors count covers requests that raised exceptions; validation-rejection abstentions still count as failures in answer metrics.",
         ]
     )
     (args.out / "RESULTS.md").write_text("\n".join(text) + "\n")
@@ -197,7 +201,7 @@ def main():
     fig.text(
         0.5,
         0.01,
-        f"*Faithfulness excludes abstentions ({len(fs)} scored answers). Independent human review pending.",
+        f"*Faithfulness excludes abstentions and headings ({len(fs)} scored answers). Independent human review pending.",
         ha="center",
         fontsize=9,
     )

@@ -121,16 +121,34 @@ A matching quotation **does not prove entailment**. It can be irrelevant, incomp
 The set contains 24 source-checked questions: 8 facts, 6 action lookups, 4 synthesis questions, 4 unanswerables and 2 misleading-premise questions. Gold evidence contains document hashes, exact page offsets and excerpts. There are 8 development and 16 test assignments. Because prompt sizing and exploratory inspection occurred during this build, this is **an exploratory benchmark, not a sealed held-out estimate**. Preserve a new untouched test set for future tuning claims.
 
 - **Precision@5:** assistant-judged relevant retrieved chunks divided by five, counting missing slots as non-relevant. Same-page coincidence does not count.
-- **Faithfulness:** supported emitted statements divided by emitted factual statements. Every part of a compound statement must be supported; partial support is labeled unsupported. No-claim abstentions are N/A.
-- **Completeness:** required expected facts correctly conveyed / required facts. Abstentions on answerable questions score zero.
-- **Abstention:** correct refusals and false refusals reported separately.
+- **Faithfulness:** supported emitted statements divided by emitted factual statements. Every part of a compound statement must be supported; partial support is labeled unsupported. Abstentions and outputs containing only headings are N/A; non-factual fragments do not inflate this score.
+- **Completeness:** required expected facts correctly conveyed / required facts. Abstentions on answerable questions score zero. Count facts in the answer text; supporting quotations alone do not rescue a missing answer.
+- **Abstention:** correct and false structured abstentions (`abstain=true`) reported separately. A sentence such as “not specified” with `abstain=false` is not counted; the raw answer and review explain this distinction.
 - **Latency:** real request-to-final-response time, including retries. One pass includes cold effects; no claim of stable warm p95.
 
 These are custom RAGAS-style metrics, **not official RAGAS scores**. Labels are assistant-reviewed; independent human annotation and inter-rater agreement remain pending. The builder and reviewer are not independent. The baseline can be highly faithful on a small number of answered questions while still being unhelpful; read completeness and false abstentions with faithfulness.
 
 See [the full results table](evaluation/results/RESULTS.md), [raw runs](evaluation/runs/), [review labels](evaluation/review.json), [embedding ablation](evaluation/ablation.json) and [chunk ablation](evaluation/chunk-ablation.json).
 
-<!-- EVALUATION_SUMMARY -->
+Measured profile: **Qwen2.5 1.5B Q4_K_M**, 24 queries, one CPU pass. These are not results for the default 3B model or the target laptop.
+
+| Metric | Measured value | Denominator / interpretation |
+|---|---:|---|
+| Precision@1 | 0.900 | 20 answerable queries |
+| Precision@3 | 0.433 | 20 answerable queries |
+| Precision@5 | 0.310 | 20 answerable queries |
+| Gold-span recall@5 | 0.850 | Mean coverage of selected evidence spans |
+| Faithfulness, macro | 0.8125 | 16 answers containing factual statements |
+| Faithfulness, micro | 15/19 | Supported factual statements |
+| Answer completeness | 0.525 | 20 answerable queries, including abstentions |
+| Correct structured abstentions | 2/4 | Unanswerable queries |
+| False abstentions | 4/20 | Answerable queries |
+| Request latency p50 / p95 | 35.4s / 91.5s | All 24 queries; includes retries and cold effects |
+
+The first retrieved result was relevant for 18 of 20 answerable questions, but many lower-ranked passages were irrelevant. Quote checks also did not prevent wrong action attribution (`q13`), off-topic supported answers (`q06`, `q22`), or heading-only outputs (`q11`, `q12`). Two correctly refused out-of-scope questions were blocked by validation failures, not demonstrated recognition of missing evidence. Full review rationales are retained.
+
+**Interpretation:** useful evidence retrieval, limited small-model answer quality. This is a measured baseline to improve, not a reliable autonomous governance assistant. Evaluating the 3B profile on the target laptop and adding independently reviewed questions are the next validation steps.
+
 
 ![Measured evaluation scores](evaluation/results/metrics.png)
 
@@ -174,11 +192,11 @@ Named volumes preserve models and documents. The published local ports bind to l
 
 ## Validation and limitations
 
-- 22 unit/API tests pass; actual E5 → Chroma → FastAPI → citation validation → PDF serving also passed an integration smoke test.
+- 23 unit/API tests pass; actual E5 → Chroma → FastAPI → citation validation → PDF serving also passed an integration smoke test.
 - Linux dependencies installed successfully and `pip check` passed. Native Windows, Docker runtime, browser layout and public hosting are not certified by these tests.
 - One small historical report; generic uploads do not inherit its specialized table parser. No OCR, reliable diagram understanding, exhaustive table extraction or multi-document benchmark.
 - Page-bound chunking can lose context across pages. Similarity is not calibrated confidence. Character-based generation context budgeting is a heuristic; unusual text can tokenize differently.
-- Smaller models can produce unsupported statements, invalid JSON, contradictory abstention flags or incorrect interpretations despite valid source IDs.
+- Smaller models can produce unsupported statements, invalid JSON, incorrect interpretations despite valid source IDs.
 - No authentication, production monitoring, durable hosted storage, multi-user isolation, upload malware scanning, reranker or hybrid keyword search. Bind locally; prepared public demo disables uploads.
 - Current benchmark has a small sample, assistant-authored questions and judgments, no independent evaluator and only one timing pass. Do not market the numbers as production reliability.
 
