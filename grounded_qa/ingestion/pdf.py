@@ -24,13 +24,24 @@ def read_pdf(path: Path, max_pages: int = 200) -> list[dict]:
             if len(pdf.pages) > max_pages:
                 raise PDFError(f"PDF exceeds {max_pages} pages")
             for n, page in enumerate(pdf.pages, 1):
-                raw = page.extract_text(x_tolerance=2, y_tolerance=3) or ""
+                raw = page.extract_text(x_tolerance=1, y_tolerance=3) or ""
                 # Preserve paragraph/line separators for the recursive splitter.
-                lines = [x.strip() for x in raw.splitlines()]
+                table_header = next((w for w in page.extract_words(x_tolerance=1)
+                                     if w["text"] == "Subcategories"), None)
+                extraction = raw
+                region = "full-page"
+                if table_header:
+                    # A two-column RMF table is not prose: retain the action column
+                    # separately so category descriptions do not interrupt action text.
+                    bounds = (table_header["x0"] - 1, table_header["bottom"], page.width - 40, page.height - 65)
+                    extraction = page.crop(bounds).extract_text(x_tolerance=1, y_tolerance=3) or ""
+                    region = "subcategory-column"
+                extraction = re.sub(r"-\n(?=[a-z])", "", extraction)
+                lines = [x.strip() for x in extraction.splitlines()]
                 heading = next((x for x in lines if re.match(r"^\d+(?:\.\d+)*\.?\s+[A-Z]", x)
                                 and len(x) < 100), "")
                 printed = re.search(r"(?:Page\s+)?(\d+|[ivx]+)\s*$", raw)
-                pages.append({"page": n, "raw": raw, "text": "\n".join(normalize(line) for line in raw.splitlines()),
+                pages.append({"page": n, "raw": raw, "text": "\n".join(normalize(line) for line in extraction.splitlines()), "region": region,
                               "section": heading, "section_method": "page-heading-heuristic",
                               "printed_page_candidate": printed.group(1) if printed else ""})
     except PDFError:
