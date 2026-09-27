@@ -30,7 +30,7 @@ def read_pdf(path: Path, max_pages: int = 200) -> list[dict]:
                 heading = next((x for x in lines if re.match(r"^\d+(?:\.\d+)*\.?\s+[A-Z]", x)
                                 and len(x) < 100), "")
                 printed = re.search(r"(?:Page\s+)?(\d+|[ivx]+)\s*$", raw)
-                pages.append({"page": n, "raw": raw, "text": normalize(raw),
+                pages.append({"page": n, "raw": raw, "text": "\n".join(normalize(line) for line in raw.splitlines()),
                               "section": heading, "section_method": "page-heading-heuristic",
                               "printed_page_candidate": printed.group(1) if printed else ""})
     except PDFError:
