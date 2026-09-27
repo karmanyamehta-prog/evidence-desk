@@ -30,7 +30,7 @@ def read_pdf(path: Path, max_pages: int = 200) -> list[dict]:
                                      if w["text"] == "Subcategories"), None)
                 extraction = raw
                 region = "full-page"
-                if table_header:
+                if table_header and document_id(path) == "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7":
                     # A two-column RMF table is not prose: retain the action column
                     # separately so category descriptions do not interrupt action text.
                     bounds = (table_header["x0"] - 1, table_header["bottom"], page.width - 40, page.height - 65)

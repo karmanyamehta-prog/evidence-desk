@@ -24,7 +24,7 @@ class Generator:
             # Evidence browser, not a semantic answer or an abstention classifier.
             return Draft(claims=[Claim(text=v["text"], evidence=[Evidence(source_id=k, quote=v["text"])])
                                  for k, v in list(sources.items())[:2]])
-        prompt = json.dumps({"question": question, "evidence": sources,
+        prompt = json.dumps({"question": question, "evidence": {k: {"text": v["text"]} for k, v in sources.items()},
                              "schema": Draft.model_json_schema(), "validation_error": correction})
         messages = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": prompt}]
         headers = {}

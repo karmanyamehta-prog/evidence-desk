@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 import re
+import os
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from starlette.concurrency import run_in_threadpool
@@ -34,6 +35,8 @@ def create_app(service=None):
 
     @app.post("/documents")
     async def upload(file: UploadFile):
+        if os.getenv("DEMO_READ_ONLY") == "1":
+            raise HTTPException(403, "Hosted demo uses the fixed corpus only")
         settings = app.state.service.settings
         temp_path = None
         try:

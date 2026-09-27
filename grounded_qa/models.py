@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 @dataclass(frozen=True)
 class Chunk:
@@ -27,3 +27,8 @@ class Draft(BaseModel):
 class Query(BaseModel):
     question: str = Field(min_length=3, max_length=2000)
     document_ids: list[str] = Field(default_factory=list, max_length=20)
+
+    @field_validator("question", mode="before")
+    @classmethod
+    def trim_question(cls, value):
+        return value.strip() if isinstance(value, str) else value

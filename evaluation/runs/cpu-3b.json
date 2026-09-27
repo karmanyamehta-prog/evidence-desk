@@ -1,0 +1,201 @@
+{
+  "timestamp": "2026-09-27T10:50:46.565126+00:00",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "processor": "x86_64",
+  "python": "3.12.14",
+  "settings": {
+    "data_dir": "data",
+    "embedding_model": "intfloat/e5-small-v2",
+    "embedding_revision": "ffb93f3bd4047442299a41ebb6fa998a38507c52",
+    "chunk_tokens": 350,
+    "chunk_overlap": 50,
+    "top_k": 5,
+    "llm_provider": "ollama",
+    "llm_model": "qwen2.5:3b-instruct-q4_K_M",
+    "ollama_url": "http://localhost:11434",
+    "provider_url": "",
+    "model_timeout": 180.0,
+    "context_tokens": 4096,
+    "output_tokens": 384,
+    "context_chars": 4500,
+    "cpu_threads": 4,
+    "max_upload_mb": 20,
+    "max_pages": 200
+  },
+  "query_sha256": "2c68b6a25dbdccde1201354a6a9548d043be51da0d025eb7f137cac52fcc8179",
+  "initialization_seconds": 17.242645263000213,
+  "rows": [
+    {
+      "query_id": "q01",
+      "split": "dev",
+      "repetition": 0,
+      "result": {
+        "question": "Is AI RMF 1.0 voluntary or mandatory?",
+        "abstain": false,
+        "reason": "",
+        "claims": [
+          {
+            "text": "The AI RMF 1.0 is intended to be voluntary.",
+            "evidence": [
+              {
+                "source_id": "S1",
+                "quote": "The Framework is intended to be voluntary, rights-preserving, non-sector-specific, and use-case agnostic, providing flexibility to organizations of all sizes and in all sectors and throughout society to implement the approaches in the Framework."
+              }
+            ]
+          }
+        ],
+        "mode": "ollama",
+        "sources": {
+          "S1": {
+            "text": "NIST AI 100-1 AI RMF 1.0\nSocial responsibility can refer to the organization’s responsibility “for the impacts\nof its decisions and activities on society and the environment through transparent\nand ethical behavior” (ISO 26000:2010). Sustainability refers to the “state of the\nglobal system, including environmental, social, and economic aspects, in which the\nneeds of the present are met without compromising the ability of future generations\nto meet their own needs” (ISO/IEC TR 24368:2022). Responsible AI is meant to\nresult in technology that is also equitable and accountable. The expectation is that\norganizational practices are carried out in accord with “professional responsibility,”\ndefined by ISO as an approach that “aims to ensure that professionals who design,\ndevelop, or deploy AI systems and applications or AI-based products or systems,\nrecognize their unique position to exert influence on people, society, and the future\nof AI” (ISO/IEC TR 24368:2022).\nAs directed by the National Artificial Intelligence Initiative Act of 2020 (P.L. 116-283),\nthe goal of the AI RMF is to offer a resource to the organizations designing, developing,\ndeploying, or using AI systems to help manage the many risks of AI and promote trustworthy and responsible development and use of AI systems. The Framework is intended to be\nvoluntary, rights-preserving, non-sector-specific, and use-case agnostic, providing flexibility to organizations of all sizes and in all sectors and throughout society to implement the\napproaches in the Framework.\nThe Framework is designed to equip organizations and individuals – referred to here as",
+            "chunk_id": "51dbc58dc368276b7503a662bab3dbd27edea0ff4bfe99b2d642188ec3038a06",
+            "end": 1628,
+            "section": "",
+            "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+            "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+            "start": 0,
+            "title": "NIST AI RMF 1.0 (2023)",
+            "page": 7,
+            "pipeline": "pdfplumber-0.11.7-action-column-v2",
+            "distance": 0.12101250886917114
+          },
+          "S2": {
+            "text": "NIST AI 100-1 AI RMF 1.0\nAppendix D:\nAttributes of the AI RMF\nNIST described several key attributes of the AI RMF when work on the Framework first\nbegan. These attributes have remained intact and were used to guide the AI RMF’s development. They are provided here as a reference.\nThe AI RMF strives to:\n1. Be risk-based, resource-efficient, pro-innovation, and voluntary.\n2. Be consensus-driven and developed and regularly updated through an open, transparent process. All stakeholders should have the opportunity to contribute to the AI\nRMF’s development.\n3. Use clear and plain language that is understandable by a broad audience, including\nsenior executives, government officials, non-governmental organization leadership,\nand those who are not AI professionals – while still of sufficient technical depth to\nbe useful to practitioners. The AI RMF should allow for communication of AI risks\nacross an organization, between organizations, with customers, and to the public at\nlarge.\n4. Provide common language and understanding to manage AI risks. The AI RMF\nshould offer taxonomy, terminology, definitions, metrics, and characterizations for\nAI risk.\n5. Be easily usable and fit well with other aspects of risk management. Use of the\nFramework should be intuitive and readily adaptable as part of an organization’s\nbroader risk management strategy and processes. It should be consistent or aligned\nwith other approaches to managing AI risks.\n6. Be useful to a wide range of perspectives, sectors, and technology domains. The AI\nRMF should be universally applicable to any AI technology and to context-specific\nuse cases.\n7. Be outcome-focused and non-prescriptive. The Framework should provide a catalog",
+            "chunk_id": "b07872eac7ca6d07345d97c7d6160c096ebb51cb5b0d13361d8a12cca76b42ca",
+            "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+            "title": "NIST AI RMF 1.0 (2023)",
+            "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+            "page": 47,
+            "pipeline": "pdfplumber-0.11.7-action-column-v2",
+            "start": 0,
+            "section": "1. Be risk-based, resource-efficient, pro-innovation, and voluntary.",
+            "end": 1706,
+            "distance": 0.12636709213256836
+          },
+          "S3": {
+            "text": "RMF should be universally applicable to any AI technology and to context-specific\nuse cases.\n7. Be outcome-focused and non-prescriptive. The Framework should provide a catalog\nof outcomes and approaches rather than prescribe one-size-fits-all requirements.\n8. Take advantage of and foster greater awareness of existing standards, guidelines, best\npractices, methodologies, and tools for managing AI risks – as well as illustrate the\nneed for additional, improved resources.\n9. Be law- and regulation-agnostic. The Framework should support organizations’\nabilities to operate under applicable domestic and international legal or regulatory\nregimes.\n10. Be a living document. The AI RMF should be readily updated as technology, understanding, and approaches to AI trustworthiness and uses of AI change and as stakeholders learn from implementing AI risk management generally and this framework\nin particular.\nPage 42",
+            "chunk_id": "18c0034f7421ae3297ebef27a38a38946067dd631cca91273d2f10dcff8fb382",
+            "section": "1. Be risk-based, resource-efficient, pro-innovation, and voluntary.",
+            "start": 1531,
+            "end": 2445,
+            "pipeline": "pdfplumber-0.11.7-action-column-v2",
+            "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+            "title": "NIST AI RMF 1.0 (2023)",
+            "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+            "page": 47,
+            "distance": 0.12780386209487915
+          }
+        },
+        "retrieved": [
+          {
+            "id": "51dbc58dc368276b7503a662bab3dbd27edea0ff4bfe99b2d642188ec3038a06",
+            "text": "NIST AI 100-1 AI RMF 1.0\nSocial responsibility can refer to the organization’s responsibility “for the impacts\nof its decisions and activities on society and the environment through transparent\nand ethical behavior” (ISO 26000:2010). Sustainability refers to the “state of the\nglobal system, including environmental, social, and economic aspects, in which the\nneeds of the present are met without compromising the ability of future generations\nto meet their own needs” (ISO/IEC TR 24368:2022). Responsible AI is meant to\nresult in technology that is also equitable and accountable. The expectation is that\norganizational practices are carried out in accord with “professional responsibility,”\ndefined by ISO as an approach that “aims to ensure that professionals who design,\ndevelop, or deploy AI systems and applications or AI-based products or systems,\nrecognize their unique position to exert influence on people, society, and the future\nof AI” (ISO/IEC TR 24368:2022).\nAs directed by the National Artificial Intelligence Initiative Act of 2020 (P.L. 116-283),\nthe goal of the AI RMF is to offer a resource to the organizations designing, developing,\ndeploying, or using AI systems to help manage the many risks of AI and promote trustworthy and responsible development and use of AI systems. The Framework is intended to be\nvoluntary, rights-preserving, non-sector-specific, and use-case agnostic, providing flexibility to organizations of all sizes and in all sectors and throughout society to implement the\napproaches in the Framework.\nThe Framework is designed to equip organizations and individuals – referred to here as",
+            "metadata": {
+              "end": 1628,
+              "section": "",
+              "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+              "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+              "start": 0,
+              "title": "NIST AI RMF 1.0 (2023)",
+              "page": 7,
+              "pipeline": "pdfplumber-0.11.7-action-column-v2"
+            },
+            "distance": 0.12101250886917114
+          },
+          {
+            "id": "b07872eac7ca6d07345d97c7d6160c096ebb51cb5b0d13361d8a12cca76b42ca",
+            "text": "NIST AI 100-1 AI RMF 1.0\nAppendix D:\nAttributes of the AI RMF\nNIST described several key attributes of the AI RMF when work on the Framework first\nbegan. These attributes have remained intact and were used to guide the AI RMF’s development. They are provided here as a reference.\nThe AI RMF strives to:\n1. Be risk-based, resource-efficient, pro-innovation, and voluntary.\n2. Be consensus-driven and developed and regularly updated through an open, transparent process. All stakeholders should have the opportunity to contribute to the AI\nRMF’s development.\n3. Use clear and plain language that is understandable by a broad audience, including\nsenior executives, government officials, non-governmental organization leadership,\nand those who are not AI professionals – while still of sufficient technical depth to\nbe useful to practitioners. The AI RMF should allow for communication of AI risks\nacross an organization, between organizations, with customers, and to the public at\nlarge.\n4. Provide common language and understanding to manage AI risks. The AI RMF\nshould offer taxonomy, terminology, definitions, metrics, and characterizations for\nAI risk.\n5. Be easily usable and fit well with other aspects of risk management. Use of the\nFramework should be intuitive and readily adaptable as part of an organization’s\nbroader risk management strategy and processes. It should be consistent or aligned\nwith other approaches to managing AI risks.\n6. Be useful to a wide range of perspectives, sectors, and technology domains. The AI\nRMF should be universally applicable to any AI technology and to context-specific\nuse cases.\n7. Be outcome-focused and non-prescriptive. The Framework should provide a catalog",
+            "metadata": {
+              "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+              "title": "NIST AI RMF 1.0 (2023)",
+              "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+              "page": 47,
+              "pipeline": "pdfplumber-0.11.7-action-column-v2",
+              "start": 0,
+              "section": "1. Be risk-based, resource-efficient, pro-innovation, and voluntary.",
+              "end": 1706
+            },
+            "distance": 0.12636709213256836
+          },
+          {
+            "id": "8355bcc383237a984c9c5966f800e8900d6064e8b519beedf9f469a8d17ae3e0",
+            "text": "NIST AI 100-1 AI RMF 1.0\nAppendix C:\nAI Risk Management and Human-AI Interaction\nOrganizations that design, develop, or deploy AI systems for use in operational settings\nmay enhance their AI risk management by understanding current limitations of human-\nAI interaction. The AI RMF provides opportunities to clearly define and differentiate the\nvarious human roles and responsibilities when using, interacting with, or managing AI\nsystems.\nMany of the data-driven approaches that AI systems rely on attempt to convert or represent\nindividual and social observational and decision-making practices into measurable quantities. Representing complex human phenomena with mathematical models can come at the\ncost of removing necessary context. This loss of context may in turn make it difficult to\nunderstand individual and societal impacts that are key to AI risk management efforts.\nIssues that merit further consideration and research include:\n1. Human roles and responsibilities in decision making and overseeing AI systems\nneed to be clearly defined and differentiated. Human-AI configurations can span\nfrom fully autonomous to fully manual. AI systems can autonomously make decisions, defer decision making to a human expert, or be used by a human decision\nmaker as an additional opinion. Some AI systems may not require human oversight,\nsuch as models used to improve video compression. Other systems may specifically\nrequire human oversight.\n2. Decisions that go into the design, development, deployment, evaluation, and use\nof AI systems reflect systemic and human cognitive biases. AI actors bring their\ncognitive biases, both individual and group, into the process. Biases can stem from\nend-user decision-making tasks and be introduced across the AI lifecycle via human\nassumptions, expectations, and decisions during design and modeling tasks. These",
+            "metadata": {
+              "pipeline": "pdfplumber-0.11.7-action-column-v2",
+              "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+              "start": 0,
+              "section": "1. Human roles and responsibilities in decision making and overseeing AI systems",
+              "page": 45,
+              "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+              "end": 1855,
+              "title": "NIST AI RMF 1.0 (2023)"
+            },
+            "distance": 0.1263866424560547
+          },
+          {
+            "id": "1d4cc6d8cceda846a41bf0b72ba9533a6b15eecfd668869d5d535fd2c616c47a",
+            "text": "NIST AI 100-1 AI RMF 1.0\nExecutive Summary\nArtificial intelligence (AI) technologies have significant potential to transform society and\npeople’s lives – from commerce and health to transportation and cybersecurity to the environment and our planet. AI technologies can drive inclusive economic growth and support\nscientific advancements that improve the conditions of our world. AI technologies, however, also pose risks that can negatively impact individuals, groups, organizations, communities, society, the environment, and the planet. Like risks for other types of technology, AI\nrisks can emerge in a variety of ways and can be characterized as long- or short-term, highor low-probability, systemic or localized, and high- or low-impact.\nThe AI RMF refers to an AI system as an engineered or machine-based system that\ncan, for a given set of objectives, generate outputs such as predictions, recommendations, or decisions influencing real or virtual environments. AI systems are designed\nto operate with varying levels of autonomy (Adapted from: OECD Recommendation\non AI:2019; ISO/IEC 22989:2022).\nWhile there are myriad standards and best practices to help organizations mitigate the risks\nof traditional software or information-based systems, the risks posed by AI systems are in\nmany ways unique (See Appendix B). AI systems, for example, may be trained on data that\ncan change over time, sometimes significantly and unexpectedly, affecting system functionality and trustworthiness in ways that are hard to understand. AI systems and the contexts\nin which they are deployed are frequently complex, making it difficult to detect and respond\nto failures when they occur. AI systems are inherently socio-technical in nature, meaning",
+            "metadata": {
+              "page": 6,
+              "pipeline": "pdfplumber-0.11.7-action-column-v2",
+              "start": 0,
+              "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+              "section": "",
+              "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+              "end": 1739,
+              "title": "NIST AI RMF 1.0 (2023)"
+            },
+            "distance": 0.12644755840301514
+          },
+          {
+            "id": "18c0034f7421ae3297ebef27a38a38946067dd631cca91273d2f10dcff8fb382",
+            "text": "RMF should be universally applicable to any AI technology and to context-specific\nuse cases.\n7. Be outcome-focused and non-prescriptive. The Framework should provide a catalog\nof outcomes and approaches rather than prescribe one-size-fits-all requirements.\n8. Take advantage of and foster greater awareness of existing standards, guidelines, best\npractices, methodologies, and tools for managing AI risks – as well as illustrate the\nneed for additional, improved resources.\n9. Be law- and regulation-agnostic. The Framework should support organizations’\nabilities to operate under applicable domestic and international legal or regulatory\nregimes.\n10. Be a living document. The AI RMF should be readily updated as technology, understanding, and approaches to AI trustworthiness and uses of AI change and as stakeholders learn from implementing AI risk management generally and this framework\nin particular.\nPage 42",
+            "metadata": {
+              "section": "1. Be risk-based, resource-efficient, pro-innovation, and voluntary.",
+              "start": 1531,
+              "end": 2445,
+              "pipeline": "pdfplumber-0.11.7-action-column-v2",
+              "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+              "title": "NIST AI RMF 1.0 (2023)",
+              "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+              "page": 47
+            },
+            "distance": 0.12780386209487915
+          }
+        ],
+        "timing_ms": {
+          "retrieval": 170.29354600026636,
+          "generation_and_validation": 71244.91063200003,
+          "total": 71415.20417800029
+        }
+      }
+    }
+  ],
+  "ollama_models": {
+    "models": [
+      {
+        "name": "qwen2.5:3b-instruct-q4_K_M",
+        "model": "qwen2.5:3b-instruct-q4_K_M",
+        "modified_at": "2026-09-27T17:45:54.966599051+07:00",
+        "size": 1929912432,
+        "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "3.1B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 2048
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      }
+    ]
+  }
+}

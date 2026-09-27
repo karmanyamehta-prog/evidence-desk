@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     model_timeout: float = Field(180, gt=0)
     context_tokens: int = Field(4096, ge=2048)
     output_tokens: int = Field(384, ge=64, le=2048)
-    context_chars: int = Field(9000, ge=1000, le=16000)
+    context_chars: int = Field(4500, ge=1000, le=16000)
     cpu_threads: int = Field(4, ge=1)
     max_upload_mb: int = Field(20, ge=1, le=100)
     max_pages: int = Field(200, ge=1)

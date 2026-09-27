@@ -13,7 +13,7 @@ st.info("Historical NIST guidance, not a compliance determination. Each question
 
 with st.sidebar:
     st.header("Documents")
-    file = st.file_uploader("Upload a text PDF", type=["pdf"])
+    file = None if os.getenv("DEMO_READ_ONLY") == "1" else st.file_uploader("Upload a text PDF", type=["pdf"])
     if file and st.button("Index document"):
         with st.spinner("Extracting and indexing…"):
             try:
