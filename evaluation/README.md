@@ -48,6 +48,13 @@ stronger portfolio claim, have two people label outputs without seeing each
 other's decisions, retain original labels, measure agreement and adjudicate
 disagreements. Create a fresh untouched test set before further prompt tuning.
 
+## Metric notes
+
+`runs/cpu-1.5b.json` predates the status field and the stricter validator. Its
+rows are classified with `metrics.final_status`: an abstention whose reason is not
+"Insufficient evidence" is a validation rejection. Hit@k and MRR are reported next
+to Precision@k because Precision@k is capped when a question has one relevant chunk.
+
 ## Reproduction
 
 From the repository root, with Ollama running and the corpus indexed:
@@ -55,6 +62,7 @@ From the repository root, with Ollama running and the corpus indexed:
 ```sh
 python -m grounded_qa.evaluation.run --out evaluation/runs/new-run.json
 # Review new-run.json and save matching labels before generating its report.
+pip install -r requirements-dev.txt   # report needs matplotlib
 python -m grounded_qa.evaluation.report --run evaluation/runs/new-run.json --labels evaluation/new-review.json
 python scripts/build_showcase.py
 ```
