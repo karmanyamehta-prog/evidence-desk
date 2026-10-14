@@ -34,6 +34,11 @@ class Draft(BaseModel):
         return not self.claims
 
 
+STATUSES = ("answered", "abstained", "rejected", "error")
+# answered: validated claims. abstained: the model returned no claims.
+# rejected: no valid output after the retry. error: infrastructure failure.
+
+
 class Query(BaseModel):
     question: str = Field(min_length=3, max_length=2000)
     document_ids: list[str] = Field(default_factory=list, max_length=20)

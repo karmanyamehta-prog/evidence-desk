@@ -7,7 +7,7 @@ import platform
 import shutil
 import urllib.request
 from pathlib import Path
-from grounded_qa.config import Settings
+from grounded_qa.config import Settings, manifest_path
 
 RMF_URL = "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf"
 
@@ -35,11 +35,17 @@ def main():
     path = args.pdf or s.data_dir / "sources" / "rmf.pdf"
     if args.command == "fetch":
         path.parent.mkdir(parents=True, exist_ok=True)
-        expected = json.loads(Path("corpus/manifest.json").read_text())["sha256"]
+        expected = json.loads(manifest_path().read_text())["sha256"]
         if path.exists() and hashlib.sha256(path.read_bytes()).hexdigest() == expected:
             print(f"Verified existing {path}")
             return
-        with urllib.request.urlopen(RMF_URL, timeout=60) as r:
+        request = urllib.request.Request(
+            RMF_URL,
+            headers={
+                "User-Agent": "evidence-desk/0.1 (corpus fetch; checksum-verified)"
+            },
+        )
+        with urllib.request.urlopen(request, timeout=60) as r:
             content = r.read(21 * 1024 * 1024)
         if (
             not content.startswith(b"%PDF-")

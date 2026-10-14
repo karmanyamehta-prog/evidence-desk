@@ -34,7 +34,7 @@ The direct NIST and alternative GenAI Profile PDF downloads returned 403 in this
 
 ## Completed quality run
 
-The final 1.5B run completed all 24 queries: P@1 0.900, P@5 0.310, macro statement faithfulness 0.8125 over 16 factual answers, and mean answer completeness 0.525 over 20 answerable questions. Four answerable questions ended in abstention. Two of four out-of-scope questions ended in structured abstention, both following validation failures. Median request latency was 35.4 seconds and descriptive p95 was 91.5 seconds. The full reviewed record and chart are in `evaluation/results/`. No output was repaired into a success.
+The final 1.5B run completed all 24 queries: P@1 0.900, P@5 0.310, macro statement faithfulness 0.8125 over 16 factual answers, and mean answer completeness 0.525 over 20 answerable questions. Four answerable questions ended in abstention. Two of four out-of-scope questions ended in structured abstention, both following validation failures. Median request latency was 35.4 seconds and descriptive p95 was 91.5 seconds. The full reviewed record and chart are in `evaluation/results/`. No output was repaired into a success. All six abstentions were validation rejections; the model never abstained on its own.
 
 ## Design deviations made explicit
 

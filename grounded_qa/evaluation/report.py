@@ -12,6 +12,10 @@ from grounded_qa.evaluation.metrics import (
     precision_at_k,
     faithfulness,
     evidence_coverage,
+    evidence_coverage_by_quote,
+    final_status,
+    hit_at_k,
+    reciprocal_rank,
 )
 
 
@@ -57,6 +61,19 @@ def main():
                 "p5": precision_at_k(set(review["relevant_chunk_ids"]), ids, 5)
                 if q["answerable"]
                 else None,
+                "hit5": hit_at_k(set(review["relevant_chunk_ids"]), ids, 5)
+                if q["answerable"]
+                else None,
+                "hit3": hit_at_k(set(review["relevant_chunk_ids"]), ids, 3)
+                if q["answerable"]
+                else None,
+                "rr": reciprocal_rank(set(review["relevant_chunk_ids"]), ids)
+                if q["answerable"]
+                else None,
+                "recall_by_quote": evidence_coverage_by_quote(
+                    q["gold_evidence"], result["retrieved"]
+                ),
+                "status": final_status(result),
                 "faithfulness": f,
                 "completeness": review["correct_facts"] / len(q["required_facts"])
                 if q["required_facts"]
@@ -76,6 +93,11 @@ def main():
                 "p1": None,
                 "p3": None,
                 "p5": None,
+                "hit5": None,
+                "hit3": None,
+                "rr": None,
+                "recall_by_quote": None,
+                "status": "error",
                 "faithfulness": None,
                 "completeness": 0 if q["answerable"] else None,
                 "evidence_recall": None,
@@ -103,6 +125,18 @@ def main():
         "precision_at_3": mean([r["p3"] for r in rows if r["p3"] is not None]),
         "precision_at_5": mean(ps),
         "retrieval_scored_queries": len(ps),
+        "hit_at_3": mean([r["hit3"] for r in rows if r["hit3"] is not None]),
+        "hit_at_5": mean([r["hit5"] for r in rows if r["hit5"] is not None]),
+        "mrr": mean([r["rr"] for r in rows if r["rr"] is not None]),
+        "gold_span_recall_at_5_by_quote": mean(
+            [r["recall_by_quote"] for r in rows if r["recall_by_quote"] is not None]
+        ),
+        "answered": sum(r["status"] == "answered" for r in rows),
+        "model_abstentions": sum(r["status"] == "abstained" for r in rows),
+        "validation_rejections": sum(r["status"] == "rejected" for r in rows),
+        "model_abstentions_on_unanswerable": sum(
+            r["status"] == "abstained" for r in unanswerable
+        ),
         "gold_span_recall_at_5": mean(
             [r["evidence_recall"] for r in rows if r["evidence_recall"] is not None]
         ),
@@ -161,14 +195,15 @@ def main():
         1, 2, figsize=(11, 4.5), gridspec_kw={"width_ratios": [1.5, 1]}
     )
     values = [
-        summary["precision_at_5"],
+        summary["hit_at_5"],
+        summary["mrr"],
         summary["faithfulness_macro"],
         summary["completeness"],
     ]
     bars = axes[0].bar(
-        ["Precision@5", "Faithfulness*", "Completeness"],
+        ["Hit@5", "MRR", "Faithfulness*", "Completeness"],
         [v or 0 for v in values],
-        color=["#276b8e", "#399b8f", "#dc9960"],
+        color=["#276b8e", "#4f8fb0", "#399b8f", "#dc9960"],
     )
     axes[0].set_ylim(0, 1.12)
     axes[0].set_ylabel("Score (0–1)")

@@ -1,8 +1,15 @@
 """E5 prefixes and input-limit checks prevent silent truncation."""
 
+import re
+
+
+def needs_e5_prefixes(model: str) -> bool:
+    """True for E5-family names (e5-small-v2, multilingual-e5-base), not any 'e5' substring."""
+    return re.search(r"(^|[/_-])e5($|[_-])", model.lower()) is not None
+
 
 class LocalEmbeddings:
-    def __init__(self, model, revision, threads=4):
+    def __init__(self, model, revision, threads=4, prefixes=None):
         import torch
         from sentence_transformers import SentenceTransformer
 
@@ -11,7 +18,7 @@ class LocalEmbeddings:
             model, revision=revision, device="cpu", trust_remote_code=False
         )
         self.tokenizer = self.model.tokenizer
-        self.prefixes = "e5" in model.lower()
+        self.prefixes = needs_e5_prefixes(model) if prefixes is None else prefixes
 
     def _encode(self, texts, prefix):
         values = [(prefix + t) if self.prefixes else t for t in texts]

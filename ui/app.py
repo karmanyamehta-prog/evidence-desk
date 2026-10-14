@@ -54,13 +54,27 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 
-def render(result):
+@st.cache_data(ttl=600, max_entries=8, show_spinner=False)
+def fetch_pdf(document_id: str):
+    """One download per document per 10 minutes, not one per citation per rerun."""
+    response = httpx.get(API + f"/documents/{document_id}/pdf", timeout=20)
+    response.raise_for_status()
+    return response.content
+
+
+def render(result, key=""):
     if result["mode"] == "extractive":
         st.warning(
             "Evidence-only mode: these are retrieved passages, not a generated answer."
         )
-    if result["abstain"]:
-        st.write("I cannot answer from the available evidence. " + result["reason"])
+    status = result.get("status", "abstained" if result["abstain"] else "answered")
+    if status == "abstained":
+        st.write("The model found no supported answer in the retrieved evidence.")
+    elif status == "rejected":
+        st.write(
+            "No answer shown: the model's output failed citation checks twice. "
+            f"Detail: {result['reason']}"
+        )
     for claim in result["claims"]:
         refs = " ".join(f"[{e['source_id']}]" for e in claim["evidence"])
         st.write(claim["text"] + " " + refs)
@@ -75,18 +89,14 @@ def render(result):
                     PUBLIC_API
                     + f"/documents/{source['document_id']}/pdf#page={source['page']}",
                 )
-            # Download bytes server-side: works when the API hostname is internal Docker DNS.
+            # Cached server-side fetch: works when the API hostname is Docker-internal.
             try:
-                pdf = httpx.get(
-                    API + f"/documents/{source['document_id']}/pdf", timeout=20
-                )
-                pdf.raise_for_status()
                 st.download_button(
                     "Download source PDF",
-                    pdf.content,
+                    fetch_pdf(source["document_id"]),
                     file_name="source.pdf",
                     mime="application/pdf",
-                    key=f"{id(result)}-{sid}",
+                    key=f"{key}-{sid}",
                 )
             except httpx.HTTPError:
                 st.caption("Source PDF unavailable")
@@ -95,9 +105,12 @@ def render(result):
     )
 
 
-for message in st.session_state.messages:
+for i, message in enumerate(st.session_state.messages):
     with st.chat_message(message["role"]):
-        render(message["result"]) if "result" in message else st.write(message["text"])
+        if "result" in message:
+            render(message["result"], key=f"m{i}")
+        else:
+            st.write(message["text"])
 if question := st.chat_input("What does the report say about…?"):
     st.session_state.messages.append({"role": "user", "text": question})
     with st.chat_message("user"):
@@ -112,7 +125,7 @@ if question := st.chat_input("What does the report say about…?"):
                 )
                 r.raise_for_status()
                 result = r.json()
-                render(result)
+                render(result, key=f"m{len(st.session_state.messages)}")
                 st.session_state.messages.append(
                     {"role": "assistant", "result": result}
                 )

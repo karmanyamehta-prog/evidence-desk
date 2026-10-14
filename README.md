@@ -6,7 +6,7 @@ A single-user RAG application for answering questions about AI governance docume
 
 ## Why this problem and corpus?
 
-Risk and product teams need to trace a proposed interpretation back to source guidance. This is the same evidence-auditing habit used when checking AI-generated prescriptions against consultation transcripts: a fluent response can still be wrong.
+Teams that use AI guidance need to trace a proposed interpretation back to its source text. A fluent answer can still be wrong, so the app shows the exact passage and PDF page behind every claim and refuses to show an answer whose quotes cannot be found in the retrieved text.
 
 The reproducible benchmark uses **NIST AI RMF 1.0, NIST AI 100-1 (January 2023), 48 PDF pages**. The PDF is retrieved from the U.S. Government Publishing Office archive and checked against `corpus/manifest.json`. NIST's direct endpoints returned HTTP 403 in the build environment. The originally proposed Generative AI Profile extension was not indexed because its PDF bytes could not be retrieved reliably. No draft was silently substituted. This is a historical, single-document benchmark with cross-section questions, not a current-law assistant or a demonstrated multi-document benchmark.
 
@@ -62,7 +62,7 @@ Open PowerShell **in this project directory**:
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
-.\.venv\Scripts\python.exe -m pip install -e .
+.\.venv\Scripts\python.exe -m pip install -e . -r requirements-dev.txt
 Copy-Item .env.example .env
 ollama pull qwen2.5:3b-instruct-q4_K_M
 .\.venv\Scripts\python.exe -m grounded_qa.cli doctor
@@ -89,7 +89,7 @@ Visit [the UI](http://localhost:8501) and [API documentation](http://localhost:8
 
 On Linux, use `python3.12 -m venv .venv`, `.venv/bin/python`, and `cp .env.example .env`; the remaining commands are equivalent. Start Ollama with `ollama serve` if it is not already running.
 
-Direct dependencies are pinned in `requirements.txt`. `requirements-linux.lock.txt` records the complete tested Linux environment; do not blindly use its Linux-specific wheels on Windows. Native Windows and Docker builds have not been executed in this Linux workspace. The installed Linux dependency set passes `pip check`.
+Runtime dependencies are pinned in `requirements.txt`; tests, lint and the report generator need `requirements-dev.txt`. `requirements-linux.lock.txt` records the complete tested Linux environment; do not blindly use its Linux-specific wheels on Windows. Native Windows and Docker builds have not been executed in this Linux workspace. The installed Linux dependency set passes `pip check`.
 
 ## Configuration and API
 
@@ -110,8 +110,8 @@ Optional paid providers are **explicit opt-ins**, never automatic fallbacks. Set
 
 1. Retrieved chunks get temporary `S1`, `S2`, etc. IDs.
 2. The generator emits structured claims and exact supporting quotations.
-3. The backend resolves titles and pages from ingestion metadata, checks quote membership and rejects IDs outside the provided evidence.
-4. Invalid output is retried once; persistent invalid output becomes an abstention.
+3. The backend resolves titles and pages from ingestion metadata and rejects IDs outside the provided evidence. A quote must be 5-70 words and occur in the cited chunk after folding curly quotes, dashes, Unicode forms and line-break hyphens. Any section identifier named in a claim (for example `MANAGE 2.5`) must also appear in its quote.
+4. Invalid output is retried once (the retry prompt includes the validation error). Persistent invalid output is **rejected**: no answer is shown. The response carries `status` (`answered`, `abstained` when the model itself returned no claims, `rejected`, or `error`) and an `attempts` log with raw model output.
 5. The UI shows the evidence and links to the **1-based PDF page**, not an assumed printed page label. Detected section headings are labeled heuristic.
 
 A matching quotation **does not prove entailment**. It can be irrelevant, incomplete, or misinterpreted. The evaluator separately reviews claim support. Documents are treated as untrusted text rather than instructions; prompt injection is reduced, not solved.
@@ -130,18 +130,19 @@ These are custom RAGAS-style metrics, **not official RAGAS scores**. Labels are 
 
 See [the full results table](evaluation/results/RESULTS.md), [raw runs](evaluation/runs/), [review labels](evaluation/review.json), [embedding ablation](evaluation/ablation.json) and [chunk ablation](evaluation/chunk-ablation.json).
 
-Measured profile: **Qwen2.5 1.5B Q4_K_M**, 24 queries, one CPU pass. These are not results for the default 3B model or the target laptop.
+Measured profile: **Qwen2.5 1.5B Q4_K_M**, 24 queries, one CPU pass, **recorded before the validator was tightened** (see `CHANGES.md`). Replaying the recorded answers through the new validator rejects the three answers with a wrong section ID (q13, q14, q16) and leaves the other recorded answers unchanged; a fresh run is still needed. These are not results for the default 3B model or the target laptop.
 
 | Metric | Measured value | Denominator / interpretation |
 |---|---:|---|
-| Precision@1 | 0.900 | 20 answerable queries |
-| Precision@3 | 0.433 | 20 answerable queries |
-| Precision@5 | 0.310 | 20 answerable queries |
+| Hit@1 (= Precision@1) | 0.900 | 20 answerable queries |
+| Hit@5 | 0.950 | 19 of 20 answerable queries had a judged-relevant chunk in the top 5 |
+| MRR | 0.925 | Judged-relevant chunks only |
+| Precision@5 | 0.310 | Capped by design: 13 of 20 questions have one judged-relevant chunk, so their maximum is 0.2. Do not read it as "retrieval pads results with noise". |
 | Gold-span recall@5 | 0.850 | Mean coverage of selected evidence spans |
 | Faithfulness, macro | 0.8125 | 16 answers containing factual statements |
 | Faithfulness, micro | 15/19 | Supported factual statements |
 | Answer completeness | 0.525 | 20 answerable queries, including abstentions |
-| Correct structured abstentions | 2/4 | Unanswerable queries |
+| Correct structured abstentions | 2/4 | Both were validation rejections. **The model itself never returned an empty answer in this run (0 model-initiated abstentions).** |
 | False abstentions | 4/20 | Answerable queries |
 | Request latency p50 / p95 | 35.4s / 91.5s | All 24 queries; includes retries and cold effects |
 
@@ -192,11 +193,12 @@ Named volumes preserve models and documents. The published local ports bind to l
 
 ## Validation and limitations
 
-- 23 unit/API tests pass; actual E5 → Chroma → FastAPI → citation validation → PDF serving also passed an integration smoke test.
+- 37 tests pass on Linux, Python 3.12, including an offline end-to-end test (real PDF parsing, chunking, Chroma and HTTP layer; the embedding model and LLM are replaced by a hashed embedder and a scripted generator). No test runs real E5 or Ollama; an earlier E5 smoke check was reported during the first build but is not reproducible from this repository.
 - Linux dependencies installed successfully and `pip check` passed. Native Windows, Docker runtime, browser layout and public hosting are not certified by these tests.
 - One small historical report; generic uploads do not inherit its specialized table parser. No OCR, reliable diagram understanding, exhaustive table extraction or multi-document benchmark.
 - Page-bound chunking can lose context across pages. Similarity is not calibrated confidence. Character-based generation context budgeting is a heuristic; unusual text can tokenize differently.
 - Smaller models can produce unsupported statements, invalid JSON, incorrect interpretations despite valid source IDs.
+- The API rejects unexpected `Host` headers and cross-origin browser POSTs (`ALLOWED_HOSTS`), which blocks DNS rebinding and cross-site uploads to a local server. It has no authentication and must stay on loopback.
 - No authentication, production monitoring, durable hosted storage, multi-user isolation, upload malware scanning, reranker or hybrid keyword search. Bind locally; prepared public demo disables uploads.
 - Current benchmark has a small sample, assistant-authored questions and judgments, no independent evaluator and only one timing pass. Do not market the numbers as production reliability.
 

@@ -25,6 +25,24 @@ def create_app(service=None):
         yield
 
     app = FastAPI(title="Grounded QA", version="0.1.0", lifespan=lifespan)
+    hosts = [
+        h.strip()
+        for h in os.getenv("ALLOWED_HOSTS", Settings().allowed_hosts).split(",")
+        if h.strip()
+    ]
+    # Unauthenticated local API: reject DNS-rebinding hosts and cross-site browser POSTs.
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=hosts)
+
+    @app.middleware("http")
+    async def reject_foreign_origin(request: Request, call_next):
+        origin = request.headers.get("origin")
+        if origin and request.method not in {"GET", "HEAD", "OPTIONS"}:
+            host = urlsplit(origin).hostname or ""
+            if host not in hosts and f"[{host}]" not in hosts:
+                return JSONResponse(
+                    {"detail": "Cross-origin request refused"}, status_code=403
+                )
+        return await call_next(request)
 
     # Determine allowed hosts from env var or Settings. If the Settings class
     # doesn't define `allowed_hosts`, fall back to loopback hosts. Treat an

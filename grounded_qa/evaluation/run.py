@@ -7,7 +7,7 @@ import platform
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from grounded_qa.config import Settings
+from grounded_qa.config import Settings, manifest_path
 from grounded_qa.service import Service
 from grounded_qa.generation.client import ModelError, SYSTEM
 
@@ -36,7 +36,7 @@ def main():
         "prompt": SYSTEM,
         "seed": 42,
         "temperature": 0,
-        "corpus": json.loads(Path("corpus/manifest.json").read_text()),
+        "corpus": json.loads(manifest_path().read_text()),
         "index_chunk_count": service.store.collection.count(),
     }
     if s.llm_provider == "ollama":

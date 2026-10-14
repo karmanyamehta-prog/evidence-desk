@@ -1,6 +1,7 @@
 """Explicit providers; no automatic paid failover."""
 
 import json
+import re
 import httpx
 from grounded_qa.models import Draft, Claim, Evidence
 
@@ -17,12 +18,24 @@ class ModelError(RuntimeError):
     pass
 
 
+def extract_json(text: str) -> str:
+    """Tolerate markdown fences or chatter around a single JSON object."""
+    text = text.strip()
+    fenced = re.search(r"```(?:json)?\s*(\{.*\})\s*```", text, re.S)
+    if fenced:
+        return fenced.group(1)
+    start, end = text.find("{"), text.rfind("}")
+    return text[start : end + 1] if 0 <= start < end else text
+
+
 class Generator:
     def __init__(self, settings):
         self.settings = settings
+        self.last_raw = None  # raw provider text of the latest call, for audit logs
 
-    def generate(self, question, sources, correction=""):
+    def generate(self, question, sources, correction="", attempt=0):
         s = self.settings
+        self.last_raw = None
         if s.llm_provider == "extractive":
             # Evidence browser, not a semantic answer or an abstention classifier.
             return Draft(
@@ -57,7 +70,7 @@ class Generator:
                 "keep_alive": "5m",
                 "options": {
                     "temperature": 0,
-                    "seed": 42,
+                    "seed": 42 + attempt,
                     "num_ctx": s.context_tokens,
                     "num_predict": s.output_tokens,
                     "num_thread": s.cpu_threads,
@@ -107,4 +120,5 @@ class Generator:
             raise ModelError(
                 "Model unavailable or provider response invalid; check service/model configuration"
             ) from exc
-        return Draft.model_validate_json(text)
+        self.last_raw = text
+        return Draft.model_validate_json(extract_json(text))

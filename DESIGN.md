@@ -1,6 +1,6 @@
 # Document Q&A with Source-Grounded Citations
 
-**Status:** Implementation authorized on 27 September 2026. This design records the original proposal; the hardware amendment below supersedes conflicting defaults. See README for actual validation status.
+**Status:** Design notes from 27 September 2026, kept as the original proposal. Where this file disagrees with the code, the code and README win; see "Changes since the proposal" at the end for the main differences.
 
 ## 1. Corpus and business framing
 
@@ -10,11 +10,11 @@
 | **NIST AI RMF 1.0 (2023) + Generative AI Profile, AI 600-1 (2024)** | **AI governance evidence assistant for product/risk teams** | Defined concepts, numbered actions, complementary documents, traceable evidence | Dense lists/tables; recommendations must not be presented as legal requirements |
 | RAG, DPR, and RocketQA papers | Research evidence assistant for an ML team | Tests synthesis and attribution of experimental claims | Two-column PDFs, equations, and incompatible experimental setups make comparison harder |
 
-**Recommendation: the two fixed NIST PDFs**, subject to your approval. The user asks which risks and suggested actions the reports describe and gets inspectable evidence. Your prescription-auditing experience translates directly: a plausible answer is insufficient unless the source supports each claim. These are a deliberately versioned historical corpus, not a promise of current regulatory guidance.
+**Proposal: the two fixed NIST PDFs.** The user asks which risks and suggested actions the reports describe and gets inspectable evidence. The framing is evidence auditing: a plausible answer is insufficient unless the source supports each claim. These are a deliberately versioned historical corpus, not a promise of current regulatory guidance.
 
 Start with definitions, risks, and numbered actions; support cross-document synthesis. Exclude legal compliance determinations, exhaustive checklist guarantees, scanned-PDF OCR, and visual/chart interpretation in v1. Example question types: “How does the profile describe confabulation?” and “Which reported actions concern evaluating generated output?” These are proposed questions, not yet verified evaluation items.
 
-After approval, inspect extraction against rendered pages, then freeze exact source URLs, publication identifiers, download dates, SHA-256 hashes, and parser versions in a manifest. Keep document downloads out of Git; include a reproducible fetch command and attribution. A parser change creates a new index version.
+Inspect extraction against rendered pages, then freeze exact source URLs, publication identifiers, download dates, SHA-256 hashes, and parser versions in a manifest. Keep document downloads out of Git; include a reproducible fetch command and attribution. A parser change creates a new index version.
 
 ## 2. Chunking
 
@@ -95,11 +95,19 @@ Local Docker Compose will run API/UI with persistent data and an Ollama service 
 
 **Hosting conflict:** current Hugging Face documentation says creating Docker/Gradio compute Spaces requires a paid plan, although CPU Basic has no hourly charge. Static Spaces remain free; limited free ZeroGPU Gradio eligibility is a different architecture. Therefore this exact Streamlit/FastAPI Docker app cannot be promised as a universally free hosted Space. Propose preparing the Docker Space configuration as requested, without deploying, plus a $0 static showcase of real saved examples/results and local setup instructions. The showcase is not a live RAG backend. Any different hosting architecture requires approval. Recheck eligibility in Phase 4.
 
-After design approval, commit this document first (`docs: approve grounded QA design`), then separate ingestion/tests, retrieval/tests, generation/citations, API/UI, evaluation, containers, and README commits. Commit evaluation artifacts only after actual runs. No public push or deployment without explicit confirmation. Current limitations include small historical corpus, English text PDFs, single-user operation, imperfect parsing/entailment, and no production monitoring.
+No public push or deployment without explicit confirmation. Current limitations include small historical corpus, English text PDFs, single-user operation, imperfect parsing/entailment, and no production monitoring.
 
-## Original approval checkpoint (superseded)
+## Changes since the proposal
 
-Confirm (or amend): **NIST corpus; recursive 350/50 page-bound chunks; Chroma; E5-small-v2; Qwen 7B subject to hardware; human-reviewed custom grounding evaluation; local full app plus prepared hosting config/static showcase.** Share available RAM, OS, and GPU/VRAM before we finalize model settings. This checkpoint was superseded by the user’s subsequent authorization for autonomous technical decisions and the implementation amendments below.
+| Proposed | What the repository does |
+|---|---|
+| NIST AI RMF 1.0 **and** the Generative AI Profile | RMF 1.0 only; the Profile PDF could not be fetched reliably |
+| Qwen 7B default | Qwen2.5 3B default; the only completed evaluation is Qwen2.5 1.5B |
+| Human-reviewed evaluation | Assistant-reviewed, unvalidated; see `evaluation/README.md` |
+| Heading/action ID in the embedded text | Not implemented; the embedder sees only the chunk text |
+| Bounding boxes, block IDs, printed page labels in chunk metadata | Not implemented; only a printed-page *candidate* is kept in `pages.json` |
+| Three warm latency repetitions | One cold pass |
+| Quote-membership citation check | Extended: typographic folding, quote word bounds, and identifiers in a claim must appear in its quote (see `CHANGES.md`) |
 
 ## Primary references
 
@@ -114,7 +122,7 @@ Confirm (or amend): **NIST corpus; recursive 350/50 page-bound chunks; Chroma; E
 
 ## Hardware amendment (27 September 2026)
 
-User authorized autonomous technical decisions. CPU: i5-1240P; usable RAM: 15.7 GB; approximately 101 GB disk free. Iris Xe acceleration is not a dependency. Native Windows is the primary setup (Windows version must pass Ollama requirements). Use qwen2.5:3b-instruct-q4_K_M for everyday use and qwen2.5:7b-instruct-q4_K_M as an explicit quality profile. Limit concurrency to one query, use 4096 context tokens, bounded evidence, and 384 output tokens. These are conservative defaults, not measured laptop performance. Reserve 15–20 GB for a native installation as a planning allowance; Docker may require substantially more. Never publish supplied device/product identifiers.
+Target hardware. CPU: i5-1240P; usable RAM: 15.7 GB; approximately 101 GB disk free. Iris Xe acceleration is not a dependency. Native Windows is the primary setup (Windows version must pass Ollama requirements). Use qwen2.5:3b-instruct-q4_K_M for everyday use and qwen2.5:7b-instruct-q4_K_M as an explicit quality profile. Limit concurrency to one query, use 4096 context tokens, bounded evidence, and 384 output tokens. These are conservative defaults, not measured laptop performance. Reserve 15–20 GB for a native installation as a planning allowance; Docker may require substantially more. Never publish supplied device/product identifiers.
 
 Ollama lists 3B at 1.9 GB and 7B at 4.7 GB; downloads are not runtime memory measurements. Native Windows requires Windows 10 22H2 or later. Primary sources: https://docs.ollama.com/windows, https://docs.ollama.com/gpu, https://ollama.com/library/qwen2.5/tags, https://docs.ollama.com/api/chat.
 
