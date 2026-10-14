@@ -1,17 +1,63 @@
-"""Validate provenance; these checks do NOT prove semantic entailment."""
+"""Validate provenance; these checks do NOT prove semantic entailment.
+
+What is checked: source IDs exist, quotes occur in the cited chunk (after
+folding typographic variants), quote length is sane, and identifiers named in a
+claim (e.g. "MANAGE 2.5") also occur in the quote. A real quote can still be
+irrelevant or misread, so this stays a provenance check.
+"""
+
+import re
+import unicodedata
 
 from grounded_qa.ingestion.pdf import normalize
+
+MIN_QUOTE_WORDS = 5
+MAX_QUOTE_WORDS = 70
+_QUOTES = str.maketrans(
+    {
+        "\u2018": "'",
+        "\u2019": "'",
+        "\u201c": '"',
+        "\u201d": '"',
+        "\u2013": "-",
+        "\u2014": "-",
+        "\u2212": "-",
+    }
+)
+# Section/action identifiers such as "GOVERN 1.6" or "3.4", used to catch a
+# claim that cites a real quote about a different section.
+_IDENTIFIER = re.compile(r"\b(?:[A-Z]{3,}\s?)?\d+\.\d+\b")
+
+
+def fold(text: str) -> str:
+    """Comparison-only normalisation; never used for stored text or offsets."""
+    text = unicodedata.normalize("NFKC", text).translate(_QUOTES)
+    text = re.sub(r"(?<=\w)-\s*\n\s*(?=\w)", "-", text)  # line-break hyphen
+    text = re.sub(r"\s*-\s*", "-", normalize(text))
+    return text.casefold()
 
 
 def validate(draft, sources):
     for claim in draft.claims:
+        claim_ids = {re.sub(r"\s+", " ", m) for m in _IDENTIFIER.findall(claim.text)}
         for evidence in claim.evidence:
             if evidence.source_id not in sources:
                 raise ValueError("Citation references an unretrieved source")
-            if normalize(evidence.quote) not in normalize(
-                sources[evidence.source_id]["text"]
-            ):
+            words = len(evidence.quote.split())
+            if not MIN_QUOTE_WORDS <= words <= MAX_QUOTE_WORDS:
+                raise ValueError(
+                    f"Citation quote must be {MIN_QUOTE_WORDS}-{MAX_QUOTE_WORDS} words"
+                )
+            quote = fold(evidence.quote)
+            if quote not in fold(sources[evidence.source_id]["text"]):
                 raise ValueError("Citation quote does not occur in retrieved text")
+            missing = [i for i in claim_ids if fold(i) not in quote]
+            if missing:
+                raise ValueError(
+                    "Claim names "
+                    + ", ".join(sorted(missing))
+                    + " but the quote does not"
+                )
 
 
 def sources_from_hits(hits, max_chars=9000):
