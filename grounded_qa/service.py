@@ -1,6 +1,7 @@
 """Orchestration independent of the HTTP/UI layer."""
 
 import json
+import shutil
 import threading
 import time
 from pathlib import Path
@@ -23,6 +24,7 @@ class Service:
                 settings.embedding_model,
                 settings.embedding_revision,
                 settings.cpu_threads,
+                settings.embedding_prefixes,
             )
         self.embedder = embedder
         if store is None:
@@ -61,29 +63,44 @@ class Service:
                 and (target / "metadata.json").exists()
             ):
                 return json.loads((target / "metadata.json").read_text())
-            target.mkdir(parents=True, exist_ok=True)
-            (target / "source.pdf").write_bytes(path.read_bytes())
-            (target / "pages.json").write_text(
-                json.dumps(pages, ensure_ascii=False), encoding="utf-8"
-            )
+            # Index first, then write files: a failed embed leaves nothing behind.
+            created = not target.exists()
             try:
                 self.store.add(chunks)
+                target.mkdir(parents=True, exist_ok=True)
+                (target / "source.pdf").write_bytes(path.read_bytes())
+                (target / "pages.json").write_text(
+                    json.dumps(pages, ensure_ascii=False), encoding="utf-8"
+                )
+                metadata = {
+                    "document_id": did,
+                    "title": title or path.name,
+                    "pages": len(pages),
+                    "chunks": len(chunks),
+                    "source_url": source_url,
+                }
+                (target / "metadata.json").write_text(
+                    json.dumps(metadata), encoding="utf-8"
+                )
             except Exception:
-                self.store.delete(
-                    did
-                )  # No partially indexed document after a failed batch.
+                self.store.delete(did)  # No partially indexed document.
+                if created:
+                    shutil.rmtree(target, ignore_errors=True)
                 raise
-            metadata = {
-                "document_id": did,
-                "title": title or path.name,
-                "pages": len(pages),
-                "chunks": len(chunks),
-                "source_url": source_url,
-            }
-            (target / "metadata.json").write_text(
-                json.dumps(metadata), encoding="utf-8"
-            )
             return metadata
+
+    def list_documents(self):
+        """Documents present in the active index namespace, not stray metadata."""
+        indexed = {
+            m["document_id"]
+            for m in self.store.collection.get(include=["metadatas"])["metadatas"]
+        }
+        docs = []
+        for did in sorted(indexed):
+            meta = self.settings.data_dir / "documents" / did / "metadata.json"
+            if meta.exists():
+                docs.append(json.loads(meta.read_text()))
+        return docs
 
     def query(self, question, document_ids=None):
         with self.lock:  # Bound CPU and memory: one local model request at a time.
@@ -91,28 +108,47 @@ class Service:
             hits = self.store.search(question, self.settings.top_k, document_ids)
             retrieval_ms = (time.perf_counter() - start) * 1000
             sources = sources_from_hits(hits, self.settings.context_chars)
-            draft, reason = None, "No usable evidence retrieved"
+            draft, reason, attempts = None, "No usable evidence retrieved", []
             if sources:
                 for attempt in range(2):
+                    t = time.perf_counter()
+                    error = ""
                     try:
                         draft = self.generator.generate(
-                            question, sources, reason if attempt else ""
+                            question, sources, reason if attempt else "", attempt
                         )
                         validate(draft, sources)
                         reason = "Insufficient evidence" if draft.abstain else ""
-                        break
                     except (ValidationError, ValueError) as exc:
-                        reason, draft = str(exc), None
-            abstain = draft is None or draft.abstain
+                        error = reason = str(exc)
+                        draft = None
+                    attempts.append(
+                        {
+                            "attempt": attempt,
+                            "raw": getattr(self.generator, "last_raw", None),
+                            "error": error,
+                            "ms": (time.perf_counter() - t) * 1000,
+                        }
+                    )
+                    if not error:
+                        break
+            if draft is None:
+                status = "rejected" if sources else "abstained"
+            else:
+                status = "abstained" if draft.abstain else "answered"
+            abstain = status != "answered"
             claims = [] if abstain else [c.model_dump() for c in draft.claims]
             total_ms = (time.perf_counter() - start) * 1000
             return {
                 "question": question,
+                "status": status,
                 "abstain": abstain,
                 "reason": reason,
                 "claims": claims,
                 "mode": self.settings.llm_provider,
                 "sources": sources,
+                "dropped_by_context_budget": len(hits) - len(sources),
+                "attempts": attempts,
                 "retrieved": [
                     {
                         "id": h.chunk.id,

@@ -1,15 +1,35 @@
 """Validated environment-only configuration; no credentials in source."""
 
+import os
 from pathlib import Path
 from typing import Literal
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+def manifest_path() -> Path:
+    """Corpus manifest: CORPUS_MANIFEST, then ./corpus, then next to the package."""
+    candidates = [
+        Path(os.environ["CORPUS_MANIFEST"])
+        if os.environ.get("CORPUS_MANIFEST")
+        else None,
+        Path.cwd() / "corpus" / "manifest.json",
+        Path(__file__).resolve().parents[1] / "corpus" / "manifest.json",
+    ]
+    for path in candidates:
+        if path and path.is_file():
+            return path
+    raise FileNotFoundError(
+        "corpus/manifest.json not found; run from the repo root or set CORPUS_MANIFEST"
+    )
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
     data_dir: Path = Path("data")
     embedding_model: str = "intfloat/e5-small-v2"
+    embedding_prefixes: bool | None = None  # None = infer from model name
+    allowed_hosts: str = "localhost,127.0.0.1,[::1],testserver,api"
     embedding_revision: str = "ffb93f3bd4047442299a41ebb6fa998a38507c52"
     chunk_tokens: int = Field(350, ge=32, le=450)
     chunk_overlap: int = Field(50, ge=0)
