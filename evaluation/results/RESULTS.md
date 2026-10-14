@@ -40,6 +40,14 @@ Labels are assistant-reviewed, not independent human judgments. Faithfulness is 
 | precision_at_3 | 0.433 |
 | precision_at_5 | 0.310 |
 | retrieval_scored_queries | 20 |
+| hit_at_3 | 0.950 |
+| hit_at_5 | 0.950 |
+| mrr | 0.925 |
+| gold_span_recall_at_5_by_quote | 0.850 |
+| answered | 18 |
+| model_abstentions | 0 |
+| validation_rejections | 6 |
+| model_abstentions_on_unanswerable | 0 |
 | gold_span_recall_at_5 | 0.850 |
 | faithfulness_macro | 0.812 |
 | faithfulness_scored_answers | 16 |

@@ -27,3 +27,24 @@ def test_page_only_match_is_insufficient():
         )
         == 0
     )
+
+
+def test_rank_metrics_and_quote_anchored_coverage():
+    from grounded_qa.evaluation.metrics import (
+        evidence_coverage_by_quote,
+        hit_at_k,
+        reciprocal_rank,
+    )
+
+    assert hit_at_k({"b"}, ["a", "b", "c"], 1) == 0.0
+    assert hit_at_k({"b"}, ["a", "b", "c"], 2) == 1.0
+    assert reciprocal_rank({"b"}, ["a", "b"]) == 0.5
+    assert reciprocal_rank({"z"}, ["a", "b"]) == 0.0
+    gold = [{"quote": "voluntary, rights-preserving"}]
+    assert (
+        evidence_coverage_by_quote(
+            gold, [{"text": "It is\nvoluntary, rights-preserving."}]
+        )
+        == 1.0
+    )
+    assert evidence_coverage_by_quote(gold, [{"text": "mandatory"}]) == 0.0
