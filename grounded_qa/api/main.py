@@ -25,11 +25,19 @@ def create_app(service=None):
         yield
 
     app = FastAPI(title="Grounded QA", version="0.1.0", lifespan=lifespan)
-    hosts = [
-        h.strip()
-        for h in os.getenv("ALLOWED_HOSTS", Settings().allowed_hosts).split(",")
-        if h.strip()
-    ]
+
+    # Determine allowed hosts from env var or Settings. If the Settings class
+    # doesn't define `allowed_hosts`, fall back to loopback hosts.
+    env_allowed = os.getenv("ALLOWED_HOSTS")
+    if env_allowed is not None:
+        hosts_str = env_allowed
+    else:
+        # Use Settings if it defines allowed_hosts, otherwise default to localhost
+        default_settings = Settings()
+        hosts_str = getattr(default_settings, "allowed_hosts", "127.0.0.1,localhost")
+
+    hosts = [h.strip() for h in hosts_str.split(",") if h.strip()]
+
     # Unauthenticated local API: reject DNS-rebinding hosts and cross-site browser POSTs.
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=hosts)
 
