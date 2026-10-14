@@ -5,8 +5,11 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 import re
 import os
-from fastapi import FastAPI, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from urllib.parse import urlsplit
+import httpx
+from fastapi import FastAPI, HTTPException, Request, UploadFile
+from fastapi.responses import FileResponse, JSONResponse
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.concurrency import run_in_threadpool
 from grounded_qa.config import Settings
 from grounded_qa.models import Query
@@ -22,10 +25,44 @@ def create_app(service=None):
         yield
 
     app = FastAPI(title="Grounded QA", version="0.1.0", lifespan=lifespan)
+    hosts = [
+        h.strip()
+        for h in os.getenv("ALLOWED_HOSTS", Settings().allowed_hosts).split(",")
+        if h.strip()
+    ]
+    # Unauthenticated local API: reject DNS-rebinding hosts and cross-site browser POSTs.
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=hosts)
+
+    @app.middleware("http")
+    async def reject_foreign_origin(request: Request, call_next):
+        origin = request.headers.get("origin")
+        if origin and request.method not in {"GET", "HEAD", "OPTIONS"}:
+            host = urlsplit(origin).hostname or ""
+            if host not in hosts and f"[{host}]" not in hosts:
+                return JSONResponse(
+                    {"detail": "Cross-origin request refused"}, status_code=403
+                )
+        return await call_next(request)
 
     @app.get("/health")
     def health():
-        return {"status": "ready", "provider": app.state.service.settings.llm_provider}
+        """Liveness plus a best-effort model check; never fails because Ollama is down."""
+        s = app.state.service.settings
+        model_available = None
+        if s.llm_provider == "ollama":
+            try:
+                with httpx.Client(trust_env=False, timeout=2) as client:
+                    tags = client.get(s.ollama_url.rstrip("/") + "/api/tags").json()
+                model_available = any(
+                    m.get("name") == s.llm_model for m in tags.get("models", [])
+                )
+            except (httpx.HTTPError, ValueError):
+                model_available = False
+        return {
+            "status": "ready",
+            "provider": s.llm_provider,
+            "model_available": model_available,
+        }
 
     @app.post("/query")
     def query(body: Query):
@@ -62,14 +99,7 @@ def create_app(service=None):
 
     @app.get("/documents")
     def documents():
-        import json
-
-        return [
-            json.loads(p.read_text())
-            for p in (app.state.service.settings.data_dir / "documents").glob(
-                "*/metadata.json"
-            )
-        ]
+        return app.state.service.list_documents()
 
     @app.get("/documents/{document_id}/pdf")
     def pdf(document_id: str):
