@@ -26,12 +26,17 @@ def create_app(service=None):
 
     app = FastAPI(title="Grounded QA", version="0.1.0", lifespan=lifespan)
 
+    # Determine allowed hosts from env var or Settings. If the Settings class
+    # doesn't define `allowed_hosts`, fall back to loopback hosts. Treat an
+    # empty ALLOWED_HOSTS string as not set.
     env_allowed = os.getenv("ALLOWED_HOSTS")
-    if env_allowed is not None:
+    if env_allowed and env_allowed.strip():
         hosts_str = env_allowed
     else:
         default_settings = Settings()
-        hosts_str = getattr(default_settings, "allowed_hosts", "127.0.0.1,localhost")
+        hosts_str = getattr(
+            default_settings, "allowed_hosts", "127.0.0.1,localhost,testserver"
+        )
 
     hosts = [h.strip() for h in hosts_str.split(",") if h.strip()]
 
