@@ -5,8 +5,11 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 import re
 import os
-from fastapi import FastAPI, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from urllib.parse import urlsplit
+import httpx
+from fastapi import FastAPI, HTTPException, Request, UploadFile
+from fastapi.responses import FileResponse, JSONResponse
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.concurrency import run_in_threadpool
 from grounded_qa.config import Settings
 from grounded_qa.models import Query
@@ -22,6 +25,24 @@ def create_app(service=None):
         yield
 
     app = FastAPI(title="Grounded QA", version="0.1.0", lifespan=lifespan)
+    hosts = [
+        h.strip()
+        for h in os.getenv("ALLOWED_HOSTS", Settings().allowed_hosts).split(",")
+        if h.strip()
+    ]
+    # Unauthenticated local API: reject DNS-rebinding hosts and cross-site browser POSTs.
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=hosts)
+
+    @app.middleware("http")
+    async def reject_foreign_origin(request: Request, call_next):
+        origin = request.headers.get("origin")
+        if origin and request.method not in {"GET", "HEAD", "OPTIONS"}:
+            host = urlsplit(origin).hostname or ""
+            if host not in hosts and f"[{host}]" not in hosts:
+                return JSONResponse(
+                    {"detail": "Cross-origin request refused"}, status_code=403
+                )
+        return await call_next(request)
 
     @app.get("/health")
     def health():
@@ -78,14 +99,7 @@ def create_app(service=None):
 
     @app.get("/documents")
     def documents():
-        import json
-
-        return [
-            json.loads(p.read_text())
-            for p in (app.state.service.settings.data_dir / "documents").glob(
-                "*/metadata.json"
-            )
-        ]
+        return app.state.service.list_documents()
 
     @app.get("/documents/{document_id}/pdf")
     def pdf(document_id: str):
