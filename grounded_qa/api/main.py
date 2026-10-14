@@ -25,7 +25,23 @@ def create_app(service=None):
 
     @app.get("/health")
     def health():
-        return {"status": "ready", "provider": app.state.service.settings.llm_provider}
+        """Liveness plus a best-effort model check; never fails because Ollama is down."""
+        s = app.state.service.settings
+        model_available = None
+        if s.llm_provider == "ollama":
+            try:
+                with httpx.Client(trust_env=False, timeout=2) as client:
+                    tags = client.get(s.ollama_url.rstrip("/") + "/api/tags").json()
+                model_available = any(
+                    m.get("name") == s.llm_model for m in tags.get("models", [])
+                )
+            except (httpx.HTTPError, ValueError):
+                model_available = False
+        return {
+            "status": "ready",
+            "provider": s.llm_provider,
+            "model_available": model_available,
+        }
 
     @app.post("/query")
     def query(body: Query):
