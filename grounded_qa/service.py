@@ -5,11 +5,13 @@ import shutil
 import threading
 import time
 from pathlib import Path
+
 from pydantic import ValidationError
-from grounded_qa.ingestion.pdf import read_pdf, document_id
-from grounded_qa.ingestion.chunking import chunk_pages, PIPELINE_VERSION
+
 from grounded_qa.citations import sources_from_hits, validate
 from grounded_qa.generation.client import Generator
+from grounded_qa.ingestion.chunking import PIPELINE_VERSION, chunk_pages
+from grounded_qa.ingestion.pdf import document_id, read_pdf
 
 
 class Service:

@@ -7,8 +7,8 @@ normalized text. A heading is a heuristic, not an authoritative classification.
 import hashlib
 import re
 from pathlib import Path
-import pdfplumber
 
+import pdfplumber
 
 # The table rule below is tuned to this exact PDF (NIST AI 100-1); other uploads
 # use ordinary extraction. See corpus/manifest.json.

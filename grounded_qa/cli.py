@@ -7,6 +7,7 @@ import platform
 import shutil
 import urllib.request
 from pathlib import Path
+
 from grounded_qa.config import Settings, manifest_path
 
 RMF_URL = "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf"

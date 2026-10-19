@@ -1,21 +1,33 @@
 """Local single-user HTTP API. No authentication: bind only to loopback."""
 
+import os
+import re
 from contextlib import asynccontextmanager
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-import re
-import os
 from urllib.parse import urlsplit
+
 import httpx
 from fastapi import FastAPI, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
-from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.concurrency import run_in_threadpool
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+
 from grounded_qa.config import Settings
+from grounded_qa.generation.client import ModelError
+from grounded_qa.ingestion.pdf import PDFError
 from grounded_qa.models import Query
 from grounded_qa.service import Service
-from grounded_qa.ingestion.pdf import PDFError
-from grounded_qa.generation.client import ModelError
+
+
+def _split(raw: str) -> list[str]:
+    return [h.strip() for h in raw.split(",") if h.strip()]
+
+
+def allowed_hosts(settings: Settings | None = None) -> list[str]:
+    """Hosts the API answers to (ALLOWED_HOSTS); blank falls back to the defaults."""
+    hosts = _split((settings or Settings()).allowed_hosts)
+    return hosts or _split(Settings.model_fields["allowed_hosts"].default)
 
 
 def create_app(service=None):
@@ -25,39 +37,7 @@ def create_app(service=None):
         yield
 
     app = FastAPI(title="Grounded QA", version="0.1.0", lifespan=lifespan)
-    hosts = [
-        h.strip()
-        for h in os.getenv("ALLOWED_HOSTS", Settings().allowed_hosts).split(",")
-        if h.strip()
-    ]
-    # Unauthenticated local API: reject DNS-rebinding hosts and cross-site browser POSTs.
-    app.add_middleware(TrustedHostMiddleware, allowed_hosts=hosts)
-
-    @app.middleware("http")
-    async def reject_foreign_origin(request: Request, call_next):
-        origin = request.headers.get("origin")
-        if origin and request.method not in {"GET", "HEAD", "OPTIONS"}:
-            host = urlsplit(origin).hostname or ""
-            if host not in hosts and f"[{host}]" not in hosts:
-                return JSONResponse(
-                    {"detail": "Cross-origin request refused"}, status_code=403
-                )
-        return await call_next(request)
-
-    # Determine allowed hosts from env var or Settings. If the Settings class
-    # doesn't define `allowed_hosts`, fall back to loopback hosts. Treat an
-    # empty ALLOWED_HOSTS string as not set.
-    env_allowed = os.getenv("ALLOWED_HOSTS")
-    if env_allowed and env_allowed.strip():
-        hosts_str = env_allowed
-    else:
-        default_settings = Settings()
-        hosts_str = getattr(
-            default_settings, "allowed_hosts", "127.0.0.1,localhost,testserver"
-        )
-
-    hosts = [h.strip() for h in hosts_str.split(",") if h.strip()]
-
+    hosts = allowed_hosts()
     # Unauthenticated local API: reject DNS-rebinding hosts and cross-site browser POSTs.
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=hosts)
 

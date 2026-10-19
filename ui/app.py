@@ -1,6 +1,7 @@
 """Streamlit is a thin API client; it never opens the vector database."""
 
 import os
+
 import httpx
 import streamlit as st
 from dotenv import load_dotenv
@@ -115,19 +116,19 @@ if question := st.chat_input("What does the report say about…?"):
     st.session_state.messages.append({"role": "user", "text": question})
     with st.chat_message("user"):
         st.write(question)
-    with st.chat_message("assistant"):
-        with st.spinner("Retrieving evidence and checking citations…"):
-            try:
-                r = httpx.post(
-                    API + "/query",
-                    json={"question": question, "document_ids": selected},
-                    timeout=TIMEOUT,
-                )
-                r.raise_for_status()
-                result = r.json()
-                render(result, key=f"m{len(st.session_state.messages)}")
-                st.session_state.messages.append(
-                    {"role": "assistant", "result": result}
-                )
-            except httpx.HTTPError as e:
-                st.error(f"Query failed: {e}. Check the API and Ollama logs.")
+    with (
+        st.chat_message("assistant"),
+        st.spinner("Retrieving evidence and checking citations…"),
+    ):
+        try:
+            r = httpx.post(
+                API + "/query",
+                json={"question": question, "document_ids": selected},
+                timeout=TIMEOUT,
+            )
+            r.raise_for_status()
+            result = r.json()
+            render(result, key=f"m{len(st.session_state.messages)}")
+            st.session_state.messages.append({"role": "assistant", "result": result})
+        except httpx.HTTPError as e:
+            st.error(f"Query failed: {e}. Check the API and Ollama logs.")

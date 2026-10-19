@@ -4,17 +4,19 @@ import argparse
 import json
 import statistics
 from pathlib import Path
+
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+
 from grounded_qa.evaluation.metrics import (
-    precision_at_k,
-    faithfulness,
     evidence_coverage,
     evidence_coverage_by_quote,
+    faithfulness,
     final_status,
     hit_at_k,
+    precision_at_k,
     reciprocal_rank,
 )
 
@@ -208,7 +210,7 @@ def main():
     axes[0].set_ylim(0, 1.12)
     axes[0].set_ylabel("Score (0–1)")
     axes[0].set_title("Quality: assistant-reviewed")
-    for bar, value in zip(bars, values):
+    for bar, value in zip(bars, values, strict=False):
         axes[0].text(
             bar.get_x() + bar.get_width() / 2,
             bar.get_height() + 0.03,

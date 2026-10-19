@@ -2,12 +2,14 @@
 
 import json
 from pathlib import Path
+
 import numpy as np
+
 from grounded_qa.config import Settings
-from grounded_qa.ingestion.pdf import read_pdf, document_id
 from grounded_qa.ingestion.chunking import chunk_pages
-from grounded_qa.retrieval.embeddings import LocalEmbeddings
+from grounded_qa.ingestion.pdf import document_id, read_pdf
 from grounded_qa.models import Chunk
+from grounded_qa.retrieval.embeddings import LocalEmbeddings
 
 
 def main():
@@ -46,7 +48,7 @@ def main():
     for name, chunks in [("fixed", fixed), ("recursive-action-aware", recursive)]:
         v = np.asarray(e.passages([c.text for c in chunks]))
         recalls = []
-        for q, scores in zip(queries, qv @ v.T):
+        for q, scores in zip(queries, qv @ v.T, strict=False):
             hits = [chunks[i] for i in np.argsort(-scores)[:5]]
             covered = [
                 any(

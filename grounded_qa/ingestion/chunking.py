@@ -2,7 +2,9 @@
 
 import hashlib
 import re
+
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
 from grounded_qa.models import Chunk
 
 PIPELINE_VERSION = "pdfplumber-0.11.7-bounded-tables-v3"

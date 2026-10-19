@@ -5,11 +5,12 @@ import hashlib
 import json
 import platform
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
+
 from grounded_qa.config import Settings, manifest_path
+from grounded_qa.generation.client import SYSTEM, ModelError
 from grounded_qa.service import Service
-from grounded_qa.generation.client import ModelError, SYSTEM
 
 
 def main():
@@ -25,7 +26,7 @@ def main():
     queries = json.loads(args.queries.read_text())
     rows = []
     run = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "platform": platform.platform(),
         "processor": platform.processor(),
         "python": platform.python_version(),

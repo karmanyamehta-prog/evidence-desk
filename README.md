@@ -1,5 +1,7 @@
 # Evidence Desk — local document Q&A with inspectable citations
 
+[![tests](https://github.com/karmanyamehta-prog/evidence-desk/actions/workflows/tests.yml/badge.svg)](https://github.com/karmanyamehta-prog/evidence-desk/actions/workflows/tests.yml)
+
 A single-user RAG application for answering questions about AI governance documents. It retrieves source passages, generates a local answer, and checks that every cited quotation actually occurs in the supplied evidence. The UI exposes the passage and exact PDF page for inspection.
 
 **Status:** working local prototype; public deployment is not performed. This is a portfolio project, not a production compliance product. The checked-in evaluation distinguishes retrieval relevance, claim grounding, missing answers, and latency. Independent human review is still required.
@@ -205,5 +207,3 @@ Named volumes preserve models and documents. The published local ports bind to l
 ## Sources and provenance
 
 See [DESIGN.md](DESIGN.md) and [RESEARCH.md](RESEARCH.md) for alternatives, implementation deviations and primary references. Corpus download bytes and model weights are not in Git. Project code uses MIT; source documents, dependencies and models retain their own terms.
-
-The deliverable includes `history.bundle` containing incremental Git commits. To restore the repository with history, run `git clone history.bundle evidence-desk`, then work inside `evidence-desk`. Commits use a neutral `Project Builder` identity; configure your own Git name/email for future commits. No GitHub remote is configured or published.

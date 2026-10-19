@@ -13,3 +13,17 @@ dependencies = {file = ["requirements.txt"]}
 include = ["grounded_qa*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4"]
+ignore = ["E501"]
+[tool.ruff.lint.isort]
+known-first-party = ["grounded_qa"]
+[tool.coverage.run]
+source = ["grounded_qa"]
+branch = true
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

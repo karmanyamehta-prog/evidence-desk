@@ -1,6 +1,7 @@
 """Persistent cosine search; API owns the only writer."""
 
 import hashlib
+
 from grounded_qa.models import Chunk, Hit
 
 
@@ -47,6 +48,7 @@ class VectorStore:
                 result["documents"][0],
                 result["metadatas"][0],
                 result["distances"][0],
+                strict=False,
             )
         ]
 

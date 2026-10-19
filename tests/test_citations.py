@@ -1,6 +1,7 @@
 import pytest
-from grounded_qa.models import Draft, Claim, Evidence, Chunk, Hit
-from grounded_qa.citations import validate, sources_from_hits
+
+from grounded_qa.citations import sources_from_hits, validate
+from grounded_qa.models import Chunk, Claim, Draft, Evidence, Hit
 
 S = {"S1": {"text": "Human oversight is important for managing risk."}}
 

@@ -1,10 +1,11 @@
-from fastapi.testclient import TestClient
-from grounded_qa.api.main import create_app
-from grounded_qa.config import Settings
-from grounded_qa.generation.client import ModelError, Generator
-from grounded_qa.ingestion.pdf import read_pdf
 import httpx
 import pytest
+from fastapi.testclient import TestClient
+
+from grounded_qa.api.main import create_app
+from grounded_qa.config import Settings
+from grounded_qa.generation.client import Generator, ModelError
+from grounded_qa.ingestion.pdf import read_pdf
 
 
 class Stub:
@@ -81,11 +82,15 @@ def test_rejects_foreign_host_and_cross_origin_posts(tmp_path):
 
 
 def test_health_reports_missing_model_without_failing(tmp_path, monkeypatch):
-    monkeypatch.setattr(
-        httpx.Client,
-        "get",
-        lambda *a, **k: (_ for _ in ()).throw(httpx.ConnectError("down")),
-    )
+    real_get = httpx.Client.get
+
+    def fake_get(self, url, *args, **kwargs):
+        # Only the Ollama probe fails; TestClient is also an httpx.Client.
+        if str(url).startswith("http://localhost:11434"):
+            raise httpx.ConnectError("down")
+        return real_get(self, url, *args, **kwargs)
+
+    monkeypatch.setattr(httpx.Client, "get", fake_get)
     with TestClient(create_app(Stub(tmp_path))) as c:
         body = c.get("/health").json()
         assert body["status"] == "ready" and body["model_available"] is False
@@ -119,3 +124,23 @@ def test_manifest_path_resolves_outside_repo_root(tmp_path, monkeypatch):
     custom.write_text("{}")
     monkeypatch.setenv("CORPUS_MANIFEST", str(custom))
     assert manifest_path() == custom
+
+
+def test_middleware_is_registered_exactly_once(tmp_path):
+    """Regression: a bad merge once registered host/origin checks twice."""
+    from starlette.middleware.base import BaseHTTPMiddleware
+    from starlette.middleware.trustedhost import TrustedHostMiddleware
+
+    app = create_app(Stub(tmp_path))
+    kinds = [m.cls for m in app.user_middleware]
+    assert kinds.count(TrustedHostMiddleware) == 1
+    assert kinds.count(BaseHTTPMiddleware) == 1
+
+
+def test_empty_allowed_hosts_env_falls_back_to_settings(monkeypatch):
+    from grounded_qa.api.main import allowed_hosts
+
+    monkeypatch.setenv("ALLOWED_HOSTS", "   ")
+    assert "localhost" in allowed_hosts()
+    monkeypatch.setenv("ALLOWED_HOSTS", "a.example, b.example")
+    assert allowed_hosts() == ["a.example", "b.example"]

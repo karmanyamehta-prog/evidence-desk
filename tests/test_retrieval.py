@@ -1,5 +1,5 @@
-from grounded_qa.retrieval.store import VectorStore
 from grounded_qa.models import Chunk
+from grounded_qa.retrieval.store import VectorStore
 
 
 class Vectors:

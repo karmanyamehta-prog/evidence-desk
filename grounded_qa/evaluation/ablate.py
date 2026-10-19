@@ -6,11 +6,13 @@ Span-hit rate is deliberately not called human-judged precision.
 import json
 import time
 from pathlib import Path
+
 import numpy as np
-from grounded_qa.ingestion.pdf import read_pdf, document_id
-from grounded_qa.ingestion.chunking import chunk_pages
-from grounded_qa.retrieval.embeddings import LocalEmbeddings
+
 from grounded_qa.config import Settings
+from grounded_qa.ingestion.chunking import chunk_pages
+from grounded_qa.ingestion.pdf import document_id, read_pdf
+from grounded_qa.retrieval.embeddings import LocalEmbeddings
 
 
 def main():
@@ -50,7 +52,7 @@ def main():
             query_seconds = time.perf_counter() - t
             hit = []
             recalls = []
-            for q, scores in zip(queries, qs @ embeddings.T):
+            for q, scores in zip(queries, qs @ embeddings.T, strict=False):
                 retrieved = [common[i] for i in np.argsort(-scores)[:5]]
                 covered = [
                     any(

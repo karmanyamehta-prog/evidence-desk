@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from pydantic import BaseModel, Field, field_validator
 
 

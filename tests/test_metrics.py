@@ -1,8 +1,9 @@
 import pytest
+
 from grounded_qa.evaluation.metrics import (
-    precision_at_k,
-    faithfulness,
     evidence_coverage,
+    faithfulness,
+    precision_at_k,
 )
 
 

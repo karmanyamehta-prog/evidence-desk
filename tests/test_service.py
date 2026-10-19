@@ -1,5 +1,5 @@
 from grounded_qa.config import Settings
-from grounded_qa.models import Draft, Claim, Evidence, Chunk, Hit
+from grounded_qa.models import Chunk, Claim, Draft, Evidence, Hit
 from grounded_qa.service import Service
 
 

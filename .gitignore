@@ -6,3 +6,6 @@ __pycache__/
 data/
 .cache/
 *.log
+.coverage
+.ruff_cache/
+htmlcov/

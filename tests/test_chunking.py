@@ -1,7 +1,9 @@
 import re
+
 import pytest
+
 from grounded_qa.ingestion.chunking import chunk_pages
-from grounded_qa.ingestion.pdf import read_pdf, PDFError
+from grounded_qa.ingestion.pdf import PDFError, read_pdf
 
 
 class Tokenizer:
@@ -53,6 +55,7 @@ def test_repeated_text_offsets():
 def test_table_crop_preserves_full_width_prose(tmp_path, monkeypatch, bottom):
     """Mixed table/prose pages must not lose the left half of following prose."""
     from types import SimpleNamespace
+
     import grounded_qa.ingestion.pdf as module
 
     class Page:
