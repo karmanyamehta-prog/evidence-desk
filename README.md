@@ -10,9 +10,18 @@ A single-user RAG application for answering questions about AI governance docume
 
 Teams that use AI guidance need to trace a proposed interpretation back to its source text. A fluent answer can still be wrong, so the app shows the exact passage and PDF page behind every claim and refuses to show an answer whose quotes cannot be found in the retrieved text.
 
-The reproducible benchmark uses **NIST AI RMF 1.0, NIST AI 100-1 (January 2023), 48 PDF pages**. The PDF is retrieved from the U.S. Government Publishing Office archive and checked against `corpus/manifest.json`. NIST's direct endpoints returned HTTP 403 in the build environment. The originally proposed Generative AI Profile extension was not indexed because its PDF bytes could not be retrieved reliably. No draft was silently substituted. This is a historical, single-document benchmark with cross-section questions, not a current-law assistant or a demonstrated multi-document benchmark.
+The reproducible corpus is **two NIST documents**, each verified against its own SHA-256 in `corpus/manifest.json`:
 
-The report contains prose and two-column governance tables. Visual inspection showed that generic extraction interleaved category descriptions with numbered actions. A **hash-scoped parser rule** isolates the action/subcategory column for this exact PDF. Other uploads use ordinary text extraction. Category-column descriptions and diagram interpretation are outside this benchmark's extraction coverage.
+| Document | Publication | Pages | Source |
+|---|---|---:|---|
+| NIST AI RMF 1.0 | NIST AI 100-1 (2023-01) | 48 | U.S. Government Publishing Office archive |
+| AI RMF: Generative AI Profile | NIST AI 600-1 (2024-07) | 64 | `nvlpubs.nist.gov` |
+
+Both are fetched and ingested by one command (`python -m grounded_qa.cli fetch` / `ingest`) into a single vector store (320 chunks). The Generative AI Profile was previously listed as "not indexed because its PDF bytes could not be retrieved reliably"; that is now resolved — the PDF is retrieved and checksum-verified.
+
+The RMF report contains prose and two-column governance tables. Visual inspection showed that generic extraction interleaved category descriptions with numbered actions. A **hash-scoped parser rule** isolates the action/subcategory column for that exact PDF. Other documents, including the Generative AI Profile, use ordinary text extraction. Category-column descriptions and diagram interpretation are outside this benchmark's extraction coverage.
+
+Two action-ID schemes are recognised: the RMF's `GOVERN 1.6` and the Generative AI Profile's `A.1.1`. Both are prepended to the **embedding text only** — the stored chunk text stays the verbatim source passage, so quotes and page offsets are unaffected.
 
 ## Architecture
 
@@ -23,19 +32,38 @@ flowchart TD
     I --> C[Page and action chunks]
     C --> E[CPU embeddings]
     E --> V[Local Chroma]
-    A --> R[Semantic retrieval]
+    A --> R[Hybrid retrieval]
     R --> V
+    R --> B[BM25 keyword index]
     R --> G[Ollama generation]
-    G --> Q[Citation validation]
+    G --> Q[Per-claim citation validation]
     Q --> U
 ```
+
+## Retrieval
+
+Cosine similarity over E5-small-v2 vectors, fused with a BM25 keyword index by
+**reciprocal rank fusion** (k=60). The two rankings fail differently — cosine
+misses an exact action ID whose wording differs from the question, BM25 misses
+paraphrase — so fusing them is more robust than either alone. The BM25 index
+is rebuilt in memory from the stored chunk texts at query time, so there is no
+second persistence layer to keep in sync. If `rank-bm25` is not installed, the
+service logs a warning and uses cosine only.
+
+`MIN_RETRIEVAL_DISTANCE` drops hits whose cosine distance is at or beyond a
+cutoff. The default is `0.0`, which disables the filter: a cutoff is only
+worth setting once it has been measured on a labelled set, and the earlier
+observation that a cutoff near 0.16 separates answerable from unanswerable
+questions rested on four unanswerable questions. A keyword-only hit gets its
+**true** cosine distance computed from the stored vectors, so the threshold
+means the same thing for every hit.
 
 | Module | Responsibility |
 |---|---|
 | `ingestion/` | PDF validation, page text preservation, bounded token chunks, stable IDs |
-| `retrieval/` | E5 prefixes, token-limit enforcement, persistent cosine search and filters |
+| `retrieval/` | E5 prefixes, token-limit enforcement, persistent cosine search, BM25 keyword index and RRF fusion |
 | `generation/` | Local Ollama and explicit optional API adapters |
-| `citations.py` | Reject unknown source IDs, missing citations and fabricated quotations |
+| `citations.py` | Reject unknown source IDs, missing citations and fabricated quotations; drop only the failing claim |
 | `api/` | Upload, query, health and PDF-serving endpoints |
 | `ui/` | Upload and chat interface, references and PDF page links |
 | `evaluation/` | Frozen questions, metrics, experiment runners and reviewed reports |
@@ -89,6 +117,8 @@ Start the UI in a second terminal:
 
 Visit [the UI](http://localhost:8501) and [API documentation](http://localhost:8000/docs). Try “What does GOVERN 1.6 say about inventorying AI systems?” First model loading can be slow. Uploaded PDFs must have a text layer; empty, encrypted, malformed or oversized PDFs return clear errors.
 
+`fetch` downloads every document in `corpus/manifest.json` and verifies each against its recorded SHA-256; `ingest` indexes them all. Both are idempotent: an already-verified file is not re-downloaded, and an already-indexed document is not re-chunked.
+
 On Linux, use `python3.12 -m venv .venv`, `.venv/bin/python`, and `cp .env.example .env`; the remaining commands are equivalent. Start Ollama with `ollama serve` if it is not already running.
 
 Runtime dependencies are pinned in `requirements.txt`; tests, lint and the report generator need `requirements-dev.txt`. `requirements-linux.lock.txt` records the complete tested Linux environment; do not blindly use its Linux-specific wheels on Windows. Native Windows and Docker builds have not been executed in this Linux workspace. The installed Linux dependency set passes `pip check`.
@@ -110,17 +140,21 @@ Optional paid providers are **explicit opt-ins**, never automatic fallbacks. Set
 
 ## Citation contract
 
-1. Retrieved chunks get temporary `S1`, `S2`, etc. IDs.
+1. Retrieved chunks get temporary `S1`, `S2`, etc. IDs. They are packed into the context budget **closest-match first**, so the best match is never crowded out by a weaker one.
 2. The generator emits structured claims and exact supporting quotations.
-3. The backend resolves titles and pages from ingestion metadata and rejects IDs outside the provided evidence. A quote must be 5-70 words and occur in the cited chunk after folding curly quotes, dashes, Unicode forms and line-break hyphens. Any section identifier named in a claim (for example `MANAGE 2.5`) must also appear in its quote.
-4. Invalid output is retried once (the retry prompt includes the validation error). Persistent invalid output is **rejected**: no answer is shown. The response carries `status` (`answered`, `abstained` when the model itself returned no claims, `rejected`, or `error`) and an `attempts` log with raw model output.
-5. The UI shows the evidence and links to the **1-based PDF page**, not an assumed printed page label. Detected section headings are labeled heuristic.
+3. The backend resolves titles and pages from ingestion metadata and rejects IDs outside the provided evidence. A quote must be 5-70 words and occur in the cited chunk after folding curly quotes, dashes, Unicode forms and line-break hyphens. Any section identifier named in a claim (for example `MANAGE 2.5` or `A.1.1`) must also appear in its quote.
+4. **Validation is per claim, not per answer.** A claim that fails provenance is dropped and the rest of the answer is kept; the dropped claim is recorded in the `attempts` log. One bad citation no longer discards a good answer.
+5. If *every* claim fails, the output is retried once (the retry prompt includes the validation error). If it still fails, the answer is **rejected**: no answer is shown.
+6. The response carries `status`: `answered` (at least one valid claim), `abstained` (the model itself returned no claims), `rejected` (no valid claim survived validation), or `error`. An `attempts` log holds the raw model output and the validation error for each try.
+7. The UI shows the evidence and links to the **1-based PDF page**, not an assumed printed page label. Detected section headings are labeled heuristic.
 
 A matching quotation **does not prove entailment**. It can be irrelevant, incomplete, or misinterpreted. The evaluator separately reviews claim support. Documents are treated as untrusted text rather than instructions; prompt injection is reduced, not solved.
 
 ## Evaluation
 
 The set contains 24 source-checked questions: 8 facts, 6 action lookups, 4 synthesis questions, 4 unanswerables and 2 misleading-premise questions. Gold evidence contains document hashes, exact page offsets and excerpts. There are 8 development and 16 test assignments. Because prompt sizing and exploratory inspection occurred during this build, this is **an exploratory benchmark, not a sealed held-out estimate**. Preserve a new untouched test set for future tuning claims.
+
+A second set, `evaluation/queries-crossdoc.json`, adds 11 questions over the two-document corpus: 5 single-document, 3 cross-document and 3 unanswerable. Its gold spans are **derived from the extracted text** by `tools/build_crossdoc_queries.py` rather than typed by hand, so a parser change that moves the text is caught instead of silently invalidating the labels. Run `python tools/build_crossdoc_queries.py --check` to re-verify every span.
 
 - **Precision@5:** assistant-judged relevant retrieved chunks divided by five, counting missing slots as non-relevant. Same-page coincidence does not count.
 - **Faithfulness:** supported emitted statements divided by emitted factual statements. Every part of a compound statement must be supported; partial support is labeled unsupported. Abstentions and outputs containing only headings are N/A; non-factual fragments do not inflate this score.
@@ -133,6 +167,16 @@ These are custom RAGAS-style metrics, **not official RAGAS scores**. Labels are 
 See [the full results table](evaluation/results/RESULTS.md), [raw runs](evaluation/runs/), [review labels](evaluation/review.json), [embedding ablation](evaluation/ablation.json) and [chunk ablation](evaluation/chunk-ablation.json).
 
 Measured profile: **Qwen2.5 1.5B Q4_K_M**, 24 queries, one CPU pass, **recorded before the validator was tightened** (see `CHANGES.md`). Replaying the recorded answers through the new validator rejects the three answers with a wrong section ID (q13, q14, q16) and leaves the other recorded answers unchanged; a fresh run is still needed. These are not results for the default 3B model or the target laptop.
+
+### The 3B model abstains when the answer is buried in a chunk
+
+Measured on the target laptop with `qwen2.5:3b-instruct-q4_K_M` running for real. This is the dominant failure mode and it is **not** a retrieval failure.
+
+For q01 ("Is AI RMF 1.0 voluntary or mandatory?") the gold text is retrieved and is present in the prompt — but it sits 1296 characters into a 1628-character chunk. The same model, given that same chunk with the answer at the start, answers correctly; given the chunk unchanged, it abstains. Retrieval Hit@5 for this question is 1.0. The evidence was there and the model would not use it.
+
+This is a "lost in the middle" failure at 3B scale: a small model attends poorly to text buried inside a long context window, and reads that as "the evidence does not answer this", which it then reports as `{"claims": []}`. It is why the abstention rate is high, and it is not what the 1.5B run measured. `tools/probe_chunk_size.py` measures the answer rate against chunk size on the same questions; the results are recorded in `CHANGES.md`.
+
+The practical consequence for a portfolio claim: **on this corpus, the retrieval layer and the generation layer have separate failure modes, and improving one does not improve the other.** Retrieval Hit@5 was already 0.95 on the 1.5B run, so retrieval was not the bottleneck.
 
 | Metric | Measured value | Denominator / interpretation |
 |---|---:|---|
@@ -175,6 +219,10 @@ The report command accepts `--run` and `--labels`. New outputs require fresh sem
 | Chroma over FAISS | Built-in text/metadata storage, filtering and upserts reduce application bookkeeping for uploads. FAISS flat search remains a strong simpler search-engine baseline, but needs a companion metadata store. |
 | Explicit pipeline over an agent | Predictable retrieval, bounded costs, testable failures. LangChain supplies the splitter; it does not hide orchestration or citations. |
 | Strict citation schema | Rejects broken attribution, but raises false abstentions with small models. The failure is visible rather than silently repaired into a confident answer. |
+| Per-claim filtering | A single bad citation discards a good answer. Validating each claim separately keeps the answer and records the failure, so the failure rate is still visible in the `attempts` log. |
+| Hybrid retrieval (BM25 + RRF) | Cosine and keyword search fail on different questions. Fusing them is cheap here (320 chunks, index rebuilt per query) and makes an exact action ID findable even when the wording differs from the question. |
+| Distance threshold off by default | A cutoff that separates answerable from unanswerable questions on four unanswerable questions is not a threshold. The knob exists and is measured; the default stays disabled until it is set from a labelled set. |
+| Two documents, one store | Multi-document is a real requirement for this domain, and one vector store with a `document_id` filter is simpler than two. The second document also proves the parser is not hard-wired to one PDF. |
 
 ## Docker and prepared hosting
 
@@ -195,13 +243,15 @@ Named volumes preserve models and documents. The published local ports bind to l
 
 ## Validation and limitations
 
-- 37 tests pass on Linux, Python 3.12, including an offline end-to-end test (real PDF parsing, chunking, Chroma and HTTP layer; the embedding model and LLM are replaced by a hashed embedder and a scripted generator). No test runs real E5 or Ollama; an earlier E5 smoke check was reported during the first build but is not reproducible from this repository.
-- Linux dependencies installed successfully and `pip check` passed. Native Windows, Docker runtime, browser layout and public hosting are not certified by these tests.
-- One small historical report; generic uploads do not inherit its specialized table parser. No OCR, reliable diagram understanding, exhaustive table extraction or multi-document benchmark.
+- 241 unit tests pass (Windows 11, Python 3.12), including an offline end-to-end test (real PDF parsing, chunking, Chroma and HTTP layer; the embedding model and LLM are replaced by a hashed embedder and a scripted generator). No test runs real E5 or Ollama. `ruff` and `mypy` are clean.
+- The corpus, the 3B model and the retrieval layer were exercised on the target laptop for real. The **evaluation numbers below are not** from that machine's 3B model.
+- Linux dependencies installed successfully and `pip check` passed. Docker runtime, browser layout and public hosting are not certified by these tests.
+- Two documents are indexed, but the **published evaluation set is still single-document**: the cross-document set exists and its gold spans are verified, but no reviewed labels exist for it yet.
+- The RMF report has a specialized table parser; other documents do not inherit it. No OCR, reliable diagram understanding or exhaustive table extraction.
 - Page-bound chunking can lose context across pages. Similarity is not calibrated confidence. Character-based generation context budgeting is a heuristic; unusual text can tokenize differently.
-- Smaller models can produce unsupported statements, invalid JSON, incorrect interpretations despite valid source IDs.
+- Smaller models can produce unsupported statements, invalid JSON, incorrect interpretations despite valid source IDs, and — as measured here — abstain when the answer is buried inside a retrieved chunk.
 - The API rejects unexpected `Host` headers and cross-origin browser POSTs (`ALLOWED_HOSTS`), which blocks DNS rebinding and cross-site uploads to a local server. It has no authentication and must stay on loopback.
-- No authentication, production monitoring, durable hosted storage, multi-user isolation, upload malware scanning, reranker or hybrid keyword search. Bind locally; prepared public demo disables uploads.
+- No authentication, production monitoring, durable hosted storage, multi-user isolation, upload malware scanning or reranker. Bind locally; prepared public demo disables uploads.
 - Current benchmark has a small sample, assistant-authored questions and judgments, no independent evaluator and only one timing pass. Do not market the numbers as production reliability.
 
 ## Sources and provenance

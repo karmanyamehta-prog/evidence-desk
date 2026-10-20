@@ -88,8 +88,22 @@ def filter_claims(draft: Any, sources: dict[str, Any]) -> tuple[list[Any], list[
 
 
 def sources_from_hits(hits: list[Any], max_chars: int = 9000) -> dict[str, Any]:
-    sources, used = {}, 0
-    for hit in hits:
+    """Pack retrieved chunks into a context budget, best match first.
+
+    Whole chunks only: a quote is never truncated silently. A chunk that does
+    not fit is skipped, but a lower-ranked chunk that does fit is still used.
+
+    The hits are re-sorted by distance before packing. The caller's order is
+    the fused retrieval order, which is not distance order, so packing in the
+    incoming order can spend the whole budget on weaker matches and drop the
+    best one. Sorting first keeps the strongest evidence in the prompt.
+    """
+    if not hits:
+        return {}
+    ranked = sorted(hits, key=lambda h: h.distance)
+    used = 0
+    sources: dict[str, Any] = {}
+    for hit in ranked:
         text = hit.chunk.text
         if used + len(text) > max_chars:
             continue  # Whole chunks only: never truncate a quote silently.

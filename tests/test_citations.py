@@ -42,6 +42,34 @@ def test_context_budget_keeps_whole_chunks():
     assert list(s) == ["S1"] and s["S1"]["text"] == "x" * 20
 
 
+def test_context_budget_prefers_the_closest_chunk():
+    """The best match must not be crowded out by weaker ones.
+
+    The hits arrive in fused retrieval order, which is not distance order. If
+    the budget is spent in the incoming order, a long but weak chunk can push
+    the closest chunk out of the prompt entirely.
+    """
+    weak = Hit(Chunk("weak", "w" * 20, {}), 0.4)
+    strong = Hit(Chunk("strong", "s" * 20, {}), 0.05)
+    # Weak comes first and, in a naive packer, would consume the budget.
+    s = sources_from_hits([weak, strong], 25)
+    assert s["S1"]["chunk_id"] == "strong"
+
+
+def test_context_budget_orders_sources_by_distance():
+    hits = [
+        Hit(Chunk("c", "c" * 10, {}), 0.3),
+        Hit(Chunk("a", "a" * 10, {}), 0.1),
+        Hit(Chunk("b", "b" * 10, {}), 0.2),
+    ]
+    s = sources_from_hits(hits, 100)
+    assert [s[key]["chunk_id"] for key in s] == ["a", "b", "c"]
+
+
+def test_context_budget_handles_no_hits():
+    assert sources_from_hits([], 100) == {}
+
+
 def test_typographic_variants_still_match():
     src = {
         "S1": {
