@@ -29,7 +29,7 @@ def normalize(text: str) -> str:
 def read_pdf(path: Path, max_pages: int = 200) -> list[dict]:
     if path.read_bytes()[:5] != b"%PDF-":
         raise PDFError("Upload is not a PDF")
-    pages = []
+    pages: list[dict] = []
     is_benchmark_pdf = document_id(path) == BENCHMARK_PDF_SHA256
     try:
         with pdfplumber.open(path) as pdf:

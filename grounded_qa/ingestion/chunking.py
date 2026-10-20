@@ -51,7 +51,7 @@ def chunk_pages(
             text,
             flags=re.M,
         )
-        parts = []
+        parts: list[tuple[str, str]] = []
         for section in sections:
             action = re.match(
                 r"(?:GOVERN|MAP|MEASURE|MANAGE)\s*\d+\.\d+|[A-Z]\.\d+\.\d+",

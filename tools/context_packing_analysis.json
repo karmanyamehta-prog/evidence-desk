@@ -1,0 +1,904 @@
+{
+  "rows": [
+    {
+      "id": "q01",
+      "chunk_lengths": [
+        1706,
+        914,
+        1628,
+        1739,
+        1666
+      ],
+      "distances": [
+        0.116206,
+        0.119268,
+        0.121012,
+        0.126447,
+        0.131495
+      ],
+      "gold_chunk_rank": 3,
+      "greedy_chunks": [
+        0,
+        1,
+        2
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2
+      ],
+      "greedy_chars": 4248,
+      "knapsack_chars": 4248,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 2.643514,
+      "best_with_gold_total_similarity": 2.643514,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q02",
+      "chunk_lengths": [
+        1280,
+        1735,
+        89,
+        118,
+        1706
+      ],
+      "distances": [
+        0.081756,
+        0.112421,
+        0.114322,
+        0.117703,
+        0.122788
+      ],
+      "gold_chunk_rank": 2,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "greedy_chars": 3222,
+      "knapsack_chars": 3222,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 3.573798,
+      "best_with_gold_total_similarity": 3.573798,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q03",
+      "chunk_lengths": [
+        1782,
+        132,
+        457,
+        1071,
+        1627
+      ],
+      "distances": [
+        0.099372,
+        0.120261,
+        0.120604,
+        0.124933,
+        0.127078
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "greedy_chars": 3442,
+      "knapsack_chars": 3442,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 3.53483,
+      "best_with_gold_total_similarity": 3.53483,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q04",
+      "chunk_lengths": [
+        1839,
+        1448,
+        1845,
+        914,
+        1088
+      ],
+      "distances": [
+        0.12342,
+        0.138732,
+        0.149157,
+        0.153496,
+        0.157171
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        3
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        3
+      ],
+      "greedy_chars": 4201,
+      "knapsack_chars": 4201,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 2.584353,
+      "best_with_gold_total_similarity": 2.584353,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        3
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q05",
+      "chunk_lengths": [
+        791,
+        25,
+        1794,
+        457,
+        281
+      ],
+      "distances": [
+        0.114725,
+        0.139009,
+        0.143674,
+        0.152551,
+        0.156893
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "greedy_chars": 3348,
+      "knapsack_chars": 3348,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 4.293149,
+      "best_with_gold_total_similarity": 4.293149,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q06",
+      "chunk_lengths": [
+        1576,
+        914,
+        1528,
+        1735,
+        791
+      ],
+      "distances": [
+        0.161519,
+        0.161695,
+        0.16252,
+        0.164071,
+        0.164256
+      ],
+      "gold_chunk_rank": 5,
+      "greedy_chunks": [
+        0,
+        1,
+        2
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2
+      ],
+      "greedy_chars": 4018,
+      "knapsack_chars": 4018,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": false,
+      "knapsack_gold_in_prompt": false,
+      "greedy_total_similarity": 2.514266,
+      "best_with_gold_total_similarity": 2.51253,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.001735
+    },
+    {
+      "id": "q07",
+      "chunk_lengths": [
+        1330,
+        807,
+        1351,
+        1782,
+        1739
+      ],
+      "distances": [
+        0.114248,
+        0.142809,
+        0.150262,
+        0.15483,
+        0.155724
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2
+      ],
+      "greedy_chars": 3488,
+      "knapsack_chars": 3488,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 2.592681,
+      "best_with_gold_total_similarity": 2.592681,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q08",
+      "chunk_lengths": [
+        1351,
+        229,
+        1071,
+        1784,
+        1099
+      ],
+      "distances": [
+        0.126707,
+        0.130657,
+        0.131106,
+        0.133457,
+        0.135116
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "greedy_chars": 4435,
+      "knapsack_chars": 4435,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 3.478074,
+      "best_with_gold_total_similarity": 3.478074,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q09",
+      "chunk_lengths": [
+        122,
+        229,
+        198,
+        196,
+        269
+      ],
+      "distances": [
+        0.076985,
+        0.121094,
+        0.124878,
+        0.131599,
+        0.137472
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "greedy_chars": 1014,
+      "knapsack_chars": 1014,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 4.407972,
+      "best_with_gold_total_similarity": 4.407972,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q10",
+      "chunk_lengths": [
+        153,
+        160,
+        211,
+        201,
+        115
+      ],
+      "distances": [
+        0.107478,
+        0.14732,
+        0.148618,
+        0.149171,
+        0.159869
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "greedy_chars": 840,
+      "knapsack_chars": 840,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 4.287544,
+      "best_with_gold_total_similarity": 4.287544,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q11",
+      "chunk_lengths": [
+        109,
+        166,
+        133,
+        114,
+        111
+      ],
+      "distances": [
+        0.08601,
+        0.132919,
+        0.137611,
+        0.153618,
+        0.154485
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "greedy_chars": 633,
+      "knapsack_chars": 633,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 4.335358,
+      "best_with_gold_total_similarity": 4.335358,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q12",
+      "chunk_lengths": [
+        93,
+        124,
+        267,
+        166,
+        109
+      ],
+      "distances": [
+        0.086279,
+        0.119562,
+        0.142579,
+        0.148999,
+        0.15079
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "greedy_chars": 759,
+      "knapsack_chars": 759,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 4.35179,
+      "best_with_gold_total_similarity": 4.35179,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q13",
+      "chunk_lengths": [
+        221,
+        92,
+        184,
+        151,
+        115
+      ],
+      "distances": [
+        0.111144,
+        0.142018,
+        0.146766,
+        0.149496,
+        0.152523
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "greedy_chars": 763,
+      "knapsack_chars": 763,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 4.298053,
+      "best_with_gold_total_similarity": 4.298053,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q14",
+      "chunk_lengths": [
+        164,
+        131,
+        92,
+        218,
+        115
+      ],
+      "distances": [
+        0.075114,
+        0.145423,
+        0.152852,
+        0.153378,
+        0.154483
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "greedy_chars": 720,
+      "knapsack_chars": 720,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 4.318749,
+      "best_with_gold_total_similarity": 4.318749,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q15",
+      "chunk_lengths": [
+        1132,
+        728,
+        36,
+        1785,
+        227
+      ],
+      "distances": [
+        0.108169,
+        0.113334,
+        0.158955,
+        0.172657,
+        0.1813
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "greedy_chars": 3908,
+      "knapsack_chars": 3908,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 4.265585,
+      "best_with_gold_total_similarity": 4.265585,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q16",
+      "chunk_lengths": [
+        229,
+        269,
+        70,
+        165,
+        99
+      ],
+      "distances": [
+        0.133097,
+        0.159174,
+        0.160677,
+        0.163839,
+        0.16439
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "greedy_chars": 832,
+      "knapsack_chars": 832,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 4.218823,
+      "best_with_gold_total_similarity": 4.218823,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q17",
+      "chunk_lengths": [
+        70,
+        227,
+        2003,
+        229,
+        1448
+      ],
+      "distances": [
+        0.064172,
+        0.142513,
+        0.148237,
+        0.14857,
+        0.148713
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "greedy_chars": 3977,
+      "knapsack_chars": 3977,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 4.347794,
+      "best_with_gold_total_similarity": 4.347794,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q18",
+      "chunk_lengths": [
+        1099,
+        34,
+        133,
+        1785,
+        1794
+      ],
+      "distances": [
+        0.116377,
+        0.130146,
+        0.141437,
+        0.145111,
+        0.150322
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "greedy_chars": 3051,
+      "knapsack_chars": 3051,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 3.46693,
+      "best_with_gold_total_similarity": 3.46693,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    },
+    {
+      "id": "q23",
+      "chunk_lengths": [
+        914,
+        1706,
+        1576,
+        1088,
+        300
+      ],
+      "distances": [
+        0.106352,
+        0.117141,
+        0.125093,
+        0.128543,
+        0.12998
+      ],
+      "gold_chunk_rank": null,
+      "greedy_chunks": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "greedy_chars": 4496,
+      "knapsack_chars": 4496,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": false,
+      "knapsack_gold_in_prompt": false,
+      "greedy_total_similarity": 3.521434,
+      "best_with_gold_total_similarity": null,
+      "best_with_gold_chunks": null,
+      "similarity_given_up_to_include_gold": null
+    },
+    {
+      "id": "q24",
+      "chunk_lengths": [
+        1330,
+        1739,
+        1706,
+        114,
+        1448
+      ],
+      "distances": [
+        0.111128,
+        0.130825,
+        0.137017,
+        0.137116,
+        0.138645
+      ],
+      "gold_chunk_rank": 1,
+      "greedy_chunks": [
+        0,
+        1,
+        3
+      ],
+      "knapsack_chunks": [
+        0,
+        1,
+        3
+      ],
+      "greedy_chars": 3183,
+      "knapsack_chars": 3183,
+      "packing_differs": false,
+      "greedy_gold_in_prompt": true,
+      "knapsack_gold_in_prompt": true,
+      "greedy_total_similarity": 2.62093,
+      "best_with_gold_total_similarity": 2.62093,
+      "best_with_gold_chunks": [
+        0,
+        1,
+        3
+      ],
+      "similarity_given_up_to_include_gold": 0.0
+    }
+  ],
+  "summary": {
+    "questions": 20,
+    "packings_that_differ": [],
+    "gold_in_prompt_under_greedy": 18,
+    "gold_in_prompt_under_knapsack": 18,
+    "questions_where_the_knapsack_gains_the_gold_span": [],
+    "questions_where_the_knapsack_loses_the_gold_span": [],
+    "mean_chunks_greedy": 4.25,
+    "mean_chunks_knapsack": 4.25
+  }
+}

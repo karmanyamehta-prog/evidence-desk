@@ -186,7 +186,38 @@ The counter-example that settles it: **q11's gold span is a whole chunk that beg
 
 **The decisive measurement: the answer is in the prompt and the model still abstains.** For every row of the 3B run, `tools/check_gold_in_prompt.py` searches the gold quote for in the text actually sent to the model. For **7 of the 20 answerable questions — q03, q04, q07, q11, q12, q13 and q16 — the gold text was present in the prompt in all 3 repeats and the model still abstained.** The raw output is `{"claims": []}`, a model-initiated abstention, not a validation rejection.
 
-The only 2 answerable questions whose gold text was *missing* from the prompt are the two misleading-premise questions (q06, q23), where refusing the false premise is correct behaviour. So the false abstentions are neither a retrieval failure nor a context-budget failure: the evidence reaches the model and the model declines to use it.
+The 2 answerable questions whose gold text was *missing* from the prompt are q06 and q23, and they are missing for **two different reasons**, which the earlier version of this README got wrong by calling both of them misleading-premise questions:
+
+| Question | Category | Why its gold text never reached the prompt | Is the abstention correct? |
+|---|---|---|---|
+| q23 | `misleading` | Retrieval miss — the gold chunk was not in the top 5 at all. | Yes. The question's premise ("AI RMF 1.0 is mandatory") is false and the evidence says so; refusing is the right answer. |
+| q06 | `fact` | **Context-budget drop** — the gold chunk *was* ranked 5th of 5 and its text was 791 characters, but three earlier chunks (1576 + 914 + 1528) had already used 4018 of the 4500-character budget, leaving 482 — not enough for it. | No. The question is a plain definition ("What is reliability as described in the Framework?"), and the model abstained for lack of evidence it never received. |
+
+So the false abstentions are neither a retrieval failure nor a context-budget failure *for those 7 questions* — the evidence reaches the model and the model declines to use it. q06 is a different kind of failure, and the first explanation for it turned out to be wrong. The natural reading — "a long, weakly-matching chunk crowded out a short, relevant one" — does not survive checking: q06's five candidate chunks have cosine distances 0.1615, 0.1617, 0.1625, 0.1641 and 0.1643, so the gold chunk at rank 5 is 0.0028 further away than the rank-1 chunk. That is a tie, not a weak match. `tools/analyze_context_packing.py` confirms the packer is not at fault either: a knapsack that maximises total retrieval similarity subject to the budget produces the **same packing for all 20 questions**. The accurate description is that q06's retrieval ranking carries no signal — all five candidates are about equally far away — and rank 5 is the last seat in a 4500-character budget. That is a retrieval-quality problem, not a context-assembly bug, and the packer is left unchanged.
+
+One consequence is worth naming: **q06 is a budget-boundary case.** A budget of 4809 characters instead of 4500 admits a packing that includes the gold chunk, and including it costs 0.0017 of total similarity. That is a one-setting change (`CONTEXT_CHARS`), and it has deliberately **not** been applied — one question's worth of evidence is not a measurement, and the setting would change every published number. It is recorded as a candidate to evaluate, not as a fix.
+
+**The distractor hypothesis was tested, and it did not survive.** The hypothesis was that the irrelevant passages crowding the context are what makes the model give up. `tools/probe_context_noise_controlled.py` tests it directly: within one session, with the service's exact request options, three rounds each, it alternates the full retrieved context against the gold chunk alone.
+
+| Analysis | Discordant | p (exact binomial, two-sided) |
+|---|---|---|
+| Round-level, all 19 questions | 4 retrieved-only vs 15 gold-only-only | 0.019 |
+| Round-level, excluding the budget confound | 4 vs 12 | 0.077 |
+| Question-level, all 19 questions | 4 rescued vs 1 lost | 0.375 |
+| Question-level, excluding the budget confound | 3 rescued vs 1 lost | 0.625 |
+
+The p = 0.019 is the wrong number, and the reason is worth stating because it is a trap any A/B prompt experiment can fall into. One of the differing questions (q06) **did not have the gold text in the retrieved prompt at all** — the budget dropped it. So that question was not "gold plus distractors" against "gold alone"; it was "gold present" against "gold absent", and it was counted in the direction that flattered the hypothesis. Separately, the round-level test treats the three repeats of a question as three independent observations; they are one question asked three times. At the level the design actually samples, the effect is 3 questions rescued against 1 lost — not distinguishable from noise, and not even one-directional, since q01 goes the other way. **No change was made to the context budget or `top_k` on the strength of a hypothesis that failed its own test.**
+
+**But the answers the distractors suppress are mostly grounded, not wrong.** `tools/probe_context_noise_claims.py` re-runs the same design and captures the actual claims, so each one can be checked mechanically against the evidence that was supplied:
+
+| Condition | Answer rate | Quotes grounded | All required facts recalled | Grounded **and** complete |
+|---|---|---|---|---|
+| Full retrieved context | 0.579 (33/57) | 25/33 = 0.76 | 12/33 = 0.36 | 7/33 = **0.21** |
+| Gold chunk alone | 0.772 (44/57) | 38/44 = 0.86 | 11/44 = 0.25 | 11/44 = **0.25** |
+
+So the distractors are not making the model produce wrong answers — they are suppressing answers that are well-grounded (0.76 → 0.86) and often usable (7 → 11 fully-usable answers per 57 calls). But the answers that recall *every* required fact do not improve (12 versus 11), so the extra answers are mostly good partial answers rather than complete ones. And 16 of the 50 required fact strings are paraphrases rather than literal substrings of their own gold quote, so the fact-recall column is a lower bound; the grounding column has no such caveat, because it uses the service's own folding rule against the evidence actually supplied.
+
+**The honest summary is that the distractors are a plausible but unproven contributor** — 3 questions out of 18, with a mechanism that is mild and not one-directional. The interesting next step is a larger, pre-registered question set with the gold-presence check built into the design, so the A/B comparison is actually powered for the effect it is trying to detect.
 
 **No chunk size has been changed as a result of this.** The default stays at 350 tokens.
 
@@ -274,7 +305,7 @@ Named volumes preserve models and documents. The published local ports bind to l
 
 ## Validation and limitations
 
-- 252 unit tests pass (Windows 11, Python 3.12), including an offline end-to-end test (real PDF parsing, chunking, Chroma and HTTP layer; the embedding model and LLM are replaced by a hashed embedder and a scripted generator). No test runs real E5 or Ollama. `ruff` and `mypy` are clean.
+- 288 unit tests pass (Windows 11, Python 3.12), including an offline end-to-end test (real PDF parsing, chunking, Chroma and HTTP layer; the embedding model and LLM are replaced by a hashed embedder and a scripted generator). No test runs real E5 or Ollama. `ruff` and `mypy` are clean.
 - The corpus, the 3B model and the retrieval layer were exercised on the target laptop for real. The **evaluation numbers below are not** from that machine's 3B model.
 - Linux dependencies installed successfully and `pip check` passed. Docker runtime, browser layout and public hosting are not certified by these tests.
 - Two documents are indexed, but the **published evaluation set is still single-document**: the cross-document set exists and its gold spans are verified, but no reviewed labels exist for it yet.

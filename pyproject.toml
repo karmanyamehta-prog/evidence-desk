@@ -13,6 +13,12 @@ dependencies = {file = ["requirements.txt"]}
 include = ["grounded_qa*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+[tool.mypy]
+# The pydantic plugin teaches mypy that a model with defaulted fields can be
+# constructed with no arguments. Without it, mypy reports every defaulted
+# field as a missing required argument and the typecheck job fails on code
+# that is correct.
+plugins = ["pydantic.mypy"]
 [tool.ruff]
 line-length = 88
 target-version = "py312"

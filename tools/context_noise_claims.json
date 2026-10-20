@@ -1,0 +1,1935 @@
+{
+  "rows": [
+    {
+      "id": "q01",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 1,
+            "claim_texts": [
+              "The AI RMF strives to be risk-based, resource-efficient, pro-innovation, and voluntary.",
+              "The AI RMF is intended to be voluntary, rights-preserving, non-sector-specific, and use-case agnostic."
+            ]
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 1,
+            "claim_texts": []
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 1,
+            "claim_texts": [
+              "The AI RMF strives to be risk-based, resource-efficient, pro-innovation, and voluntary.",
+              "The AI RMF is intended to be voluntary, rights-preserving, non-sector-specific, and use-case agnostic."
+            ]
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 1,
+            "claim_texts": []
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 1,
+            "claim_texts": [
+              "The AI RMF strives to be risk-based, resource-efficient, pro-innovation, and voluntary.",
+              "The AI RMF is intended to be voluntary, rights-preserving, non-sector-specific, and use-case agnostic."
+            ]
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 1,
+            "claim_texts": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 4,
+            "n_facts_required": 4,
+            "claim_texts": [
+              "The AI RMF Core provides outcomes and actions that enable dialogue, understanding, and activities to manage AI risks and responsibly develop trustworthy AI systems.",
+              "The AI RMF Core is composed of four functions: GOVERN, MAP, MEASURE, and MANAGE."
+            ]
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 4,
+            "claim_texts": []
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 4,
+            "n_facts_required": 4,
+            "claim_texts": [
+              "The AI RMF Core provides outcomes and actions that enable dialogue, understanding, and activities to manage AI risks and responsibly develop trustworthy AI systems.",
+              "The AI RMF Core is composed of four functions: GOVERN, MAP, MEASURE, and MANAGE."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 4,
+            "n_facts_required": 4,
+            "claim_texts": [
+              "The four functions of the AI RMF Core are GOVERN, MAP, MEASURE, and MANAGE."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 4,
+            "n_facts_required": 4,
+            "claim_texts": [
+              "The AI RMF Core provides outcomes and actions that enable dialogue, understanding, and activities to manage AI risks and responsibly develop trustworthy AI systems.",
+              "The AI RMF Core is composed of four functions: GOVERN, MAP, MEASURE, and MANAGE."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 4,
+            "n_facts_required": 4,
+            "claim_texts": [
+              "The four functions of the AI RMF Core are GOVERN, MAP, MEASURE, and MANAGE."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 7,
+            "claim_texts": [
+              "valid and reliable",
+              "accountable and transparent"
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 7,
+            "claim_texts": [
+              "valid and reliable",
+              "accountable and transparent"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 7,
+            "claim_texts": [
+              "valid and reliable",
+              "accountable and transparent"
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 7,
+            "claim_texts": [
+              "valid and reliable",
+              "accountable and transparent"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 7,
+            "claim_texts": [
+              "valid and reliable",
+              "accountable and transparent"
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 7,
+            "claim_texts": [
+              "valid and reliable",
+              "accountable and transparent"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Validation is the confirmation, through the provision of objective evidence, that the requirements for a specific intended use or application have been fulfilled",
+              "Reliability is defined in the same standard as the ability of an item to perform as required, without failure, for a given time interval, under given conditions"
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Validation is the confirmation, through the provision of objective evidence, that the requirements for a specific intended use or application have been fulfilled",
+              "Reliability is defined in the same standard as the ability of an item to perform as required, without failure, for a given time interval, under given conditions"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Validation is the confirmation, through the provision of objective evidence, that the requirements for a specific intended use or application have been fulfilled",
+              "Reliability is defined in the same standard as the ability of an item to perform as required, without failure, for a given time interval, under given conditions"
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Validation is the confirmation, through the provision of objective evidence, that the requirements for a specific intended use or application have been fulfilled",
+              "Reliability is defined in the same standard as the ability of an item to perform as required, without failure, for a given time interval, under given conditions"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Validation is the confirmation, through the provision of objective evidence, that the requirements for a specific intended use or application have been fulfilled",
+              "Reliability is defined in the same standard as the ability of an item to perform as required, without failure, for a given time interval, under given conditions"
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Validation is the confirmation, through the provision of objective evidence, that the requirements for a specific intended use or application have been fulfilled",
+              "Reliability is defined in the same standard as the ability of an item to perform as required, without failure, for a given time interval, under given conditions"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 3,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              true,
+              false
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Reliability is the ability of an item to perform as required without failure for a given time interval under given conditions."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 3,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              true,
+              false
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Reliability is the ability of an item to perform as required without failure for a given time interval under given conditions.",
+              "Reliability is a goal for overall correctness of AI system operation under the conditions of expected use and over a given period of time."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 3,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              true,
+              false
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Reliability is the ability of an item to perform as required without failure for a given time interval under given conditions.",
+              "Reliability is a goal for overall correctness of AI system operation under the conditions of expected use and over a given period of time."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "AI systems can maintain confidentiality, integrity, and availability through protection mechanisms that prevent unauthorized access and use.",
+              "Privacy values such as anonymity, confidentiality, and control generally should guide choices for AI system design, development, and deployment."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "AI systems can maintain confidentiality, integrity, and availability through protection mechanisms.",
+              "Security includes resilience but also encompasses protocols to avoid attacks."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "AI systems can maintain confidentiality, integrity, and availability through protection mechanisms that prevent unauthorized access and use.",
+              "Privacy-enhancing technologies (PETs) for AI can support design for privacy-enhanced AI systems."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "AI systems can maintain confidentiality, integrity, and availability through protection mechanisms.",
+              "Security includes resilience but also encompasses protocols to avoid attacks."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "AI systems can maintain confidentiality, integrity, and availability through protection mechanisms that prevent unauthorized access and use.",
+              "Privacy-enhancing technologies (PETs) for AI can support design for privacy-enhanced AI systems."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "AI systems can maintain confidentiality, integrity, and availability through protection mechanisms.",
+              "Security includes resilience but also encompasses protocols to avoid attacks."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Privacy values such as anonymity, confidentiality, and control generally should guide choices for AI system design, development, and deployment.",
+              "Privacy-enhancing technologies (PETs) for AI, as well as data minimizing methods such as de-identification and aggregation for certain model outputs, can support design for privacy-enhanced AI systems."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Privacy values such as anonymity, confidentiality, and control generally should guide choices for AI system design, development, and deployment.",
+              "AI systems can also present new risks to privacy by allowing inference to identify individuals or previously private information about individuals."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Privacy values such as anonymity, confidentiality, and control generally should guide choices for AI system design, development, and deployment.",
+              "Privacy-enhancing technologies (PETs) for AI, as well as data minimizing methods such as de-identification and aggregation for certain model outputs, can support design for privacy-enhanced AI systems."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Privacy values such as anonymity, confidentiality, and control generally should guide choices for AI system design, development, and deployment.",
+              "AI systems can also present new risks to privacy by allowing inference to identify individuals or previously private information about individuals."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Privacy values such as anonymity, confidentiality, and control generally should guide choices for AI system design, development, and deployment.",
+              "Privacy-enhancing technologies (PETs) for AI, as well as data minimizing methods such as de-identification and aggregation for certain model outputs, can support design for privacy-enhanced AI systems."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              true
+            ],
+            "n_facts_recalled": 3,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Privacy values such as anonymity, confidentiality, and control generally should guide choices for AI system design, development, and deployment.",
+              "AI systems can also present new risks to privacy by allowing inference to identify individuals or previously private information about individuals."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "GOVERN 1.6 says that mechanisms are in place to inventory AI systems"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "GOVERN 1.6: Mechanisms are in place to inventory AI systems and are resourced according to organizational risk priorities."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "GOVERN 1.6 says about inventorying AI systems"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "GOVERN 1.6: Mechanisms are in place to inventory AI systems and are resourced according to organizational risk priorities."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "GOVERN 1.6 says about inventorying AI systems"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Executive leadership of the organization takes responsibility for decisions about risks associated with AI system development and deployment.",
+              "Roles and responsibilities and lines of communication related to mapping, measuring, and managing AI risks are documented and are clear to individuals and teams throughout the organization."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Executive leadership of the organization takes responsibility"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Executive leadership of the organization takes responsibility"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Executive leadership of the organization takes responsibility"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 3,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true,
+              false
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Test sets are documented in MEASURE 2.1",
+              "Metrics are documented in MEASURE 2.1"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 3,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Test sets are documented in MEASURE 2.1"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 3,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 3,
+            "claim_texts": [
+              "Test sets are documented in MEASURE 2.1"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "MANAGE 2.4: Mechanisms are in place and applied to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "MANAGE 2.4 says AI systems should be deactivated if they perform inconsistently with intended use."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "MANAGE 2.4: Mechanisms are in place and applied to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "MANAGE 2.4: Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "MANAGE 2.4: Mechanisms are in place and applied to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "MANAGE 2.4: Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Pre-trained models are monitored as part of AI system regular monitoring and maintenance."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Pre-trained models are monitored as part of AI system regular monitoring and maintenance."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              true
+            ],
+            "n_facts_recalled": 2,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Pre-trained models are monitored as part of AI system regular monitoring and maintenance."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Explainability refers to a representation of the mechanisms underlying AI systems\u2019 operation",
+              "Interpretability refers to the meaning of AI systems\u2019 output in the context of their designed functional purposes"
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Explainability refers to a representation of the mechanisms underlying AI systems\u2019 operation",
+              "Interpretability refers to the meaning of AI systems\u2019 output in the context of their designed functional purposes"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Explainability refers to a representation of the mechanisms underlying AI systems\u2019 operation",
+              "Interpretability refers to the meaning of AI systems\u2019 output in the context of their designed functional purposes"
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Explainability refers to a representation of the mechanisms underlying AI systems\u2019 operation",
+              "Interpretability refers to the meaning of AI systems\u2019 output in the context of their designed functional purposes"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Explainability refers to a representation of the mechanisms underlying AI systems\u2019 operation",
+              "Interpretability refers to the meaning of AI systems\u2019 output in the context of their designed functional purposes"
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Explainability refers to a representation of the mechanisms underlying AI systems\u2019 operation",
+              "Interpretability refers to the meaning of AI systems\u2019 output in the context of their designed functional purposes"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "GOVERN 1.5 includes ongoing monitoring and periodic review of the risk management process",
+              "GOVERN 1.5 complements validity monitoring by ensuring continuous oversight"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "GOVERN 1.5 complements validity monitoring by ensuring ongoing monitoring and periodic review of the risk management process."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "GOVERN 1.5 complements validity monitoring by ensuring ongoing monitoring and periodic review of the risk management process."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          }
+        },
+        {
+          "retrieved": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          },
+          "gold_only": {
+            "answered": false,
+            "n_claims": 0,
+            "quotes_grounded": false,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Transparency reflects the extent to which information about an AI system and its outputs is available to individuals",
+              "Transparency does not guarantee accuracy"
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Transparency reflects the extent to which information about an AI system and its outputs is available to individuals",
+              "Transparency is often necessary for actionable redress related to AI system outputs"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Transparency is necessary for accountability.",
+              "Transparency does not guarantee accuracy."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Transparency reflects the extent to which information about an AI system and its outputs is available to individuals",
+              "Transparency is often necessary for actionable redress related to AI system outputs that are incorrect or otherwise lead to negative impacts"
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Transparency is necessary for accountability.",
+              "Transparency does not guarantee accuracy."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Transparency reflects the extent to which information about an AI system and its outputs is available to individuals",
+              "Transparency is often necessary for actionable redress related to AI system outputs that are incorrect or otherwise lead to negative impacts"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "gold_chunk_retrieved": false,
+      "rounds": []
+    },
+    {
+      "id": "q24",
+      "gold_chunk_retrieved": true,
+      "rounds": [
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 1,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Security and resilience mean exactly the same thing in AI RMF."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Security and resilience are related but distinct characteristics.",
+              "Resilience relates to robustness and goes beyond the provenance of the data to encompass unexpected or adversarial use (or abuse or misuse) of the model or data."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Security and resilience mean exactly the same thing in AI RMF.",
+              "Resilience relates to robustness and goes beyond the provenance of the data to encompass unexpected or adversarial use (or abuse or misuse) of the model or data."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Security and resilience are related but distinct characteristics.",
+              "Resilience relates to robustness and goes beyond the provenance of the data to encompass unexpected or adversarial use (or abuse or misuse) of the model or data."
+            ]
+          }
+        },
+        {
+          "retrieved": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              false,
+              false
+            ],
+            "n_facts_recalled": 0,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Security and resilience mean exactly the same thing in AI RMF.",
+              "Resilience relates to robustness and goes beyond the provenance of the data to encompass unexpected or adversarial use (or abuse or misuse) of the model or data."
+            ]
+          },
+          "gold_only": {
+            "answered": true,
+            "n_claims": 2,
+            "quotes_grounded": true,
+            "facts_recalled": [
+              true,
+              false
+            ],
+            "n_facts_recalled": 1,
+            "n_facts_required": 2,
+            "claim_texts": [
+              "Security and resilience are related but distinct characteristics.",
+              "Resilience relates to robustness and goes beyond the provenance of the data to encompass unexpected or adversarial use (or abuse or misuse) of the model or data."
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "questions": 19,
+    "rounds": 3,
+    "retrieved": {
+      "calls": 57,
+      "answers": 33,
+      "answers_with_grounded_quotes": 25,
+      "answers_recalling_every_required_fact": 12,
+      "answers_grounded_and_complete": 7,
+      "mean_facts_recalled": 1.394
+    },
+    "gold_only": {
+      "calls": 57,
+      "answers": 44,
+      "answers_with_grounded_quotes": 38,
+      "answers_recalling_every_required_fact": 11,
+      "answers_grounded_and_complete": 11,
+      "mean_facts_recalled": 1.364
+    },
+    "rescued_by_gold_only": [
+      {
+        "id": "q06",
+        "gold_only_answers": 3,
+        "all_quotes_grounded": false,
+        "all_recall_every_fact": false,
+        "claim_texts": [
+          "Reliability is the ability of an item to perform as required without failure for a given time interval under given conditions."
+        ]
+      },
+      {
+        "id": "q12",
+        "gold_only_answers": 3,
+        "all_quotes_grounded": true,
+        "all_recall_every_fact": false,
+        "claim_texts": [
+          "Test sets are documented in MEASURE 2.1",
+          "Metrics are documented in MEASURE 2.1"
+        ]
+      },
+      {
+        "id": "q14",
+        "gold_only_answers": 3,
+        "all_quotes_grounded": true,
+        "all_recall_every_fact": true,
+        "claim_texts": [
+          "Pre-trained models are monitored as part of AI system regular monitoring and maintenance."
+        ]
+      },
+      {
+        "id": "q16",
+        "gold_only_answers": 3,
+        "all_quotes_grounded": true,
+        "all_recall_every_fact": false,
+        "claim_texts": [
+          "GOVERN 1.5 includes ongoing monitoring and periodic review of the risk management process",
+          "GOVERN 1.5 complements validity monitoring by ensuring continuous oversight"
+        ]
+      }
+    ],
+    "lost_by_gold_only": [
+      "q01"
+    ],
+    "note": "facts_recalled is a lexical recall check over the required fact strings, not a semantic faithfulness judgement. quotes_grounded applies the service's own folding rule to the evidence supplied in that condition."
+  }
+}

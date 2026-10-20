@@ -1,0 +1,453 @@
+{
+  "questions_in_probe": 19,
+  "excluded_because_gold_span_not_in_retrieved_prompt": [
+    "q06"
+  ],
+  "round_level_all_questions": {
+    "discordant_retrieved_only": 4,
+    "discordant_gold_only_only": 15,
+    "exact_binomial_two_sided_p": 0.01921
+  },
+  "round_level_excluding_budget_confound": {
+    "discordant_retrieved_only": 4,
+    "discordant_gold_only_only": 12,
+    "exact_binomial_two_sided_p": 0.07681
+  },
+  "question_level_all_questions": {
+    "rescued_by_gold_only": [
+      "q06",
+      "q12",
+      "q14",
+      "q16"
+    ],
+    "lost_by_gold_only": [
+      "q01"
+    ],
+    "same_status": [
+      "q02",
+      "q03",
+      "q04",
+      "q05",
+      "q07",
+      "q08",
+      "q09",
+      "q10",
+      "q11",
+      "q13",
+      "q15",
+      "q17",
+      "q18",
+      "q24"
+    ],
+    "exact_binomial_two_sided_p": 0.375
+  },
+  "question_level_excluding_budget_confound": {
+    "rescued_by_gold_only": [
+      "q12",
+      "q14",
+      "q16"
+    ],
+    "lost_by_gold_only": [
+      "q01"
+    ],
+    "same_status": [
+      "q02",
+      "q03",
+      "q04",
+      "q05",
+      "q07",
+      "q08",
+      "q09",
+      "q10",
+      "q11",
+      "q13",
+      "q15",
+      "q17",
+      "q18",
+      "q24"
+    ],
+    "exact_binomial_two_sided_p": 0.625
+  },
+  "per_question": [
+    {
+      "id": "q01",
+      "category": "fact",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        true,
+        true
+      ],
+      "gold_only": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": false,
+      "retrieved_rounds_answered": 3,
+      "gold_only_rounds_answered": 0,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q02",
+      "category": "fact",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        true,
+        true
+      ],
+      "gold_only": [
+        false,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 3,
+      "gold_only_rounds_answered": 2,
+      "unstable_within_a_condition": true
+    },
+    {
+      "id": "q03",
+      "category": "fact",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        true,
+        true
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 3,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q04",
+      "category": "fact",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        false,
+        false,
+        false
+      ],
+      "gold_only": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_answered_any": false,
+      "gold_only_answered_any": false,
+      "retrieved_rounds_answered": 0,
+      "gold_only_rounds_answered": 0,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q05",
+      "category": "fact",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        true,
+        true
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 3,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q06",
+      "category": "fact",
+      "gold_in_retrieved_prompt": false,
+      "retrieved": [
+        false,
+        false,
+        false
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": false,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 0,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q07",
+      "category": "fact",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        true,
+        true
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 3,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q08",
+      "category": "fact",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        true,
+        true
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 3,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q09",
+      "category": "action",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        false,
+        true,
+        true
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 2,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": true
+    },
+    {
+      "id": "q10",
+      "category": "action",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        false,
+        false
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 1,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": true
+    },
+    {
+      "id": "q11",
+      "category": "action",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        false,
+        false,
+        false
+      ],
+      "gold_only": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_answered_any": false,
+      "gold_only_answered_any": false,
+      "retrieved_rounds_answered": 0,
+      "gold_only_rounds_answered": 0,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q12",
+      "category": "action",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        false,
+        false,
+        false
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": false,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 0,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q13",
+      "category": "action",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        true,
+        true
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 3,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q14",
+      "category": "action",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        false,
+        false,
+        false
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": false,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 0,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q15",
+      "category": "synthesis",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        true,
+        true
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 3,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q16",
+      "category": "synthesis",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        false,
+        false,
+        false
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": false,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 0,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q17",
+      "category": "synthesis",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        false,
+        false,
+        false
+      ],
+      "gold_only": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_answered_any": false,
+      "gold_only_answered_any": false,
+      "retrieved_rounds_answered": 0,
+      "gold_only_rounds_answered": 0,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q18",
+      "category": "synthesis",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        true,
+        true
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 3,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    },
+    {
+      "id": "q24",
+      "category": "misleading",
+      "gold_in_retrieved_prompt": true,
+      "retrieved": [
+        true,
+        true,
+        true
+      ],
+      "gold_only": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_answered_any": true,
+      "gold_only_answered_any": true,
+      "retrieved_rounds_answered": 3,
+      "gold_only_rounds_answered": 3,
+      "unstable_within_a_condition": false
+    }
+  ]
+}

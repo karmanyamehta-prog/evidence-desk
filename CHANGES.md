@@ -107,12 +107,20 @@ otherwise.** The model was downloaded and run; nothing here is a projection.
   in all 3 repeats and the model still abstained.** The raw output is
   `{"claims": []}`: a model-initiated abstention, not a validation rejection.
   Only 2 of the 20 (q06, q23) had their gold text missing from the prompt,
-  and both are misleading-premise questions, where refusing the false premise
-  is the correct behaviour.
-  So the false abstentions are not a retrieval failure and not a context-budget
-  failure. The evidence is in the prompt, and the model chooses to return
-  `{"claims": []}`. This is the finding that matters, and it is what the
-  earlier "lost in the middle" story got wrong.
+  but **for different reasons, and an earlier version of this file claimed
+  both were misleading-premise questions. That was wrong.** q23 is the
+  misleading-premise question, and its gold chunk was not retrieved at all.
+  q06 is a plain `fact` question ("What is reliability as described in the
+  Framework?"), and its gold chunk **was** retrieved, at rank 5 of 5, but it
+  never reached the prompt because the context budget was full.
+  `tools/check_noise_gold_presence.py` measures this with no model calls.
+  So there are two distinct failures hiding in the two questions, not one:
+  a retrieval miss (q23, where abstaining is correct) and a **context-budget
+  drop** (q06, where abstaining is a false abstention).
+  For the 7 questions above, the false abstentions are neither a retrieval
+  failure nor a context-budget failure. The evidence is in the prompt, and
+  the model chooses to return `{"claims": []}`. This is the finding that
+  matters, and it is what the earlier "lost in the middle" story got wrong.
 - **"Lost in the middle" is NOT the explanation, and the earlier claim of it
   was wrong.** The first investigation found one question (q01) where the gold
   text sat 1296 characters into a 1628-character chunk and the model abstained
@@ -181,14 +189,110 @@ otherwise.** The model was downloaded and run; nothing here is a projection.
     pure cosine. The two disagree on 2 of 19 questions, which is within the
     run-to-run drift measured above, so hybrid vs cosine is not yet shown to
     matter either way.
-- **The open question is now narrow and stated precisely: why does the model
-  return `{"claims": []}` when the gold text is in the prompt?** The strongest
-  remaining hypothesis is that the *distractor* passages in the context are
-  what makes it give up, rather than the gold passage itself.
-  `tools/probe_context_noise_controlled.py` tests that directly: for each
-  question it alternates the two conditions (full retrieved context versus
-  the gold chunk alone) within one session, with the service's exact request
-  options, three rounds each.
+- **The distractor hypothesis was tested, and it is not supported once the
+  confound is removed.** `tools/probe_context_noise_controlled.py` alternates
+  two conditions within one session, with the service's exact request options,
+  three rounds each: the full retrieved context versus the gold chunk alone.
+  On the headline round-level count it looks convincing — 4 rounds where only
+  the retrieved condition answered, 15 where only the gold-only condition
+  answered, exact binomial two-sided p = 0.019.
+  **That p-value is wrong, and the reason is instructive.**
+  `tools/check_noise_gold_presence.py` reconstructs both prompts with no
+  model calls and shows that for **q06 the gold span was not in the retrieved
+  prompt at all** — its gold chunk ranked 5th of 5 and the context budget
+  dropped it. So q06 was not "gold plus distractors versus gold alone"; it
+  was "gold present versus gold absent", and it was counted in the wrong
+  direction. The gold-only arm answers q06 and the retrieved arm cannot,
+  because in one arm the answer is there and in the other it is not.
+  Removing that question and analysing the same data at the level the design
+  actually samples gives:
+
+  | Analysis | Discordant | p (exact binomial, two-sided) |
+  |---|---|---|
+  | Round-level, all 19 questions | 4 retrieved-only vs 15 gold-only-only | 0.019 |
+  | Round-level, excluding the budget confound | 4 vs 12 | 0.077 |
+  | Question-level, all 19 questions | 4 rescued vs 1 lost | 0.375 |
+  | Question-level, excluding the budget confound | 3 rescued vs 1 lost | 0.625 |
+
+  The round-level test was the wrong unit. The three repeats of one question
+  are not independent draws — they are one question asked three times — so
+  counting them as 19 x 3 independent observations inflates the evidence.
+  At the question level the effect is 3 questions rescued against 1 lost,
+  and p = 0.625. **The distractors are not a demonstrated cause of the false
+  abstentions.** q12, q14 and q16 do flip to answered when the distractors
+  are removed, so there may be a real effect on those three; it is not
+  distinguishable from noise at this sample size, and the direction is not
+  clean (q01 goes the other way — it is answered under the full context and
+  abstains on the gold chunk alone).
+  No change has been made to the context budget or to `top_k` on the
+  strength of this. A hypothesis that fails its own test does not get to
+  change the system.
+- **The extra answers the distractors suppress are mostly grounded, but not
+  mostly complete.** `tools/probe_context_noise_claims.py` re-runs the same
+  alternating design and captures the actual claims, so each answer can be
+  checked mechanically against the evidence that was supplied. Over 57 calls
+  per condition:
+
+  | Condition | Answer rate | Quotes grounded | All required facts recalled | Grounded **and** complete | Mean facts recalled |
+  |---|---|---|---|---|---|
+  | Full retrieved context | 0.579 (33/57) | 25/33 = 0.76 | 12/33 = 0.36 | 7/33 = **0.21** | 1.39 |
+  | Gold chunk alone | 0.772 (44/57) | 38/44 = 0.86 | 11/44 = 0.25 | 11/44 = **0.25** | 1.36 |
+
+  So removing the distractors raises the answer rate and the rate of
+  *grounded* answers (0.76 to 0.86), and the fully-usable answers go from
+  7 to 11 per 57 calls. But the answers that recall **every** required fact
+  do not improve (12 versus 11), so the extra answers are mostly
+  well-grounded partial answers rather than complete ones. That is a real
+  quality signal, but it is a smaller effect than the raw answer rate
+  suggests, and it is still based on 3 rescued questions.
+  Of the 3 genuinely rescued questions, q12, q14 and q16: all 3 are grounded
+  in every round, and only q14 recalls all its required facts. q12 recalls
+  2 of 3 ("test sets", "metrics" but not "tools") and q16 recalls 0 of 2 by
+  the lexical check, even though its answer text plainly discusses ongoing
+  monitoring — see the measurement caveat below.
+  **Caveat on the fact check:** 16 of the 50 required fact strings across the
+  20 answerable questions are paraphrases rather than literal substrings of
+  their own gold quote (q06's "time interval and conditions" against a gold
+  quote reading "for a given time interval, under given conditions"). The
+  fact-recall figures are therefore a **lower bound**, and a fact marked
+  False may still have been conveyed in different words. The grounding
+  figures have no such caveat: they use the service's own folding rule
+  against the evidence actually supplied.
+  The overall reading: **the distractors suppress answers that are mostly
+  well-grounded, and removing them looks mildly beneficial — but the effect
+  is 3 questions out of 18, the direction is not clean, and no change has
+  been made to the system on the strength of it.**
+- **The context packer is not the culprit, and the first hypothesis about it
+  was wrong.** The natural reading of q06 — "a long, weakly-matching chunk
+  crowded out a short, relevant one" — does not survive checking. The five
+  candidate chunks for q06 have distances 0.1615, 0.1617, 0.1625, 0.1641 and
+  0.1643: the gold chunk at rank 5 is **0.0028 further away than the rank-1
+  chunk**, which is a tie at this corpus's scale, not a weak match. The
+  packer was already distance-sorted (the earlier "sort before packing" fix),
+  so it was not packing out of order either.
+  `tools/analyze_context_packing.py` then tests the obvious alternative
+  directly: a knapsack that maximises total rank weight subject to the
+  character budget, rather than taking chunks greedily in rank order. It
+  produces **the same packing for all 20 questions** — the greedy packer is
+  already optimal for the number of chunks packed, and the alternative
+  neither gains nor loses the gold span on any question.
+  So q06's gold chunk is not being crowded out by a budgeting failure. It is
+  **rank 5 of 5 on a question where all five candidates are about equally far
+  away**, and rank 5 is the last seat in a 4500-character budget. The honest
+  description is that the retrieval ranking for q06 is not informative enough
+  to put the answer in the top 3, and the budget then takes the first three.
+  That is a **retrieval-quality** problem, not a packing bug, and it points
+  back at the embedding model rather than at the context assembly.
+  The packer is left unchanged. It was measured, and it is not the problem.
+  What the same analysis does show is that **q06 is one character-budget
+  boundary away from working**: a budget of 4809 characters instead of 4500
+  admits a packing that includes the gold chunk, and the similarity given up
+  to include it is 0.0017 — the gold chunk and the rank-1 chunk are within
+  0.0027 cosine distance of each other. That is a one-setting change
+  (`CONTEXT_CHARS`), but it is not made here, because it changes every
+  published number and the prompt size, and because one question's worth of
+  evidence is not a measurement. It is recorded as a candidate, with the
+  number needed to evaluate it, rather than applied.
 
 ## Still not done
 
@@ -197,9 +301,18 @@ otherwise.** The model was downloaded and run; nothing here is a projection.
    The existing `evaluation/review.json` labels the 1.5B answers and cannot be
    reused for the 3B outputs. The `README.md` table must not be overwritten
    with the 3B run until it is labelled.
-2. **The cause of the false abstentions.** Position and retrieval are both
-   refuted, and the gold text is demonstrably in the prompt. The distractor
-   hypothesis is being tested by `tools/probe_context_noise_controlled.py`.
+2. **The cause of the false abstentions.** Position and retrieval are refuted,
+   the gold text is demonstrably in the prompt for 7 of the 20, and the
+   distractor hypothesis failed its own test once the budget confound was
+   removed. What is left is the model declining to use evidence it has been
+   given, for reasons that have not been identified. The follow-up measurement
+   is done: the answers the distractors suppress are mostly grounded
+   (0.86 against 0.76), so the distractors are not manufacturing wrong
+   answers, they are suppressing usable ones — but the effect is 3
+   questions out of 18 and is not separable from noise at this sample size.
+   The next thing worth trying is a **larger, pre-registered question set**
+   with the gold-presence check built in, so that the A/B comparison is
+   powered for the effect size it is trying to detect.
 3. **A reproducible 3B measurement protocol.** Because the model drifts
    between runs, any published 3B number needs multiple warm repeats reported
    together with the spread, not a single pass. The evaluation runner already
@@ -209,3 +322,22 @@ otherwise.** The model was downloaded and run; nothing here is a projection.
    torch from the CPU index, and is checked by CI.
 5. **Independent human review and inter-rater agreement** remain outstanding for
    the whole evaluation, and the questions are still assistant-authored.
+6. **The context-budget drop is real but is not a packing bug.**
+   `sources_from_hits` packs whole chunks and skips any that do not fit the
+   remaining budget, so a chunk at rank 5 of 5 is dropped when the top three
+   fill 4018 of 4500 characters. `tools/analyze_context_packing.py` shows
+   the packer is already optimal for the number of chunks and that a
+   knapsack alternative produces identical packings, so there is nothing to
+   fix in the packer itself. The open question is upstream: q06's gold chunk
+   ranks 5th because all five candidates are within 0.003 cosine distance of
+   each other, so the ranking carries no signal for that question. Fixing
+   that means improving retrieval (a better embedding model, or a larger
+   `top_k` — but `top_k` is already 5 and `context_chars` is 4500), not
+   reordering the packer. Not attempted here, because it changes every
+   published number.
+7. **`CONTEXT_CHARS=4809` is a candidate, not a change.** The measurement
+   says q06's gold chunk becomes reachable at that budget, for 0.0017 of
+   similarity. It has not been applied: one question's worth of evidence is
+   not a measurement, the setting changes every published number, and the
+   prompt grows. If it is tried, it needs a full re-run and a fresh set of
+   labels, not a spot check.
