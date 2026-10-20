@@ -20,7 +20,9 @@ Checked 27 September 2026. External documentation informs interfaces and limits;
 
 Original NIST [publication page](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10) identifies the report and voluntary scope. Downloaded bytes come from the [GPO archive](https://www.govinfo.gov/app/details/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3). The file's SHA-256 and page count are frozen in `corpus/manifest.json`.
 
-The direct NIST and alternative GenAI Profile PDF downloads returned 403 in this execution environment. Public browser-indexed text was useful for researching the candidate, but was not reconstructed into a fake PDF or silently used as the ingestion benchmark. The actual benchmark is one 48-page report.
+The Generative AI Profile is now also corpus. The earlier blocker — the direct NIST endpoint returning HTTP 403 in the build environment — did not reproduce on the target laptop: `nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf` was retrieved successfully, and its SHA-256 (`6e73620a…`, 64 pages) is frozen in `corpus/manifest.json` alongside the RMF. Both documents are indexed into one vector store. The 403 was an environment-specific failure, not a property of the document, and the corpus was not left one document short.
+
+Public browser-indexed text was useful for researching the candidate, but was never reconstructed into a fake PDF or silently used as the ingestion benchmark.
 
 ## Observations, not assumptions
 
@@ -38,6 +40,14 @@ The final 1.5B run completed all 24 queries: P@1 0.900, P@5 0.310, macro stateme
 
 ## Design deviations made explicit
 
-The first DESIGN.md was a proposal. The implementation uses one verified PDF; generic page headings remain heuristic; printed page labels are not displayed as verified. Table category-column coverage is explicitly excluded. The first full generative benchmark is the experimental 1.5B profile, not the default 3B model. Timing is a single exploratory pass rather than three warm repetitions. Annotation is assistant-reviewed, not human-verified. Windows, Docker execution, hosted runtime and paid-provider calls have not been tested here.
+The first DESIGN.md was a proposal. The implementation now uses **two** verified PDFs; generic page headings remain heuristic; printed page labels are not displayed as verified. Table category-column coverage is explicitly excluded. The first full generative benchmark is the experimental 1.5B profile, not the default 3B model — a 3B run with three warm repetitions is in progress and is **not** yet published. Annotation is assistant-reviewed, not human-verified. Windows and the corpus have been exercised on the target laptop; Docker execution, hosted runtime and paid-provider calls have not been tested here.
 
 These limitations are research findings and open validation work. They must not be replaced with guessed results in a portfolio presentation.
+
+## Measured on the target laptop (i5-1240P, 15.7 GB, Windows 11)
+
+- The corpus, the 3B model, the retrieval layer and the API were all run for real. `qwen2.5:3b-instruct-q4_K_M` is 3.1B parameters, 1.93 GB on disk.
+- **The 3B model's dominant failure mode is abstention caused by position, not by missing evidence.** For q01 the gold text was retrieved and present in the prompt but sat 1296 characters into a 1628-character chunk; the model returned `{"claims": []}`. Given the same chunk with the answer at the start, it answered correctly. Retrieval Hit@5 for that question was 1.0.
+- A genuine bug fell out of the same investigation: the context budget was packed in fused-retrieval order rather than distance order, so a long weak chunk could displace the closest match from the prompt entirely. Fixed by sorting by distance before packing.
+- The 3B model *did* return a partially-valid answer on q02: one claim with a bad quote and one with a good quote. Under the old all-or-nothing rule that answer was rejected; under per-claim filtering the valid claim is kept and the failure is recorded. This is the intended behaviour, observed live rather than only unit-tested.
+- `tools/probe_chunk_size.py` measures the answer rate against chunk size on the same 20 answerable questions, holding everything else fixed. See `CHANGES.md` for the numbers.

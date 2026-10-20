@@ -101,13 +101,15 @@ No public push or deployment without explicit confirmation. Current limitations 
 
 | Proposed | What the repository does |
 |---|---|
-| NIST AI RMF 1.0 **and** the Generative AI Profile | RMF 1.0 only; the Profile PDF could not be fetched reliably |
-| Qwen 7B default | Qwen2.5 3B default; the only completed evaluation is Qwen2.5 1.5B |
+| NIST AI RMF 1.0 **and** the Generative AI Profile | **Both.** The Profile PDF is now retrieved from `nvlpubs.nist.gov` and checksum-verified; both documents are indexed into one store (320 chunks). The earlier "could not be fetched reliably" blocker is resolved. |
+| Qwen 7B default | Qwen2.5 3B default; the 3B model has now been **run on the target laptop**. The only completed *evaluation* is still Qwen2.5 1.5B — see `CHANGES.md`. |
 | Human-reviewed evaluation | Assistant-reviewed, unvalidated; see `evaluation/README.md` |
-| Heading/action ID in the embedded text | Not implemented; the embedder sees only the chunk text |
+| Heading/action ID in the embedded text | **Implemented.** The action/section ID is prepended to the embedding text only; the stored chunk text stays verbatim, so quotes and offsets are unaffected. Both `GOVERN 1.6` (RMF) and `A.1.1` (Generative AI Profile) are recognised. |
 | Bounding boxes, block IDs, printed page labels in chunk metadata | Not implemented; only a printed-page *candidate* is kept in `pages.json` |
-| Three warm latency repetitions | One cold pass |
-| Quote-membership citation check | Extended: typographic folding, quote word bounds, and identifiers in a claim must appear in its quote (see `CHANGES.md`) |
+| Three warm latency repetitions | Three warm repetitions are being collected for the 3B run on the target laptop; the published table is still the 1.5B single pass |
+| Quote-membership citation check | Extended: typographic folding, quote word bounds, identifiers in a claim must appear in its quote, and validation is **per claim** rather than per answer (see `CHANGES.md`) |
+| *(not proposed)* Hybrid retrieval | Added: BM25 keyword index fused with cosine by reciprocal rank fusion. A keyword-only hit gets its true cosine distance so the threshold means the same thing for every hit. |
+| *(not proposed)* Distance threshold | Added and **disabled by default**: a cutoff measured on four unanswerable questions is not a threshold. |
 
 ## Primary references
 
@@ -130,4 +132,6 @@ Evaluation annotations created by the assistant must be labeled assistant-review
 
 ## Implementation record superseding the proposal
 
-See README.md and RESEARCH.md for the executed configuration and validation evidence. The benchmark is the one verified GPO-hosted RMF PDF, with GenAI Profile ingestion deferred after download failures. CPU 3B remains the default, 1.5B is an experimental evaluated speed profile, and 7B is optional and unbenchmarked. Citation offsets reference processed page text, raw extraction is retained, and section headings are heuristics. Table subcategory columns are handled explicitly; category descriptions are not included. The evaluator uses assistant-reviewed statement-level judgments and a single exploratory timing pass. No independent human review, sealed holdout claim, Windows execution, Docker execution or public deployment has occurred.
+See README.md and RESEARCH.md for the executed configuration and validation evidence. The corpus is now **two** verified documents — the GPO-hosted RMF PDF and the NIST-hosted Generative AI Profile — indexed into one store. CPU 3B remains the default, 1.5B is an experimental evaluated speed profile, and 7B is optional and unbenchmarked. Citation offsets reference processed page text, raw extraction is retained, and section headings are heuristics. Table subcategory columns are handled explicitly for the RMF hash; category descriptions are not included. The evaluator uses assistant-reviewed statement-level judgments and a single exploratory timing pass. No independent human review, sealed holdout claim, Docker execution or public deployment has occurred; the corpus, the 3B model, the retrieval layer and the API **were** exercised on the target Windows laptop, and the findings are recorded in `CHANGES.md`.
+
+One measured finding is worth repeating here because it changes how the system should be read: **the 3B model's dominant failure mode is abstaining when the answer is buried inside a retrieved chunk.** For q01 the gold text was retrieved and present in the prompt, 1296 characters into a 1628-character chunk, and the model refused to use it; given the same text at the start of the chunk it answered correctly. Retrieval was not the bottleneck — Hit@5 was already 0.95 on the 1.5B run. `tools/probe_chunk_size.py` measures the answer rate against chunk size; the result is in `CHANGES.md`.
