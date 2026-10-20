@@ -22,7 +22,7 @@ class PDFError(ValueError):
 
 
 def normalize(text: str) -> str:
-    text = text.replace("\x00", "").replace("\u00ad", "")
+    text = text.replace("\x00", "").replace("­", "")
     return re.sub(r"\s+", " ", text).strip()
 
 

@@ -73,9 +73,11 @@ def create_app(service=None):
         }
 
     @app.post("/query")
-    def query(body: Query):
+    async def query(body: Query):
         try:
-            return app.state.service.query(body.question.strip(), body.document_ids)
+            return await run_in_threadpool(
+                app.state.service.query, body.question.strip(), body.document_ids
+            )
         except ModelError as exc:
             raise HTTPException(503, str(exc)) from exc
         except ValueError as exc:

@@ -2,6 +2,7 @@
 
 import hashlib
 import re
+from typing import Any
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -11,8 +12,14 @@ PIPELINE_VERSION = "pdfplumber-0.11.7-bounded-tables-v3"
 
 
 def chunk_pages(
-    pages, document_id, title, tokenizer, size=350, overlap=50, source_url=""
-):
+    pages: list[dict[str, Any]],
+    document_id: str,
+    title: str,
+    tokenizer: Any,
+    size: int = 350,
+    overlap: int = 50,
+    source_url: str = "",
+) -> list[Chunk]:
     if not 0 <= overlap < size:
         raise ValueError("Require 0 <= overlap < size")
 

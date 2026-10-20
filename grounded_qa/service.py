@@ -1,10 +1,12 @@
 """Orchestration independent of the HTTP/UI layer."""
 
 import json
+import logging
 import shutil
 import threading
 import time
 from pathlib import Path
+from typing import Any
 
 from pydantic import ValidationError
 
@@ -12,6 +14,8 @@ from grounded_qa.citations import sources_from_hits, validate
 from grounded_qa.generation.client import Generator
 from grounded_qa.ingestion.chunking import PIPELINE_VERSION, chunk_pages
 from grounded_qa.ingestion.pdf import document_id, read_pdf
+
+logger = logging.getLogger(__name__)
 
 
 class Service:
@@ -45,9 +49,12 @@ class Service:
         self.store = store
         self.generator = generator or Generator(settings)
 
-    def ingest(self, path: Path, title=None, source_url=""):
+    def ingest(
+        self, path: Path, title: str | None = None, source_url: str = ""
+    ) -> dict[str, Any]:
         with self.lock:
             did = document_id(path)
+            logger.debug("ingest start: path=%s document_id=%s", path, did)
             pages = read_pdf(path, self.settings.max_pages)
             chunks = chunk_pages(
                 pages,
@@ -64,6 +71,9 @@ class Service:
                 set(existing["ids"]) == {c.id for c in chunks}
                 and (target / "metadata.json").exists()
             ):
+                logger.debug(
+                    "ingest skip: document already indexed document_id=%s", did
+                )
                 return json.loads((target / "metadata.json").read_text())
             # Index first, then write files: a failed embed leaves nothing behind.
             created = not target.exists()
@@ -74,7 +84,7 @@ class Service:
                 (target / "pages.json").write_text(
                     json.dumps(pages, ensure_ascii=False), encoding="utf-8"
                 )
-                metadata = {
+                metadata: dict[str, Any] = {
                     "document_id": did,
                     "title": title or path.name,
                     "pages": len(pages),
@@ -89,9 +99,15 @@ class Service:
                 if created:
                     shutil.rmtree(target, ignore_errors=True)
                 raise
+            logger.debug(
+                "ingest complete: document_id=%s pages=%d chunks=%d",
+                did,
+                len(pages),
+                len(chunks),
+            )
             return metadata
 
-    def list_documents(self):
+    def list_documents(self) -> list[dict[str, Any]]:
         """Documents present in the active index namespace, not stray metadata."""
         indexed = {
             m["document_id"]
@@ -104,7 +120,9 @@ class Service:
                 docs.append(json.loads(meta.read_text()))
         return docs
 
-    def query(self, question, document_ids=None):
+    def query(
+        self, question: str, document_ids: list[str] | None = None
+    ) -> dict[str, Any]:
         with self.lock:  # Bound CPU and memory: one local model request at a time.
             start = time.perf_counter()
             hits = self.store.search(question, self.settings.top_k, document_ids)
@@ -123,6 +141,11 @@ class Service:
                         reason = "Insufficient evidence" if draft.abstain else ""
                     except (ValidationError, ValueError) as exc:
                         error = reason = str(exc)
+                        logger.debug(
+                            "query validation failure attempt=%d error=%s",
+                            attempt,
+                            error,
+                        )
                         draft = None
                     attempts.append(
                         {
@@ -141,6 +164,12 @@ class Service:
             abstain = status != "answered"
             claims = [] if abstain else [c.model_dump() for c in draft.claims]
             total_ms = (time.perf_counter() - start) * 1000
+            logger.debug(
+                "query complete: status=%s attempts=%d total_ms=%.0f",
+                status,
+                len(attempts),
+                total_ms,
+            )
             return {
                 "question": question,
                 "status": status,

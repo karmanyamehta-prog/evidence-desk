@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import logging
 import platform
 import shutil
 import urllib.request
@@ -12,6 +13,8 @@ from grounded_qa.config import Settings, manifest_path
 
 RMF_URL = "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf"
 
+logger = logging.getLogger(__name__)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -20,6 +23,14 @@ def main():
     args = parser.parse_args()
     s = Settings()
     if args.command == "doctor":
+        logger.info(
+            "Python %s OS %s free_disk_gb %.1f model %s provider %s",
+            platform.python_version(),
+            platform.platform(),
+            round(shutil.disk_usage(".").free / 1e9, 1),
+            s.llm_model,
+            s.llm_provider,
+        )
         print(
             json.dumps(
                 {
@@ -38,6 +49,7 @@ def main():
         path.parent.mkdir(parents=True, exist_ok=True)
         expected = json.loads(manifest_path().read_text())["sha256"]
         if path.exists() and hashlib.sha256(path.read_bytes()).hexdigest() == expected:
+            logger.info("Verified existing %s", path)
             print(f"Verified existing {path}")
             return
         request = urllib.request.Request(
@@ -56,6 +68,7 @@ def main():
                 "Source checksum changed; review the corpus before using it"
             )
         path.write_bytes(content)
+        logger.info("Downloaded and verified %s", path)
         print(f"Downloaded and verified {path}")
         return
     from grounded_qa.service import Service

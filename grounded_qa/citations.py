@@ -8,6 +8,7 @@ irrelevant or misread, so this stays a provenance check.
 
 import re
 import unicodedata
+from typing import Any
 
 from grounded_qa.ingestion.pdf import normalize
 
@@ -29,7 +30,7 @@ _QUOTES = str.maketrans(
 _IDENTIFIER = re.compile(r"\b(?:[A-Z]{3,}\s?)?\d+\.\d+\b")
 
 
-def fold(text: str) -> str:
+def fold(text: str) -> str:  # comparison-only; never stored
     """Comparison-only normalisation; never used for stored text or offsets."""
     text = unicodedata.normalize("NFKC", text).translate(_QUOTES)
     text = re.sub(r"(?<=\w)-\s*\n\s*(?=\w)", "-", text)  # line-break hyphen
@@ -37,7 +38,7 @@ def fold(text: str) -> str:
     return text.casefold()
 
 
-def validate(draft, sources):
+def validate(draft: Any, sources: dict[str, Any]) -> None:
     for claim in draft.claims:
         claim_ids = {re.sub(r"\s+", " ", m) for m in _IDENTIFIER.findall(claim.text)}
         for evidence in claim.evidence:
@@ -60,7 +61,7 @@ def validate(draft, sources):
                 )
 
 
-def sources_from_hits(hits, max_chars=9000):
+def sources_from_hits(hits: list[Any], max_chars: int = 9000) -> dict[str, Any]:
     sources, used = {}, 0
     for hit in hits:
         text = hit.chunk.text

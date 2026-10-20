@@ -3,3 +3,5 @@ pytest==8.4.2
 matplotlib==3.10.6
 ruff==0.12.11
 pytest-cov==7.0.0
+mypy==1.11.2
+toml==0.10.2

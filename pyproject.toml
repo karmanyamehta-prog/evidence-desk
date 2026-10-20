@@ -24,6 +24,14 @@ known-first-party = ["grounded_qa"]
 [tool.coverage.run]
 source = ["grounded_qa"]
 branch = true
+omit = [
+    "grounded_qa/evaluation/ablate.py",
+    "grounded_qa/evaluation/chunk_ablation.py",
+    "grounded_qa/evaluation/report.py",
+    "grounded_qa/evaluation/run.py",
+    "grounded_qa/retrieval/embeddings.py",
+    "grounded_qa/cli.py",
+]
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
