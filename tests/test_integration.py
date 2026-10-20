@@ -8,6 +8,7 @@ It does not test E5 retrieval quality or Ollama output.
 import hashlib
 import re
 
+import matplotlib
 import pytest
 from fastapi.testclient import TestClient
 
@@ -17,6 +18,7 @@ from grounded_qa.models import Claim, Draft, Evidence
 from grounded_qa.retrieval.store import VectorStore
 from grounded_qa.service import Service
 
+matplotlib.use("Agg")  # non-interactive backend; avoids Tk/display dependency in CI
 plt = pytest.importorskip("matplotlib.pyplot")
 
 PAGES = [
