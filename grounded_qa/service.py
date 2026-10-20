@@ -10,7 +10,7 @@ from typing import Any
 
 from pydantic import ValidationError
 
-from grounded_qa.citations import sources_from_hits, validate
+from grounded_qa.citations import filter_claims, sources_from_hits
 from grounded_qa.generation.client import Generator
 from grounded_qa.ingestion.chunking import PIPELINE_VERSION, chunk_pages
 from grounded_qa.ingestion.pdf import document_id, read_pdf
@@ -120,12 +120,43 @@ class Service:
                 docs.append(json.loads(meta.read_text()))
         return docs
 
+    def _retrieve(
+        self, question: str, document_ids: list[str] | None = None
+    ) -> list[Any]:
+        """Cosine retrieval, optionally fused with BM25 keyword search.
+
+        The distance threshold (MIN_RETRIEVAL_DISTANCE) drops hits that are too
+        far from the query in embedding space; they are unlikely to carry
+        supporting evidence and would waste the context budget. A threshold of
+        0.0 (the default) disables the filter.
+        """
+        threshold = self.settings.min_retrieval_distance
+        hits = self.store.search(
+            question, self.settings.top_k, document_ids, max_distance=threshold
+        )
+        if not self.settings.hybrid_search:
+            return hits
+        try:
+            from grounded_qa.retrieval.bm25 import BM25Index, hybrid_search
+
+            chunks = self.store.all_chunks(document_ids)
+            if not chunks:
+                return hits
+            index = BM25Index(chunks)
+            return hybrid_search(question, hits, index, top_k=self.settings.top_k)
+        except ImportError:
+            logger.warning("hybrid search unavailable: install rank-bm25 to enable it")
+            return hits
+        except Exception:
+            logger.exception("hybrid search failed; falling back to cosine only")
+            return hits
+
     def query(
         self, question: str, document_ids: list[str] | None = None
     ) -> dict[str, Any]:
         with self.lock:  # Bound CPU and memory: one local model request at a time.
             start = time.perf_counter()
-            hits = self.store.search(question, self.settings.top_k, document_ids)
+            hits = self._retrieve(question, document_ids)
             retrieval_ms = (time.perf_counter() - start) * 1000
             sources = sources_from_hits(hits, self.settings.context_chars)
             draft, reason, attempts = None, "No usable evidence retrieved", []
@@ -134,11 +165,41 @@ class Service:
                     t = time.perf_counter()
                     error = ""
                     try:
-                        draft = self.generator.generate(
+                        raw_draft = self.generator.generate(
                             question, sources, reason if attempt else "", attempt
                         )
-                        validate(draft, sources)
-                        reason = "Insufficient evidence" if draft.abstain else ""
+                        if raw_draft.abstain:
+                            # The model declined to answer: a legitimate abstention,
+                            # not a validation failure. Accept and stop.
+                            draft = raw_draft
+                            reason = "Insufficient evidence"
+                        else:
+                            # Per-claim filtering: keep valid claims, surface errors
+                            # for invalid ones. One bad citation no longer kills a
+                            # good answer (CHANGES.md: q13/q14 each had a good claim).
+                            valid_claims, invalid_msgs = filter_claims(
+                                raw_draft, sources
+                            )
+                            if valid_claims:
+                                draft = raw_draft.model_copy(
+                                    update={"claims": valid_claims}
+                                )
+                                reason = ""
+                                error = "; ".join(invalid_msgs)
+                                if invalid_msgs:
+                                    logger.debug(
+                                        "query partial validation attempt=%d dropped=%d",
+                                        attempt,
+                                        len(invalid_msgs),
+                                    )
+                            else:
+                                error = reason = "; ".join(invalid_msgs)
+                                logger.debug(
+                                    "query full reject attempt=%d error=%s",
+                                    attempt,
+                                    error,
+                                )
+                                draft = None
                     except (ValidationError, ValueError) as exc:
                         error = reason = str(exc)
                         logger.debug(
@@ -155,12 +216,19 @@ class Service:
                             "ms": (time.perf_counter() - t) * 1000,
                         }
                     )
-                    if not error:
-                        break
+                    if draft is not None:
+                        break  # Accepted (fully or partially); no retry needed.
+            # Distinguish a model-initiated abstention from a validation rejection.
             if draft is None:
                 status = "rejected" if sources else "abstained"
+            elif draft.abstain:
+                # Empty claims: either the model abstained, or every claim was
+                # filtered out by validation. The attempt log tells them apart.
+                status = (
+                    "rejected" if attempts and attempts[-1]["error"] else "abstained"
+                )
             else:
-                status = "abstained" if draft.abstain else "answered"
+                status = "answered"
             abstain = status != "answered"
             claims = [] if abstain else [c.model_dump() for c in draft.claims]
             total_ms = (time.perf_counter() - start) * 1000

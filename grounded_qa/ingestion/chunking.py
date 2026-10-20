@@ -8,7 +8,9 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from grounded_qa.models import Chunk
 
-PIPELINE_VERSION = "pdfplumber-0.11.7-bounded-tables-v3"
+PIPELINE_VERSION = "pdfplumber-0.11.7-bounded-tables-v4"
+# v4: action-ID prefix injected into embedding text; neighbor IDs in metadata.
+# Changing this version invalidates all existing indexes (new collection namespace).
 
 
 def chunk_pages(
@@ -23,7 +25,7 @@ def chunk_pages(
     if not 0 <= overlap < size:
         raise ValueError("Require 0 <= overlap < size")
 
-    def count(text):
+    def count(text: str) -> int:
         return len(tokenizer.encode(text, add_special_tokens=False))
 
     splitter = RecursiveCharacterTextSplitter(
@@ -66,9 +68,32 @@ def chunk_pages(
                 "end": start + len(part),
                 "pipeline": PIPELINE_VERSION,
             }
-            identity = f"{document_id}:{page['page']}:{start}:{size}:{overlap}:{PIPELINE_VERSION}:{part}"
+            # Prepend the action/section ID to the text used for the chunk ID and
+            # embedding so that exact-ID queries ("What does GOVERN 1.6 say?") can
+            # match even when the chunk body has little semantic overlap with the
+            # query. The stored chunk text remains the verbatim source passage.
+            embed_prefix = f"{section_name}: " if section_name else ""
+            identity = (
+                f"{document_id}:{page['page']}:{start}:{size}:{overlap}"
+                f":{PIPELINE_VERSION}:{embed_prefix}{part}"
+            )
             cid = hashlib.sha256(identity.encode()).hexdigest()
             if count(part) > size:
                 raise ValueError("Splitter exceeded token budget")
-            chunks.append(Chunk(cid, part, meta))
+            chunks.append(Chunk(cid, part, meta, embed_prefix=embed_prefix))
+
+    # Second pass: stitch neighbor IDs now that all chunk IDs are known.
+    for i, chunk in enumerate(chunks):
+        prev_id = chunks[i - 1].id if i > 0 else ""
+        next_id = chunks[i + 1].id if i < len(chunks) - 1 else ""
+        # Rebuild with neighbor metadata — Chunk is frozen so we replace it.
+        updated_meta = {
+            **chunk.metadata,
+            "prev_chunk_id": prev_id,
+            "next_chunk_id": next_id,
+        }
+        chunks[i] = Chunk(
+            chunk.id, chunk.text, updated_meta, embed_prefix=chunk.embed_prefix
+        )
+
     return chunks

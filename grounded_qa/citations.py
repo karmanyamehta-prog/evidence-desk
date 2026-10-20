@@ -38,27 +38,53 @@ def fold(text: str) -> str:  # comparison-only; never stored
     return text.casefold()
 
 
+def _check_claim(claim: Any, sources: dict[str, Any]) -> str:
+    """Return an error string if the claim fails provenance checks, else ''."""
+    claim_ids = {re.sub(r"\s+", " ", m) for m in _IDENTIFIER.findall(claim.text)}
+    for evidence in claim.evidence:
+        if evidence.source_id not in sources:
+            return "Citation references an unretrieved source"
+        words = len(evidence.quote.split())
+        if not MIN_QUOTE_WORDS <= words <= MAX_QUOTE_WORDS:
+            return f"Citation quote must be {MIN_QUOTE_WORDS}-{MAX_QUOTE_WORDS} words"
+        quote = fold(evidence.quote)
+        if quote not in fold(sources[evidence.source_id]["text"]):
+            return "Citation quote does not occur in retrieved text"
+        missing = [i for i in claim_ids if fold(i) not in quote]
+        if missing:
+            return (
+                "Claim names " + ", ".join(sorted(missing)) + " but the quote does not"
+            )
+    return ""
+
+
 def validate(draft: Any, sources: dict[str, Any]) -> None:
+    """Raise ValueError on the first provenance violation found.
+
+    Kept for backward compatibility and the retry path in service.py.
+    For per-claim filtering use filter_claims() instead.
+    """
     for claim in draft.claims:
-        claim_ids = {re.sub(r"\s+", " ", m) for m in _IDENTIFIER.findall(claim.text)}
-        for evidence in claim.evidence:
-            if evidence.source_id not in sources:
-                raise ValueError("Citation references an unretrieved source")
-            words = len(evidence.quote.split())
-            if not MIN_QUOTE_WORDS <= words <= MAX_QUOTE_WORDS:
-                raise ValueError(
-                    f"Citation quote must be {MIN_QUOTE_WORDS}-{MAX_QUOTE_WORDS} words"
-                )
-            quote = fold(evidence.quote)
-            if quote not in fold(sources[evidence.source_id]["text"]):
-                raise ValueError("Citation quote does not occur in retrieved text")
-            missing = [i for i in claim_ids if fold(i) not in quote]
-            if missing:
-                raise ValueError(
-                    "Claim names "
-                    + ", ".join(sorted(missing))
-                    + " but the quote does not"
-                )
+        error = _check_claim(claim, sources)
+        if error:
+            raise ValueError(error)
+
+
+def filter_claims(draft: Any, sources: dict[str, Any]) -> tuple[list[Any], list[str]]:
+    """Return (valid_claims, error_messages) without raising.
+
+    Keeps every claim that passes provenance checks; collects errors for the
+    rest. Lets the service surface a partial answer instead of a full rejection
+    when only some claims are invalid.
+    """
+    valid, errors = [], []
+    for claim in draft.claims:
+        error = _check_claim(claim, sources)
+        if error:
+            errors.append(f"[{claim.text[:40]!r}] {error}")
+        else:
+            valid.append(claim)
+    return valid, errors
 
 
 def sources_from_hits(hits: list[Any], max_chars: int = 9000) -> dict[str, Any]:

@@ -22,7 +22,9 @@ class VectorStore:
     def add(self, chunks):
         for start in range(0, len(chunks), 32):
             batch = chunks[start : start + 32]
-            vectors = self.embedder.passages([c.text for c in batch])
+            # Prepend the section/action ID so exact-ID queries match. The stored
+            # document text stays the verbatim source passage.
+            vectors = self.embedder.passages([c.embed_prefix + c.text for c in batch])
             self.collection.upsert(
                 ids=[c.id for c in batch],
                 documents=[c.text for c in batch],
@@ -30,7 +32,7 @@ class VectorStore:
                 embeddings=vectors,
             )
 
-    def search(self, question, k=5, document_ids=None):
+    def search(self, question, k=5, document_ids=None, max_distance=None):
         count = self.collection.count()
         if not count:
             return []
@@ -41,7 +43,7 @@ class VectorStore:
             where=where,
             include=["documents", "metadatas", "distances"],
         )
-        return [
+        hits = [
             Hit(Chunk(cid, text, meta), float(distance))
             for cid, text, meta, distance in zip(
                 result["ids"][0],
@@ -49,6 +51,26 @@ class VectorStore:
                 result["metadatas"][0],
                 result["distances"][0],
                 strict=False,
+            )
+        ]
+        # Drop hits that are too far from the query in embedding space. These are
+        # unlikely to contain supporting evidence; filtering them before
+        # generation reduces false abstentions and saves context budget.
+        if max_distance is not None and max_distance > 0:
+            hits = [h for h in hits if h.distance < max_distance]
+        return hits
+
+    def all_chunks(self, document_ids=None) -> list[Chunk]:
+        """Every indexed chunk, optionally filtered by document.
+
+        Used to build the BM25 index over the same corpus as the vector store.
+        """
+        where = {"document_id": {"$in": document_ids}} if document_ids else None
+        result = self.collection.get(where=where, include=["documents", "metadatas"])
+        return [
+            Chunk(cid, text, meta)
+            for cid, text, meta in zip(
+                result["ids"], result["documents"], result["metadatas"], strict=False
             )
         ]
 

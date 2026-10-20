@@ -7,8 +7,11 @@ class Store:
     def __init__(self, hits):
         self.hits = hits
 
-    def search(self, *args):
+    def search(self, *args, **kwargs):
         return self.hits
+
+    def all_chunks(self, document_ids=None):
+        return [h.chunk for h in self.hits]
 
 
 class Generator:
@@ -83,6 +86,8 @@ def test_status_answered_abstained_rejected(tmp_path):
 
     wrong_id = _claim("MANAGE 2.5 holds.", "MEASURE 2.5: The AI system to be deployed")
     result, generator = run([wrong_id, wrong_id])
+    # Every claim failed validation -> rejected (not "abstained": the model did
+    # return claims, they were just not provable).
     assert result["status"] == "rejected" and generator.calls == 2
     assert [a["error"] != "" for a in result["attempts"]] == [True, True]
 

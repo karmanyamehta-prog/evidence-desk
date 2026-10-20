@@ -47,6 +47,24 @@ class Settings(BaseSettings):
     cpu_threads: int = Field(4, ge=1)
     max_upload_mb: int = Field(20, ge=1, le=100)
     max_pages: int = Field(200, ge=1)
+    min_retrieval_distance: float = Field(
+        0.0,
+        ge=0.0,
+        le=1.0,
+        description=(
+            "Cosine distance threshold: hits with distance >= this value are dropped "
+            "before generation. 0.0 disables the filter. "
+            "CHANGES.md note: a cutoff near 0.16 catches ~2/4 unanswerable queries "
+            "on the RMF benchmark at zero answerable-query cost — set experimentally."
+        ),
+    )
+    hybrid_search: bool = Field(
+        True,
+        description=(
+            "Fuse BM25 keyword results with cosine embeddings via reciprocal rank "
+            "fusion. Requires the rank-bm25 package."
+        ),
+    )
 
     @model_validator(mode="after")
     def validate_combination(self):

@@ -8,6 +8,7 @@ class Chunk:
     id: str
     text: str
     metadata: dict
+    embed_prefix: str = ""  # section/action ID prepended at embedding time only
 
 
 @dataclass(frozen=True)
