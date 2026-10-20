@@ -12,3 +12,9 @@ repos:
       - id: trailing-whitespace
       - id: check-added-large-files
         args: [--maxkb=1000]
+        # Evaluation runs are the primary evidence for every number this
+        # project reports, and they embed the full retrieved and packed source
+        # text for every row. The 3B run is 1.3 MB for that reason alone.
+        # The guard still applies to everything else, which is where an
+        # accidental binary blob would land.
+        exclude: ^evaluation/runs/.*

@@ -1,0 +1,48 @@
+[
+  {
+    "chunk_tokens": 350,
+    "chunks": 168,
+    "gold_span_recall_at_5": 19,
+    "answerable": 20,
+    "recall": 0.95,
+    "missed_ids": [
+      "q23"
+    ],
+    "mean_covering_rank": 1.368
+  },
+  {
+    "chunk_tokens": 250,
+    "chunks": 196,
+    "gold_span_recall_at_5": 18,
+    "answerable": 20,
+    "recall": 0.9,
+    "missed_ids": [
+      "q06",
+      "q23"
+    ],
+    "mean_covering_rank": 1.389
+  },
+  {
+    "chunk_tokens": 200,
+    "chunks": 215,
+    "gold_span_recall_at_5": 18,
+    "answerable": 20,
+    "recall": 0.9,
+    "missed_ids": [
+      "q06",
+      "q23"
+    ],
+    "mean_covering_rank": 1.444
+  },
+  {
+    "chunk_tokens": 150,
+    "chunks": 258,
+    "gold_span_recall_at_5": 19,
+    "answerable": 20,
+    "recall": 0.95,
+    "missed_ids": [
+      "q06"
+    ],
+    "mean_covering_rank": 1.526
+  }
+]

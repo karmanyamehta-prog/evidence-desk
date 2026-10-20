@@ -1,0 +1,311 @@
+{
+  "run": "evaluation\\runs\\cpu-3b.json",
+  "questions": 24,
+  "answerable": 20,
+  "gold_in_prompt_but_abstained": [
+    "q03",
+    "q04",
+    "q07",
+    "q11",
+    "q12",
+    "q13",
+    "q16"
+  ],
+  "gold_missing_from_prompt": [
+    "q06",
+    "q23"
+  ],
+  "unanswerable_answered": [],
+  "rows": [
+    {
+      "id": "q01",
+      "answerable": true,
+      "category": "fact",
+      "required_facts": 1,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    },
+    {
+      "id": "q02",
+      "answerable": true,
+      "category": "fact",
+      "required_facts": 4,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    },
+    {
+      "id": "q03",
+      "answerable": true,
+      "category": "fact",
+      "required_facts": 7,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q04",
+      "answerable": true,
+      "category": "fact",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q05",
+      "answerable": true,
+      "category": "fact",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    },
+    {
+      "id": "q06",
+      "answerable": true,
+      "category": "fact",
+      "required_facts": 3,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 0,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q07",
+      "answerable": true,
+      "category": "fact",
+      "required_facts": 3,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q08",
+      "answerable": true,
+      "category": "fact",
+      "required_facts": 3,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    },
+    {
+      "id": "q09",
+      "answerable": true,
+      "category": "action",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "abstained",
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    },
+    {
+      "id": "q10",
+      "answerable": true,
+      "category": "action",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    },
+    {
+      "id": "q11",
+      "answerable": true,
+      "category": "action",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q12",
+      "answerable": true,
+      "category": "action",
+      "required_facts": 3,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q13",
+      "answerable": true,
+      "category": "action",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q14",
+      "answerable": true,
+      "category": "action",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "abstained",
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    },
+    {
+      "id": "q15",
+      "answerable": true,
+      "category": "synthesis",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    },
+    {
+      "id": "q16",
+      "answerable": true,
+      "category": "synthesis",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q17",
+      "answerable": true,
+      "category": "synthesis",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    },
+    {
+      "id": "q18",
+      "answerable": true,
+      "category": "synthesis",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    },
+    {
+      "id": "q19",
+      "answerable": false,
+      "category": "unanswerable",
+      "required_facts": 0,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 0,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q20",
+      "answerable": false,
+      "category": "unanswerable",
+      "required_facts": 0,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 0,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q21",
+      "answerable": false,
+      "category": "unanswerable",
+      "required_facts": 0,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 0,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q22",
+      "answerable": false,
+      "category": "unanswerable",
+      "required_facts": 0,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 0,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q23",
+      "answerable": true,
+      "category": "misleading",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 0,
+      "statuses": [
+        "abstained"
+      ],
+      "answered_in_any_repeat": false
+    },
+    {
+      "id": "q24",
+      "answerable": true,
+      "category": "misleading",
+      "required_facts": 2,
+      "repeats": 3,
+      "gold_in_prompt_repeats": 3,
+      "statuses": [
+        "answered"
+      ],
+      "answered_in_any_repeat": true
+    }
+  ]
+}

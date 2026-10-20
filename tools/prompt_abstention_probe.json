@@ -1,0 +1,131 @@
+{
+  "rows": [
+    {
+      "id": "q01",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": true
+    },
+    {
+      "id": "q02",
+      "buried_answered": false,
+      "front_answered": false,
+      "reordered": true
+    },
+    {
+      "id": "q03",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": true
+    },
+    {
+      "id": "q04",
+      "buried_answered": false,
+      "front_answered": false,
+      "reordered": true
+    },
+    {
+      "id": "q05",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": true
+    },
+    {
+      "id": "q06",
+      "buried_answered": false,
+      "front_answered": false,
+      "reordered": false
+    },
+    {
+      "id": "q07",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": true
+    },
+    {
+      "id": "q08",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": true
+    },
+    {
+      "id": "q09",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": false
+    },
+    {
+      "id": "q10",
+      "buried_answered": false,
+      "front_answered": false,
+      "reordered": false
+    },
+    {
+      "id": "q11",
+      "buried_answered": false,
+      "front_answered": false,
+      "reordered": false
+    },
+    {
+      "id": "q12",
+      "buried_answered": false,
+      "front_answered": false,
+      "reordered": false
+    },
+    {
+      "id": "q13",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": false
+    },
+    {
+      "id": "q14",
+      "buried_answered": false,
+      "front_answered": false,
+      "reordered": true
+    },
+    {
+      "id": "q15",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": true
+    },
+    {
+      "id": "q16",
+      "buried_answered": false,
+      "front_answered": false,
+      "reordered": false
+    },
+    {
+      "id": "q17",
+      "buried_answered": false,
+      "front_answered": false,
+      "reordered": false
+    },
+    {
+      "id": "q18",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": true
+    },
+    {
+      "id": "q23",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": false
+    },
+    {
+      "id": "q24",
+      "buried_answered": true,
+      "front_answered": true,
+      "reordered": true
+    }
+  ],
+  "summary": {
+    "questions": 20,
+    "buried_answered": 11,
+    "front_answered": 11,
+    "rescued_by_fronting": [],
+    "lost_by_fronting": []
+  }
+}
