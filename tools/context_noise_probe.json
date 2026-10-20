@@ -1,0 +1,160 @@
+{
+  "rows": [
+    {
+      "id": "q01",
+      "retrieved_answered": true,
+      "gold_only_answered": false,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 3
+    },
+    {
+      "id": "q02",
+      "retrieved_answered": true,
+      "gold_only_answered": false,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 4
+    },
+    {
+      "id": "q03",
+      "retrieved_answered": true,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 4
+    },
+    {
+      "id": "q04",
+      "retrieved_answered": false,
+      "gold_only_answered": false,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 3
+    },
+    {
+      "id": "q05",
+      "retrieved_answered": true,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 5
+    },
+    {
+      "id": "q06",
+      "retrieved_answered": false,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 3
+    },
+    {
+      "id": "q07",
+      "retrieved_answered": true,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 3
+    },
+    {
+      "id": "q08",
+      "retrieved_answered": true,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 4
+    },
+    {
+      "id": "q09",
+      "retrieved_answered": false,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 5
+    },
+    {
+      "id": "q10",
+      "retrieved_answered": true,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 5
+    },
+    {
+      "id": "q11",
+      "retrieved_answered": false,
+      "gold_only_answered": false,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 5
+    },
+    {
+      "id": "q12",
+      "retrieved_answered": false,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 5
+    },
+    {
+      "id": "q13",
+      "retrieved_answered": true,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 5
+    },
+    {
+      "id": "q14",
+      "retrieved_answered": false,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 5
+    },
+    {
+      "id": "q15",
+      "retrieved_answered": true,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 5
+    },
+    {
+      "id": "q16",
+      "retrieved_answered": false,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 5
+    },
+    {
+      "id": "q17",
+      "retrieved_answered": false,
+      "gold_only_answered": false,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 5
+    },
+    {
+      "id": "q18",
+      "retrieved_answered": true,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 4
+    },
+    {
+      "id": "q23",
+      "retrieved_answered": null,
+      "gold_only_answered": null,
+      "gold_chunk_retrieved": false
+    },
+    {
+      "id": "q24",
+      "retrieved_answered": true,
+      "gold_only_answered": true,
+      "gold_chunk_retrieved": true,
+      "n_sources_retrieved": 3
+    }
+  ],
+  "summary": {
+    "questions": 20,
+    "comparable": 19,
+    "retrieved_answered": 11,
+    "gold_only_answered": 14,
+    "rescued_by_gold_only": [
+      "q06",
+      "q09",
+      "q12",
+      "q14",
+      "q16"
+    ],
+    "lost_with_gold_only": [
+      "q01",
+      "q02"
+    ]
+  }
+}

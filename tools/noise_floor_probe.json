@@ -1,0 +1,276 @@
+{
+  "rows": [
+    {
+      "id": "q01",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        false,
+        false
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q02",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q03",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q04",
+      "retrieved_repeat_answers": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        false,
+        false
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q05",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q06",
+      "retrieved_repeat_answers": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q07",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q08",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q09",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q10",
+      "retrieved_repeat_answers": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q11",
+      "retrieved_repeat_answers": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        false,
+        false
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q12",
+      "retrieved_repeat_answers": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q13",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q14",
+      "retrieved_repeat_answers": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q15",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q16",
+      "retrieved_repeat_answers": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q17",
+      "retrieved_repeat_answers": [
+        false,
+        false,
+        false
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        false,
+        false
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q18",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    },
+    {
+      "id": "q24",
+      "retrieved_repeat_answers": [
+        true,
+        true,
+        true
+      ],
+      "retrieved_stable": true,
+      "gold_only_repeat_answers": [
+        true,
+        true
+      ],
+      "gold_only_stable": true
+    }
+  ],
+  "summary": {
+    "questions": 19,
+    "identical_repeats_flipped": [],
+    "flip_rate_identical_inputs": 0.0,
+    "gold_only_repeats_flipped": []
+  }
+}

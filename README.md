@@ -190,7 +190,9 @@ The only 2 answerable questions whose gold text was *missing* from the prompt ar
 
 **No chunk size has been changed as a result of this.** The default stays at 350 tokens.
 
-**The 3B model is not deterministic.** The evaluation uses `temperature: 0` and a fixed `seed: 42` for every repeat, yet two of the 21 questions that completed all three repeats changed status between identical repeats (q09, q14). Ollama's CPU quantised path is not bit-reproducible. Any single-run 3B number therefore carries real run-to-run variance, and the 11-vs-12 differences in the table above are not evidence of anything.
+**The 3B model is not reproducible across runs.** The evaluation uses `temperature: 0` and a fixed `seed: 42` for every repeat, yet repeat 0 answered 9 of 24 questions while repeats 1 and 2 each answered 11 — both status flips (q09, q14) are cold-start abstentions that become answers once warm. `tools/probe_noise_floor.py` shows the model is stable *within* a session (asking the same question with the same evidence three times never flips, 0 of 19) but that two independent runs disagree on 3 of 19 questions.
+
+The consequence is a rule for reading every number in this file: **a difference measured in one run against a number measured in another run is not a result.** The 11-vs-12 differences in the chunk-size table are not evidence of anything, and a single-run 3B number is not a measurement of this model.
 
 The practical consequence for a portfolio claim: **retrieval and generation fail independently here, and retrieval is not the bottleneck.** Gold-span recall@5 is 0.95 on the answerable set and the gold text is in the prompt for 18 of 20; the model is choosing not to use it. The cause is not yet established, and `CHANGES.md` lists what has been ruled out and what is still untested.
 
@@ -214,6 +216,7 @@ The practical consequence for a portfolio claim: **retrieval and generation fail
 |---|---:|---|
 | Rows | 72 | 24 questions x 3 warm repeats |
 | Answered / abstained | 31 / 41 | No `rejected` or `error` rows |
+| Answered by repeat | 9 / 11 / 11 | Repeat 0 is cold; the model drifts between runs |
 | Correct structured abstentions | 12/12 | All 4 unanswerable questions abstained in all 3 repeats |
 | Answerable questions answered at least once | 12/20 | 3 never answered: q11, q12, q14 |
 | Request latency p50 / p95 | 22.1s / 49.4s | Range 3.0s to 55.5s |

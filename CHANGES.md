@@ -140,14 +140,21 @@ otherwise.** The model was downloaded and run; nothing here is a projection.
   **No chunk size has been changed on the strength of this**, and the earlier
   "the dominant failure mode" wording has been removed from the docs.
 - **The 3B model is not deterministic even at temperature 0 with a fixed
-  seed.** The evaluation uses `temperature: 0, seed: 42` for every repeat.
-  Two of the 21 questions that had completed all 3 repeats changed status
-  across identical repeats: q09 (abstained, answered, answered) and q14
-  (abstained, answered, answered). Ollama's CPU quantised path is not
-  bit-reproducible, so any single-run number for this model carries real
-  run-to-run variance, and a 1-repeat "3B result" is not a measurement. This
-  is also why the chunk-size probe's 11-vs-12 differences are not evidence of
-  anything.
+  seed, and the drift is a warm-up effect.** The evaluation uses
+  `temperature: 0, seed: 42` for every repeat. Repeat 0 answered 9 of 24
+  questions; repeats 1 and 2 each answered 11. Both status flips (q09 and
+  q14) are between repeat 0 and the later repeats, in the same direction:
+  cold start abstains, warm answers.
+  `tools/probe_noise_floor.py` makes this precise: asking the same question
+  with the same evidence three times in a row **never** flips (0 of 19
+  questions), so the model is stable within a session. But two *independent*
+  runs of the same probe disagree on 3 of 19 questions, and on 2 of 19 when
+  only the retrieval method differs.
+  **Consequence: a difference measured in one run against a number measured
+  in another run is not a result.** Every comparison in this file is
+  therefore reported as a same-session, alternating, repeated measurement, and
+  the chunk-size probe's 11-vs-12 differences are explicitly not evidence.
+  A single-run 3B number is not a measurement of this model.
 - **The context budget is doing real work, and it drops chunks.** `top_k` is 5
   but only 2-5 chunks reach the prompt (`context_chars` is 4500, and chunks
   with 50-token overlap are long). 33 of 72 rows dropped at least one
@@ -159,6 +166,29 @@ otherwise.** The model was downloaded and run; nothing here is a projection.
   both were rejected outright. Under the new rule they are answered with the
   bad claim dropped. The 1.5B baseline numbers cannot be compared directly
   against a 3B run on this basis.
+- **Several other candidate explanations were measured and ruled out.**
+  - *Number of required facts.* The prompt allows "at most 2 short claims",
+    and several abstaining questions want 3 or 7 facts. But q02 (4 facts) was
+    answered and q07 (3 facts) abstained, so the fact count does not separate
+    the two groups.
+  - *Prompt size.* Answered rows carry 2272-4147 characters of evidence;
+    abstained rows carry 2950-4459. The ranges overlap almost completely.
+  - *Quote length.* The prompt asks for 8-20 word quotes. The three
+    never-answered questions (q11, q12, q14) have gold quotes of 20, 15 and
+    20 words, all inside that range, so the quote rule is not what blocks
+    them.
+  - *Retrieval method.* The evaluation uses hybrid BM25+RRF; the probes use
+    pure cosine. The two disagree on 2 of 19 questions, which is within the
+    run-to-run drift measured above, so hybrid vs cosine is not yet shown to
+    matter either way.
+- **The open question is now narrow and stated precisely: why does the model
+  return `{"claims": []}` when the gold text is in the prompt?** The strongest
+  remaining hypothesis is that the *distractor* passages in the context are
+  what makes it give up, rather than the gold passage itself.
+  `tools/probe_context_noise_controlled.py` tests that directly: for each
+  question it alternates the two conditions (full retrieved context versus
+  the gold chunk alone) within one session, with the service's exact request
+  options, three rounds each.
 
 ## Still not done
 
@@ -167,18 +197,15 @@ otherwise.** The model was downloaded and run; nothing here is a projection.
    The existing `evaluation/review.json` labels the 1.5B answers and cannot be
    reused for the 3B outputs. The `README.md` table must not be overwritten
    with the 3B run until it is labelled.
-2. **The cause of the false abstentions is still not established.** The
-   position hypothesis and the retrieval hypothesis are both refuted: the gold
-   text is in the prompt and the model still abstains. The remaining
-   candidates — the model's confidence calibration, its ability to read action
-   IDs, the prompt's "return empty claims if the evidence cannot answer"
-   instruction, and the answer's shape (several of the abstaining questions
-   want a list of 3 or 7 facts, which the prompt's "at most 2 short claims"
-   instruction cannot express) — are untested.
-   `tools/probe_prompt_abstention.py` runs a controlled front-versus-buried
-   comparison for the position one.
-3. **Docker, the Spaces image and a CI run** are still unverified on this
-   machine. `requirements-linux.lock.txt` has been regenerated and is now
-   checked by CI.
-4. **Independent human review and inter-rater agreement** remain outstanding for
+2. **The cause of the false abstentions.** Position and retrieval are both
+   refuted, and the gold text is demonstrably in the prompt. The distractor
+   hypothesis is being tested by `tools/probe_context_noise_controlled.py`.
+3. **A reproducible 3B measurement protocol.** Because the model drifts
+   between runs, any published 3B number needs multiple warm repeats reported
+   together with the spread, not a single pass. The evaluation runner already
+   supports `--repeats`; the reporting does not yet summarise the spread.
+4. **Docker, the Spaces image and a CI run** are still unverified on this
+   machine. `requirements-linux.lock.txt` has been regenerated, now resolves
+   torch from the CPU index, and is checked by CI.
+5. **Independent human review and inter-rater agreement** remain outstanding for
    the whole evaluation, and the questions are still assistant-authored.
