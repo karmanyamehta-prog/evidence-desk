@@ -341,3 +341,56 @@ otherwise.** The model was downloaded and run; nothing here is a projection.
    not a measurement, the setting changes every published number, and the
    prompt grows. If it is tried, it needs a full re-run and a fresh set of
    labels, not a spot check.
+
+# Phase 3 — CI and the change cycle
+
+Scope: the build and review process, not the model. Two CI jobs were broken
+and neither was caught, because every commit went straight to `main` and
+nothing required the workflow to be green.
+
+## Fixed
+
+| Area | Change | Evidence |
+|---|---|---|
+| `typecheck` job | `pyproject.toml` had no `[tool.mypy]` section, so mypy ran without the pydantic plugin and reported every defaulted `Settings` field as a missing required argument — 14 errors on correct code. The plugin is enabled and the two real annotations it was masking are added. | `mypy grounded_qa --ignore-missing-imports --no-strict-optional` exits 0; CI job green |
+| `lock` job | The install step resolved the lock against PyPI alone, but the lock pins `torch==2.8.0+cpu`, which exists only on the PyTorch CPU index. The job died at step 5 and never reached the freshness check. The step now passes the same extra index and index strategy that produced the lock. | `uv pip install --require-hashes` resolves 153 packages; both `lock` steps green in CI |
+| Change cycle | Changes land through a feature branch and a pull request. `CONTRIBUTING.md` gives the commands, and names the two `uv` invocations that catch what breaks the lock job. | PR #6, merged as `b6f5773` |
+
+## What the `lock` failure actually was
+
+Not a stale lock. The lock was current the whole time: a compile with the
+same cutoff and the same index set reproduces its package lines exactly, and
+only the header comment differs, because uv records the output path it was
+given. The five-version difference reported mid-session (`anyio`, `mpmath`,
+`pillow`, `sympy`, `typing-extensions`) was a **stale local `uv` cache**; a
+compile with an empty `UV_CACHE_DIR` produces zero differences.
+
+The real bug was in commit `ac76218`, which moved the lock onto the CPU
+index and added `--extra-index-url` to the *compile* step but not to the
+*install* step.
+
+Both flags are required, and each alone fails differently:
+
+- The extra index alone fails because uv only considers versions published on
+  the first index holding a given package, and the CPU index shadows
+  `charset-normalizer` at an older version than the lock pins.
+- The index strategy alone fails because `torch==2.8.0+cpu` is only on the
+  CPU index.
+
+## Measured
+
+- The `tests` workflow passes on `main` for the first time in the
+  repository's history (run 39502945238, all four jobs green).
+- The `tests` workflow had been red on 9 consecutive runs before the fix.
+- 35 of 35 commits went straight to `main`; there was no branch protection
+  and no pull-request gate.
+
+## Still not done
+
+- **Branch protection on `main`** is not set. The workflow is green, but
+  nothing requires it to be green before a merge — which is the failure mode
+  that let the two broken jobs sit on `main` unnoticed. Creating the ruleset
+  is a standing-rule change to the repository and needs the user's explicit
+  approval.
+- **An issue tracking the cycle change** has not been opened, for the same
+  reason: it publishes to the issue tracker.

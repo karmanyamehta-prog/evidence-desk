@@ -306,6 +306,7 @@ Named volumes preserve models and documents. The published local ports bind to l
 ## Validation and limitations
 
 - 288 unit tests pass (Windows 11, Python 3.12), including an offline end-to-end test (real PDF parsing, chunking, Chroma and HTTP layer; the embedding model and LLM are replaced by a hashed embedder and a scripted generator). No test runs real E5 or Ollama. `ruff` and `mypy` are clean.
+- The `tests` workflow (lint, typecheck, unit, lock) passes on `main`. Every change lands through a pull request, and the lock job re-compiles and diffs the dependency lock so the pinned environment cannot silently go stale. See [CONTRIBUTING.md](CONTRIBUTING.md).
 - The corpus, the 3B model and the retrieval layer were exercised on the target laptop for real. The **evaluation numbers below are not** from that machine's 3B model.
 - Linux dependencies installed successfully and `pip check` passed. Docker runtime, browser layout and public hosting are not certified by these tests.
 - Two documents are indexed, but the **published evaluation set is still single-document**: the cross-document set exists and its gold spans are verified, but no reviewed labels exist for it yet.

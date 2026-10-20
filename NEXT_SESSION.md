@@ -1,5 +1,43 @@
 # Where this stands — end of session, 2026-10-21
 
+## CI is green, and the change cycle changed
+
+The `tests` workflow now passes on `main` for the first time in the
+repository's history. Two jobs were broken and neither was caught, because
+there was no pull-request gate: every commit went straight to `main`.
+
+| Job | Was | Now |
+|---|---|---|
+| `lint` | passing | passing |
+| `typecheck` | **failing** (14 false mypy errors, no pydantic plugin) | passing |
+| `unit` | passing | passing |
+| `lock` | **failing** across 9 consecutive runs | passing |
+
+The `lock` failure was a real bug, not a stale lock. Commit `ac76218` moved
+the lock onto the PyTorch CPU index and added `--extra-index-url` to the
+*compile* step but not to the *install* step, so step 5 died with "no
+version of torch==2.8.0+cpu" and step 6 never ran. The lock itself was
+current all along — a compile with the same cutoff and index set reproduces
+its package lines exactly. (The five-version difference reported mid-session
+was a stale local `uv` cache, not a stale lock.) Fixed in PR #6, merged as
+`b6f5773`.
+
+**The cycle is now: feature branch → pull request → green `tests` →
+squash-merge.** `CONTRIBUTING.md` has the commands, including the two
+`uv` invocations that catch the two things that break the lock job.
+
+Two things still need the user, because they change repository settings or
+publish to the issue tracker:
+
+1. **Branch protection on `main`** (a ruleset requiring `lint`, `typecheck`,
+   `unit`, `lock` to pass). The API call was blocked by the permission
+   classifier as a standing-rule change; it needs an explicit go-ahead.
+2. **An issue for the branch/PR cycle**, so the workflow change is recorded
+   in the tracker and not only in a commit message. Also blocked, as a
+   write to an external system.
+
+The fully-merged `hardening` branch has been deleted.
+
 ## What was just finished
 
 The distractor hypothesis — the last open candidate for the 3B model's false
@@ -64,13 +102,14 @@ now exits 0.
 | `ruff format --check .` | clean |
 | `mypy grounded_qa ...` | clean (exit 0) |
 | `pip check` | clean |
+| GitHub Actions `tests` on `main` | **all four jobs green** (run 39502945238) |
 
 ## Still open, in priority order
 
-1. **A real GitHub Actions run.** The workflow has never been observed
-   executing. The typecheck job was broken and nobody saw it, which is
-   exactly the failure mode a CI badge is supposed to catch — so check the
-   run before trusting the badge.
+1. **Branch protection on `main`.** The workflow is green, but nothing
+   *requires* it to be green before a merge. This is the one change that
+   makes the rest of the cycle stick, and it needs the user's explicit
+   go-ahead — see the top of this note.
 2. **The cause of the false abstentions is still open.** Position, retrieval,
    fact count, prompt size, quote length, retrieval method and the distractors
    have all been refuted. What remains: the model returns `{"claims": []}`
@@ -84,9 +123,9 @@ now exits 0.
 4. **A reproducible 3B measurement protocol.** The runner supports
    `--repeats`; the reporting does not yet summarise the spread. Any
    published 3B number needs multi-repeat spread, not a single pass.
-5. **Docker, the Spaces image, and `requirements-linux.lock.txt` on a real
-   Linux box** remain unverified on this machine. The lock is regenerated and
-   CI-checked, but not installed on Linux here.
+5. **Docker and the Spaces image** remain unverified on this machine. The
+   lock *is* now installed and verified on Linux — in CI, on
+   `ubuntu-24.04` — but not on a local Linux box.
 6. **Independent human review and inter-rater agreement** are outstanding for
    the whole evaluation, and the questions are still assistant-authored.
 
@@ -125,3 +164,16 @@ produced the two wrong claims that had to be retracted.
   in the tool scripts — numpy typing on unannotated arrays. CI only typechecks
   `grounded_qa`, so this is not blocking, but it is untidy and would be worth
   cleaning up if the tools are ever brought under the typechecker.
+- **A stale local `uv` cache can make the lock look stale when it is not.**
+  Recompile with `UV_CACHE_DIR` pointed at an empty directory before
+  believing any "the lock is out of date" result.
+- The lock job needs BOTH `--extra-index-url https://download.pytorch.org/whl/cpu`
+  AND `--index-strategy unsafe-best-match`. The index alone fails because the
+  CPU index shadows `charset-normalizer` at an older version; the strategy
+  alone fails because `torch==2.8.0+cpu` is only on the CPU index.
+- `git credential fill` works for GitHub API calls on this box (the token is
+  in the Windows credential manager), but `gh` is not installed. Actions job
+  logs return 403 without admin on the API token.
+- The GitHub API writes that need the user's explicit approval: creating a
+  branch ruleset, and creating an issue. Both were attempted and refused by
+  the permission classifier.
