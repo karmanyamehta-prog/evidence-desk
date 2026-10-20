@@ -32,8 +32,7 @@ jobs:
           cache-dependency-path: |
             requirements.txt
             requirements-dev.txt
-      - run: pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
-      - run: pip install -e . -r requirements-dev.txt
+      - run: pip install -e . -r requirements-dev.txt --extra-index-url https://download.pytorch.org/whl/cpu
       - run: mypy grounded_qa --ignore-missing-imports --no-strict-optional
   unit:
     runs-on: ubuntu-24.04
@@ -47,8 +46,7 @@ jobs:
           cache-dependency-path: |
             requirements.txt
             requirements-dev.txt
-      - run: pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
-      - run: pip install -e . -r requirements-dev.txt
+      - run: pip install -e . -r requirements-dev.txt --extra-index-url https://download.pytorch.org/whl/cpu
       - run: pip check
       - name: Test with coverage
         run: python -m pytest -q --cov --cov-report=xml --cov-report=term-missing --cov-fail-under=80
@@ -75,7 +73,7 @@ jobs:
         run: uv pip install --system --require-hashes -r requirements-linux.lock.txt
       - name: Verify the lock file is up to date
         run: |
-          uv pip compile requirements-dev.txt --python-platform linux --python-version 3.12 --generate-hashes --exclude-newer 2026-10-01T00:00:00Z --output-file /tmp/regenerated.lock.txt
+          uv pip compile requirements-dev.txt --python-platform linux --python-version 3.12 --generate-hashes --exclude-newer 2026-10-01T00:00:00Z --extra-index-url https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match --output-file /tmp/regenerated.lock.txt
           # uv records the output path in a header comment, so compare the
           # package lines only.
           diff -u <(grep -v '^#' requirements-linux.lock.txt) <(grep -v '^#' /tmp/regenerated.lock.txt)
