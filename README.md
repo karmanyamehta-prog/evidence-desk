@@ -168,15 +168,31 @@ See [the full results table](evaluation/results/RESULTS.md), [raw runs](evaluati
 
 Measured profile: **Qwen2.5 1.5B Q4_K_M**, 24 queries, one CPU pass, **recorded before the validator was tightened** (see `CHANGES.md`). Replaying the recorded answers through the new validator rejects the three answers with a wrong section ID (q13, q14, q16) and leaves the other recorded answers unchanged; a fresh run is still needed. These are not results for the default 3B model or the target laptop.
 
-### The 3B model abstains when the answer is buried in a chunk
+### The 3B model's abstentions: what was measured, and one claim that was wrong
 
-Measured on the target laptop with `qwen2.5:3b-instruct-q4_K_M` running for real. This is the dominant failure mode and it is **not** a retrieval failure.
+Measured on the target laptop with `qwen2.5:3b-instruct-q4_K_M` running for real.
 
-For q01 ("Is AI RMF 1.0 voluntary or mandatory?") the gold text is retrieved and is present in the prompt — but it sits 1296 characters into a 1628-character chunk. The same model, given that same chunk with the answer at the start, answers correctly; given the chunk unchanged, it abstains. Retrieval Hit@5 for this question is 1.0. The evidence was there and the model would not use it.
+**The run.** 24 questions, 3 warm repeats, 72 rows. 31 answered, 41 abstained. All 4 unanswerable questions abstained in all 3 repeats (12/12), so the model does not answer questions it cannot answer. 12 of the 20 answerable questions were answered in at least one repeat; 3 (q11, q12, q14) were never answered. The false abstentions are the open problem.
 
-This is a "lost in the middle" failure at 3B scale: a small model attends poorly to text buried inside a long context window, and reads that as "the evidence does not answer this", which it then reports as `{"claims": []}`. It is why the abstention rate is high, and it is not what the 1.5B run measured. `tools/probe_chunk_size.py` measures the answer rate against chunk size on the same questions; the results are recorded in `CHANGES.md`.
+**A claim that was measured and then refuted.** An early investigation found one question (q01) where the gold text sat 1296 characters into a 1628-character chunk and the model abstained, while answering correctly when given the same text at the front of the chunk. That observation about q01 is real. Generalising it to "the dominant failure mode is lost-in-the-middle" was wrong, and the earlier version of this README said so. Three experiments refute it:
 
-The practical consequence for a portfolio claim: **on this corpus, the retrieval layer and the generation layer have separate failure modes, and improving one does not improve the other.** Retrieval Hit@5 was already 0.95 on the 1.5B run, so retrieval was not the bottleneck.
+| Experiment | Script | Result |
+|---|---|---|
+| Answer rate at chunk sizes 350 / 250 / 200 / 150, same questions | `tools/probe_chunk_size.py` | 12, 11, 12, 11 of 20 — flat. Gold depth p90 fell from 1172 to 429 characters over that range. |
+| Gold-span recall@5 at the same four sizes (no model calls) | `tools/probe_chunk_retrieval.py` | 0.95, 0.90, 0.90, 0.95 — flat. Shallower chunks did not cost retrieval quality. |
+| Same question, same evidence, answer moved to the front of its chunk | `tools/probe_prompt_abstention.py` | 11 answered buried, 11 answered fronted — **0 rescued, 0 lost**. In the 11 questions where the span was genuinely moved, the status was identical both ways, every time. |
+
+The counter-example that settles it: **q11's gold span is a whole chunk that begins at offset 0 of its page**, so the answer is already the first thing in the evidence. The model abstained on it at all four chunk sizes and in all three evaluation repeats. A position effect cannot explain that.
+
+**The decisive measurement: the answer is in the prompt and the model still abstains.** For every row of the 3B run, `tools/check_gold_in_prompt.py` searches the gold quote for in the text actually sent to the model. For **7 of the 20 answerable questions — q03, q04, q07, q11, q12, q13 and q16 — the gold text was present in the prompt in all 3 repeats and the model still abstained.** The raw output is `{"claims": []}`, a model-initiated abstention, not a validation rejection.
+
+The only 2 answerable questions whose gold text was *missing* from the prompt are the two misleading-premise questions (q06, q23), where refusing the false premise is correct behaviour. So the false abstentions are neither a retrieval failure nor a context-budget failure: the evidence reaches the model and the model declines to use it.
+
+**No chunk size has been changed as a result of this.** The default stays at 350 tokens.
+
+**The 3B model is not deterministic.** The evaluation uses `temperature: 0` and a fixed `seed: 42` for every repeat, yet two of the 21 questions that completed all three repeats changed status between identical repeats (q09, q14). Ollama's CPU quantised path is not bit-reproducible. Any single-run 3B number therefore carries real run-to-run variance, and the 11-vs-12 differences in the table above are not evidence of anything.
+
+The practical consequence for a portfolio claim: **retrieval and generation fail independently here, and retrieval is not the bottleneck.** Gold-span recall@5 is 0.95 on the answerable set and the gold text is in the prompt for 18 of 20; the model is choosing not to use it. The cause is not yet established, and `CHANGES.md` lists what has been ruled out and what is still untested.
 
 | Metric | Measured value | Denominator / interpretation |
 |---|---:|---|
@@ -191,6 +207,18 @@ The practical consequence for a portfolio claim: **on this corpus, the retrieval
 | Correct structured abstentions | 2/4 | Both were validation rejections. **The model itself never returned an empty answer in this run (0 model-initiated abstentions).** |
 | False abstentions | 4/20 | Answerable queries |
 | Request latency p50 / p95 | 35.4s / 91.5s | All 24 queries; includes retries and cold effects |
+
+**This table is the 1.5B labelled baseline and must not be read as 3B results.** The 3B run has no semantic labels, so no faithfulness or completeness figure can be computed for it yet; publishing one would require inventing labels. What the 3B run does support, without labels, is the status split and the latency distribution:
+
+| 3B run (no semantic labels) | Value | Denominator / interpretation |
+|---|---:|---|
+| Rows | 72 | 24 questions x 3 warm repeats |
+| Answered / abstained | 31 / 41 | No `rejected` or `error` rows |
+| Correct structured abstentions | 12/12 | All 4 unanswerable questions abstained in all 3 repeats |
+| Answerable questions answered at least once | 12/20 | 3 never answered: q11, q12, q14 |
+| Request latency p50 / p95 | 22.1s / 49.4s | Range 3.0s to 55.5s |
+
+The 3B model abstains on the unanswerable questions every time and still misses 8 of 20 answerable ones, so the gap is not a retrieval problem — the evidence was in the prompt.
 
 The first retrieved result was relevant for 18 of 20 answerable questions, but many lower-ranked passages were irrelevant. Quote checks also did not prevent wrong action attribution (`q13`), off-topic supported answers (`q06`, `q22`), or heading-only outputs (`q11`, `q12`). Two correctly refused out-of-scope questions were blocked by validation failures, not demonstrated recognition of missing evidence. Full review rationales are retained.
 
@@ -243,13 +271,13 @@ Named volumes preserve models and documents. The published local ports bind to l
 
 ## Validation and limitations
 
-- 241 unit tests pass (Windows 11, Python 3.12), including an offline end-to-end test (real PDF parsing, chunking, Chroma and HTTP layer; the embedding model and LLM are replaced by a hashed embedder and a scripted generator). No test runs real E5 or Ollama. `ruff` and `mypy` are clean.
+- 252 unit tests pass (Windows 11, Python 3.12), including an offline end-to-end test (real PDF parsing, chunking, Chroma and HTTP layer; the embedding model and LLM are replaced by a hashed embedder and a scripted generator). No test runs real E5 or Ollama. `ruff` and `mypy` are clean.
 - The corpus, the 3B model and the retrieval layer were exercised on the target laptop for real. The **evaluation numbers below are not** from that machine's 3B model.
 - Linux dependencies installed successfully and `pip check` passed. Docker runtime, browser layout and public hosting are not certified by these tests.
 - Two documents are indexed, but the **published evaluation set is still single-document**: the cross-document set exists and its gold spans are verified, but no reviewed labels exist for it yet.
 - The RMF report has a specialized table parser; other documents do not inherit it. No OCR, reliable diagram understanding or exhaustive table extraction.
 - Page-bound chunking can lose context across pages. Similarity is not calibrated confidence. Character-based generation context budgeting is a heuristic; unusual text can tokenize differently.
-- Smaller models can produce unsupported statements, invalid JSON, incorrect interpretations despite valid source IDs, and — as measured here — abstain when the answer is buried inside a retrieved chunk.
+- Smaller models can produce unsupported statements, invalid JSON, incorrect interpretations despite valid source IDs, and — as measured here — abstain on questions whose evidence was retrieved and is present in the prompt. The cause of those false abstentions is not established; an early "lost in the middle" explanation was measured and refuted (see above).
 - The API rejects unexpected `Host` headers and cross-origin browser POSTs (`ALLOWED_HOSTS`), which blocks DNS rebinding and cross-site uploads to a local server. It has no authentication and must stay on loopback.
 - No authentication, production monitoring, durable hosted storage, multi-user isolation, upload malware scanning or reranker. Bind locally; prepared public demo disables uploads.
 - Current benchmark has a small sample, assistant-authored questions and judgments, no independent evaluator and only one timing pass. Do not market the numbers as production reliability.

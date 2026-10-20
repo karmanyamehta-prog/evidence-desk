@@ -92,21 +92,68 @@ otherwise.** The model was downloaded and run; nothing here is a projection.
 
 ## Findings
 
-- **The 3B model abstains when the answer is buried inside a retrieved chunk.**
-  This is the dominant failure mode, and it is not a retrieval failure. For q01
-  ("Is AI RMF 1.0 voluntary or mandatory?") the gold text is retrieved and is
-  inside the context, but it sits 1296 characters into a 1628-character chunk.
-  The same model, given that same chunk with the answer at the start, answers
-  correctly. Given the chunk with a 2-character header prepended, it answers;
-  given the chunk unchanged, it abstains. Retrieval Hit@5 was 1.0 for this
-  question — the evidence was there and the model would not use it.
-  This is a "lost in the middle" failure at 3B scale, and it is the reason the
-  abstention rate is high. It is not a fixable-by-prompt problem and it is not
-  what the earlier 1.5B run measured.
-- **The context-budget fix mattered.** Before the re-sort, q01's gold chunk was
-  dropped from the context by the greedy packer while the budget was spent on
-  weaker matches. After the re-sort the gold chunk is always in the prompt.
-  This is a genuine bug fix; it does not by itself fix the abstention above.
+- **The 3B model's abstentions are real and mostly not a retrieval problem.**
+  The completed 24-question run (3 warm repeats, 72 rows) answered 31 and
+  abstained 41. Of the 20 answerable questions, 12 of 20 were answered in at
+  least one repeat; 3 (q11, q12, q14) were never answered at any repeat. All
+  4 unanswerable questions abstained in all 3 repeats (12/12), so the model is
+  not answering questions it cannot answer. The remaining abstentions are
+  false abstentions on answerable questions.
+- **The decisive measurement: the answer is in the prompt and the model still
+  abstains.** `tools/check_gold_in_prompt.py` searches the gold quote for in
+  the text actually sent to the model, using the same typographic folding the
+  citation validator applies. For **7 of the 20 answerable questions — q03,
+  q04, q07, q11, q12, q13 and q16 — the gold text was present in the prompt
+  in all 3 repeats and the model still abstained.** The raw output is
+  `{"claims": []}`: a model-initiated abstention, not a validation rejection.
+  Only 2 of the 20 (q06, q23) had their gold text missing from the prompt,
+  and both are misleading-premise questions, where refusing the false premise
+  is the correct behaviour.
+  So the false abstentions are not a retrieval failure and not a context-budget
+  failure. The evidence is in the prompt, and the model chooses to return
+  `{"claims": []}`. This is the finding that matters, and it is what the
+  earlier "lost in the middle" story got wrong.
+- **"Lost in the middle" is NOT the explanation, and the earlier claim of it
+  was wrong.** The first investigation found one question (q01) where the gold
+  text sat 1296 characters into a 1628-character chunk and the model abstained
+  while answering correctly when given the same text at the front. That is a
+  real observation about q01, but it does not generalise, and generalising it
+  was a mistake. Three separate experiments refute it:
+  1. **Answer rate at four chunk sizes.** `tools/probe_chunk_size.py` holds the
+     20 answerable questions fixed and varies only the chunk size. The gold
+     span's depth p90 falls from 1172 characters at 350 tokens to 429 at 150,
+     and the answer rate does not move: 12, 11, 12, 11 of 20.
+  2. **Retrieval at the same four sizes.** `tools/probe_chunk_retrieval.py`
+     makes no model calls and measures gold-span recall@5 directly: 0.95,
+     0.90, 0.90, 0.95. Shallower chunks did not cost retrieval quality, so the
+     flat answer rate is not a retrieval/answer trade-off.
+  3. **The controlled front-versus-buried test.** `tools/probe_prompt_abstention.py`
+     asks the model twice about the same question with the same evidence,
+     changing only whether the gold span leads its chunk. In 11 of the 20
+     questions the gold span was genuinely moved; in those 11 the answer
+     status was **identical both ways, every time**. Overall: 11 answered
+     buried, 11 answered fronted, **0 rescued, 0 lost**.
+  The counter-example that settles it: q11's gold span is a whole chunk
+  starting at offset 0 of its page, so the answer is already the first thing
+  in the evidence, and the model abstained on it at all four chunk sizes and
+  in all three evaluation repeats. A position effect cannot explain that.
+  **No chunk size has been changed on the strength of this**, and the earlier
+  "the dominant failure mode" wording has been removed from the docs.
+- **The 3B model is not deterministic even at temperature 0 with a fixed
+  seed.** The evaluation uses `temperature: 0, seed: 42` for every repeat.
+  Two of the 21 questions that had completed all 3 repeats changed status
+  across identical repeats: q09 (abstained, answered, answered) and q14
+  (abstained, answered, answered). Ollama's CPU quantised path is not
+  bit-reproducible, so any single-run number for this model carries real
+  run-to-run variance, and a 1-repeat "3B result" is not a measurement. This
+  is also why the chunk-size probe's 11-vs-12 differences are not evidence of
+  anything.
+- **The context budget is doing real work, and it drops chunks.** `top_k` is 5
+  but only 2-5 chunks reach the prompt (`context_chars` is 4500, and chunks
+  with 50-token overlap are long). 33 of 72 rows dropped at least one
+  retrieved chunk. The packer sorts by distance first, so the closest match is
+  kept; but the overlap means near-duplicate text can consume the budget, and
+  `retrieved` and `sources` do not contain the same number of chunks.
 - **Per-claim filtering changes what a rejected answer means.** q13 and q14
   each had one good claim and one bad one; under the old all-or-nothing rule
   both were rejected outright. Under the new rule they are answered with the
@@ -115,19 +162,23 @@ otherwise.** The model was downloaded and run; nothing here is a projection.
 
 ## Still not done
 
-1. **The 3B evaluation numbers.** The 24-query run with three warm repeats was
-   started but has not completed. The table in `README.md` is still the 1.5B
-   pre-hardening baseline and must not be presented as 3B results.
-2. **Independent review of the new outputs.** The new 3B and cross-document runs
-   need semantic labels before any faithfulness or completeness number is
-   published. The existing `evaluation/review.json` labels the 1.5B answers.
-3. **The chunk-size question is measured but not yet decided.** `tools/probe_chunk_size.py`
-   measures the answer rate at chunk sizes 350/250/200/150 on the same 20
-   answerable questions. The gold depth p90 falls from 1296 characters at 350
-   tokens to 436 at 150, which is the mechanism the abstention depends on.
-   The result has not been read, and no chunk size has been changed on the
-   strength of it.
-4. **Docker, CI, the Spaces image and `requirements-linux.lock.txt`** are
-   still unverified on this machine.
-5. **Independent human review and inter-rater agreement** remain outstanding for
+1. **Independent review of the new outputs.** The 3B run has no semantic
+   labels, so no faithfulness or completeness number can be published for it.
+   The existing `evaluation/review.json` labels the 1.5B answers and cannot be
+   reused for the 3B outputs. The `README.md` table must not be overwritten
+   with the 3B run until it is labelled.
+2. **The cause of the false abstentions is still not established.** The
+   position hypothesis and the retrieval hypothesis are both refuted: the gold
+   text is in the prompt and the model still abstains. The remaining
+   candidates — the model's confidence calibration, its ability to read action
+   IDs, the prompt's "return empty claims if the evidence cannot answer"
+   instruction, and the answer's shape (several of the abstaining questions
+   want a list of 3 or 7 facts, which the prompt's "at most 2 short claims"
+   instruction cannot express) — are untested.
+   `tools/probe_prompt_abstention.py` runs a controlled front-versus-buried
+   comparison for the position one.
+3. **Docker, the Spaces image and a CI run** are still unverified on this
+   machine. `requirements-linux.lock.txt` has been regenerated and is now
+   checked by CI.
+4. **Independent human review and inter-rater agreement** remain outstanding for
    the whole evaluation, and the questions are still assistant-authored.
