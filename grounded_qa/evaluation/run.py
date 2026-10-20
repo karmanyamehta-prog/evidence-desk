@@ -8,7 +8,7 @@ import time
 from datetime import UTC, datetime
 from pathlib import Path
 
-from grounded_qa.config import Settings, manifest_path
+from grounded_qa.config import Settings, corpus_documents
 from grounded_qa.generation.client import SYSTEM, ModelError
 from grounded_qa.service import Service
 
@@ -37,7 +37,7 @@ def main():
         "prompt": SYSTEM,
         "seed": 42,
         "temperature": 0,
-        "corpus": json.loads(manifest_path().read_text()),
+        "corpus": corpus_documents(),
         "index_chunk_count": service.store.collection.count(),
     }
     if s.llm_provider == "ollama":

@@ -1,8 +1,9 @@
 """Validated environment-only configuration; no credentials in source."""
 
+import json
 import os
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -23,6 +24,27 @@ def manifest_path() -> Path:
     raise FileNotFoundError(
         "corpus/manifest.json not found; run from the repo root or set CORPUS_MANIFEST"
     )
+
+
+def corpus_documents() -> list[dict[str, Any]]:
+    """The documents in the corpus manifest, in manifest order.
+
+    The manifest is a {"documents": [...]} object. A single-document manifest
+    (a bare object with a "sha256" key) is also accepted and returned as a
+    one-element list, so an older manifest keeps working.
+    """
+    raw = json.loads(manifest_path().read_text(encoding="utf-8"))
+    if isinstance(raw, list):
+        documents = raw
+    elif isinstance(raw.get("documents"), list):
+        documents = raw["documents"]
+    elif raw.get("sha256"):
+        documents = [raw]
+    else:
+        raise ValueError("corpus manifest has no documents")
+    if not documents:
+        raise ValueError("corpus manifest lists no documents")
+    return documents
 
 
 class Settings(BaseSettings):

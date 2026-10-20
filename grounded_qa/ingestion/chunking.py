@@ -40,14 +40,23 @@ def chunk_pages(
         text = page["text"]
         cursor = 0
         # Keep action boundaries even when adjacent actions have similar wording.
+        # Two identifier schemes are recognised: the RMF core functions
+        # ("GOVERN 1.6:") and the Generative AI Profile's appendix actions
+        # ("A.1.1."). Both are prefixed to the embedding text so that an
+        # exact-ID question can find its action.
         sections = re.split(
-            r"(?=^(?:GOVERN|MAP|MEASURE|MANAGE)\s*\d+\.\d+:|^\d+\.\d+\s+[A-Z])",
+            r"(?=^(?:GOVERN|MAP|MEASURE|MANAGE)\s*\d+\.\d+:"
+            r"|^[A-Z]\.\d+\.\d+\.?\s+[A-Z]"
+            r"|^\d+\.\d+\s+[A-Z])",
             text,
             flags=re.M,
         )
         parts = []
         for section in sections:
-            action = re.match(r"(?:GOVERN|MAP|MEASURE|MANAGE)\s*\d+\.\d+", section)
+            action = re.match(
+                r"(?:GOVERN|MAP|MEASURE|MANAGE)\s*\d+\.\d+|[A-Z]\.\d+\.\d+",
+                section,
+            )
             parts.extend(
                 (part, action.group(0) if action else page.get("section", ""))
                 for part in splitter.split_text(section)

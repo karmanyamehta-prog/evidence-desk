@@ -13,6 +13,9 @@ class Store:
     def all_chunks(self, document_ids=None):
         return [h.chunk for h in self.hits]
 
+    def distances(self, question, chunk_ids):
+        return dict.fromkeys(chunk_ids, 0.5)
+
 
 class Generator:
     def __init__(self, drafts):

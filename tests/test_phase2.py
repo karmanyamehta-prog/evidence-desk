@@ -248,6 +248,9 @@ class Store:
     def all_chunks(self, document_ids=None):
         return [h.chunk for h in self.hits]
 
+    def distances(self, question, chunk_ids):
+        return dict.fromkeys(chunk_ids, 0.5)
+
 
 class Generator:
     def __init__(self, drafts):
@@ -259,10 +262,14 @@ class Generator:
         return next(self.drafts)
 
 
-def test_threshold_is_passed_to_the_store(tmp_path):
+def test_threshold_drops_distant_hits(tmp_path):
+    """A hit beyond the distance threshold is dropped before generation."""
     from grounded_qa.service import Service
 
-    hits = [Hit(Chunk("a", "text content here", {"page": 1}), 0.1)]
+    hits = [
+        Hit(Chunk("near", "close text", {"page": 1}), 0.10),
+        Hit(Chunk("far", "distant text", {"page": 1}), 0.40),
+    ]
     store = Store(hits)
     service = Service(
         Settings(data_dir=tmp_path, min_retrieval_distance=0.16),
@@ -270,8 +277,39 @@ def test_threshold_is_passed_to_the_store(tmp_path):
         store,
         Generator([Draft()]),  # empty draft: model abstains, no retry
     )
-    service.query("a question")
-    assert store.search_kwargs["max_distance"] == pytest.approx(0.16)
+    result = service.query("a question")
+    retrieved = [r["id"] for r in result["retrieved"]]
+    assert "near" in retrieved
+    assert "far" not in retrieved
+
+
+def test_threshold_disabled_keeps_every_hit(tmp_path):
+    from grounded_qa.service import Service
+
+    hits = [Hit(Chunk("far", "distant text", {"page": 1}), 0.90)]
+    service = Service(
+        Settings(data_dir=tmp_path), object(), Store(hits), Generator([Draft()])
+    )
+    result = service.query("a question")
+    assert [r["id"] for r in result["retrieved"]] == ["far"]
+
+
+def test_threshold_applies_to_keyword_only_hits(tmp_path):
+    """A keyword-only hit gets a real distance and is thresholded like any other."""
+    from grounded_qa.service import Service
+
+    hits = [Hit(Chunk("near", "GOVERN 1.6 inventory", {"page": 1}), 0.10)]
+    store = Store(hits)
+    store.distances = lambda question, chunk_ids: dict.fromkeys(chunk_ids, 0.8)
+    service = Service(
+        Settings(data_dir=tmp_path, min_retrieval_distance=0.16),
+        object(),
+        store,
+        Generator([Draft()]),
+    )
+    result = service.query("a question")
+    # The only hit is within the threshold, so nothing is dropped.
+    assert [r["id"] for r in result["retrieved"]] == ["near"]
 
 
 def test_partial_claim_answer_is_answered_not_rejected(tmp_path):

@@ -1,0 +1,248 @@
+[
+  {
+    "id": "g01",
+    "split": "test",
+    "category": "fact",
+    "answerable": true,
+    "question": "Is the NIST Generative AI Profile voluntary or mandatory?",
+    "expected_answer": "Voluntary.",
+    "required_facts": [
+      "voluntary"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+        "page": 5,
+        "start": 318,
+        "end": 419,
+        "quote": "intended for voluntary use and to improve the ability of organizations to incorporate trustworthiness"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "g02",
+    "split": "test",
+    "category": "fact",
+    "answerable": true,
+    "question": "What is a profile in the AI RMF, and what does the Generative AI Profile implement?",
+    "expected_answer": "A profile is an implementation of the AI RMF functions, categories and subcategories for a specific setting, application or technology; here, Generative AI.",
+    "required_facts": [
+      "implementation",
+      "functions",
+      "categories",
+      "subcategories"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+        "page": 5,
+        "start": 524,
+        "end": 624,
+        "quote": "A profile is an implementation of the AI RMF functions, categories, and subcategories for a specific"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "g03",
+    "split": "test",
+    "category": "fact",
+    "answerable": true,
+    "question": "What does the Content Provenance consideration say about distinguishing human-generated from AI-generated content?",
+    "expected_answer": "Some GAI outputs, such as deepfake content, challenge our ability to distinguish human-generated content from AI-generated synthetic content.",
+    "required_facts": [
+      "deepfake",
+      "distinguish",
+      "synthetic content"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+        "page": 55,
+        "start": 614,
+        "end": 715,
+        "quote": "Some aspects of GAI outputs, such as the production of deepfake content, can challenge our ability to"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "g04",
+    "split": "test",
+    "category": "action",
+    "answerable": true,
+    "question": "In the Generative AI Profile, what data provenance information should be considered in GAI system inventory entries?",
+    "expected_answer": "Data provenance information such as source, signatures, versioning and watermarks.",
+    "required_facts": [
+      "provenance",
+      "signatures",
+      "versioning",
+      "watermarks"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+        "page": 20,
+        "start": 1556,
+        "end": 1645,
+        "quote": "consider the\nfollowing items in GAI system inventory entries: Data provenance information"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "g05",
+    "split": "test",
+    "category": "fact",
+    "answerable": true,
+    "question": "How are Action IDs in the Generative AI Profile tables structured, and what do the tags GV, MP, MS and MG mean?",
+    "expected_answer": "Each Action ID corresponds to the relevant AI RMF function and subcategory; GV = Govern, MP = Map, MS = Measure, MG = Manage.",
+    "required_facts": [
+      "GV",
+      "Govern",
+      "MP",
+      "Map",
+      "MS",
+      "Measure",
+      "MG",
+      "Manage"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+        "page": 17,
+        "start": 395,
+        "end": 480,
+        "quote": "Action ID: Each Action ID corresponds to the relevant AI RMF function and subcategory"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "x01",
+    "split": "test",
+    "category": "synthesis",
+    "answerable": true,
+    "question": "The AI RMF Core defines four functions. Which of them does the Generative AI Profile add suggested actions under, and what are those action IDs?",
+    "expected_answer": "The Generative AI Profile adds suggested actions under all four Core functions, using IDs of the form GV-1.1-001, MP-..., MS-... and MG-....",
+    "required_facts": [
+      "GV",
+      "MP",
+      "MS",
+      "MG"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+        "page": 17,
+        "start": 629,
+        "end": 718,
+        "quote": "AI RMF functions are tagged as follows: GV = Govern;\nMP = Map; MS = Measure; MG = Manage."
+      },
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 8,
+        "start": 345,
+        "end": 395,
+        "quote": "These functions – GOVERN,\nMAP, MEASURE, and MANAGE"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "x02",
+    "split": "test",
+    "category": "synthesis",
+    "answerable": true,
+    "question": "Both the AI RMF and its Generative AI Profile say the framework is voluntary. What does the AI RMF say the Framework is intended to be?",
+    "expected_answer": "Voluntary, rights-preserving, non-sector-specific and use-case agnostic.",
+    "required_facts": [
+      "voluntary",
+      "rights-preserving",
+      "non-sector-specific",
+      "use-case agnostic"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 7,
+        "start": 1296,
+        "end": 1400,
+        "quote": "The Framework is intended to be\nvoluntary, rights-preserving, non-sector-specific, and use-case agnostic"
+      },
+      {
+        "document_id": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+        "page": 5,
+        "start": 318,
+        "end": 419,
+        "quote": "intended for voluntary use and to improve the ability of organizations to incorporate trustworthiness"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "x03",
+    "split": "test",
+    "category": "synthesis",
+    "answerable": true,
+    "question": "The AI RMF says its four Core functions are used to organize the Framework. Where does the Generative AI Profile place its primary considerations?",
+    "expected_answer": "In Appendix A, as primary GAI considerations: Governance, Pre-Deployment Testing, Content Provenance and Incident Disclosure.",
+    "required_facts": [
+      "Governance",
+      "Pre-Deployment Testing",
+      "Content Provenance",
+      "Incident Disclosure"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+        "page": 51,
+        "start": 150,
+        "end": 330,
+        "quote": "These considerations (Governance, Pre-Deployment Testing, Content Provenance,\nand Incident Disclosure) are relevant for voluntary use by any organization designing, developing, and"
+      },
+      {
+        "document_id": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+        "page": 8,
+        "start": 345,
+        "end": 395,
+        "quote": "These functions – GOVERN,\nMAP, MEASURE, and MANAGE"
+      }
+    ],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "u01",
+    "split": "test",
+    "category": "unanswerable",
+    "answerable": false,
+    "question": "What was the exact dollar cost of running the NIST AI RMF evaluation suite in fiscal year 2024?",
+    "expected_answer": "Not stated in the corpus.",
+    "required_facts": [],
+    "gold_evidence": [],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "u02",
+    "split": "test",
+    "category": "unanswerable",
+    "answerable": false,
+    "question": "Which foundation model does the Generative AI Profile recommend organizations deploy as a default?",
+    "expected_answer": "The Profile names no default model; it names no models at all.",
+    "required_facts": [],
+    "gold_evidence": [],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  },
+  {
+    "id": "u03",
+    "split": "test",
+    "category": "unanswerable",
+    "answerable": false,
+    "question": "What is the maximum number of AI systems the Framework allows an organization to inventory under GOVERN 1.6?",
+    "expected_answer": "The Framework sets no maximum; the number is not in the corpus.",
+    "required_facts": [],
+    "gold_evidence": [],
+    "review_status": "assistant-authored and source-checked; independent human review pending"
+  }
+]

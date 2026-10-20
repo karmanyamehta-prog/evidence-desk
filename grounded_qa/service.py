@@ -14,6 +14,7 @@ from grounded_qa.citations import filter_claims, sources_from_hits
 from grounded_qa.generation.client import Generator
 from grounded_qa.ingestion.chunking import PIPELINE_VERSION, chunk_pages
 from grounded_qa.ingestion.pdf import document_id, read_pdf
+from grounded_qa.models import Hit
 
 logger = logging.getLogger(__name__)
 
@@ -131,25 +132,51 @@ class Service:
         0.0 (the default) disables the filter.
         """
         threshold = self.settings.min_retrieval_distance
-        hits = self.store.search(
-            question, self.settings.top_k, document_ids, max_distance=threshold
-        )
+        # Fetch more than top_k so the threshold and the fusion have room to
+        # work: a hit dropped by the threshold must not shrink the result set
+        # below what the top_k candidates would have provided.
+        pool = max(self.settings.top_k * 2, self.settings.top_k)
+        hits = self.store.search(question, pool, document_ids)
         if not self.settings.hybrid_search:
-            return hits
+            return self._apply_threshold(hits, threshold)[: self.settings.top_k]
         try:
             from grounded_qa.retrieval.bm25 import BM25Index, hybrid_search
 
             chunks = self.store.all_chunks(document_ids)
             if not chunks:
-                return hits
+                return self._apply_threshold(hits, threshold)[: self.settings.top_k]
             index = BM25Index(chunks)
-            return hybrid_search(question, hits, index, top_k=self.settings.top_k)
+            fused = hybrid_search(question, hits, index, top_k=pool)
         except ImportError:
             logger.warning("hybrid search unavailable: install rank-bm25 to enable it")
-            return hits
+            return self._apply_threshold(hits, threshold)[: self.settings.top_k]
         except Exception:
             logger.exception("hybrid search failed; falling back to cosine only")
+            return self._apply_threshold(hits, threshold)[: self.settings.top_k]
+        # A keyword-only hit has no cosine distance of its own. Compute the real
+        # one so that the distance threshold and the reported distances mean
+        # the same thing for every retrieved chunk.
+        cosine_ids = {h.chunk.id for h in hits}
+        missing = [h.chunk.id for h in fused if h.chunk.id not in cosine_ids]
+        distances: dict[str, float] = {}
+        if missing:
+            try:
+                distances = self.store.distances(question, missing)
+            except Exception:
+                logger.exception("could not compute distances for keyword-only hits")
+                distances = {}
+        fused = [
+            Hit(h.chunk, distances[h.chunk.id]) if h.chunk.id in distances else h
+            for h in fused
+        ]
+        return self._apply_threshold(fused, threshold)[: self.settings.top_k]
+
+    @staticmethod
+    def _apply_threshold(hits: list[Any], threshold: float) -> list[Any]:
+        """Drop hits whose cosine distance is at or beyond the threshold."""
+        if threshold <= 0:
             return hits
+        return [h for h in hits if h.distance < threshold]
 
     def query(
         self, question: str, document_ids: list[str] | None = None

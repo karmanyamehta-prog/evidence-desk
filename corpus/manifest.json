@@ -1,11 +1,30 @@
 {
-  "title": "NIST AI RMF 1.0",
-  "publication": "NIST AI 100-1",
-  "publication_date": "2023-01",
-  "sha256": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
-  "pages": 48,
-  "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
-  "canonical_url": "https://doi.org/10.6028/NIST.AI.100-1",
-  "retrieved": "2026-09-27",
-  "scope": "Full prose plus isolated subcategory column on detected RMF tables; figures and category-column text are not interpreted."
+  "corpus": "NIST AI Risk Management Framework",
+  "retrieved": "2026-10-20",
+  "documents": [
+    {
+      "title": "NIST AI RMF 1.0",
+      "publication": "NIST AI 100-1",
+      "publication_date": "2023-01",
+      "sha256": "cde9f5bab41c68718f3413ab2564c2285ac9195fa9160a61cc5058dd9c35d6e7",
+      "file": "nist-ai-100-1-rmf.pdf",
+      "pages": 48,
+      "source_url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf",
+      "canonical_url": "https://doi.org/10.6028/NIST.AI.100-1",
+      "retrieved": "2026-09-27",
+      "scope": "Full prose plus isolated subcategory column on detected RMF tables; figures and category-column text are not interpreted."
+    },
+    {
+      "title": "AI RMF: Generative AI Profile",
+      "publication": "NIST AI 600-1",
+      "publication_date": "2024-07",
+      "sha256": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+      "file": "nist-ai-600-1-genai-profile.pdf",
+      "pages": 64,
+      "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      "canonical_url": "https://doi.org/10.6028/NIST.AI.600-1",
+      "retrieved": "2026-10-20",
+      "scope": "Full prose. This is not the benchmark PDF, so the RMF subcategory-table column rule does not apply; ordinary extraction is used throughout."
+    }
+  ]
 }

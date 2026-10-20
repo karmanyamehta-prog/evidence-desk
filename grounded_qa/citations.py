@@ -25,9 +25,9 @@ _QUOTES = str.maketrans(
         "\u2212": "-",
     }
 )
-# Section/action identifiers such as "GOVERN 1.6" or "3.4", used to catch a
-# claim that cites a real quote about a different section.
-_IDENTIFIER = re.compile(r"\b(?:[A-Z]{3,}\s?)?\d+\.\d+\b")
+# Section/action identifiers such as "GOVERN 1.6", "A.1.1" or "3.4", used to
+# catch a claim that cites a real quote about a different section.
+_IDENTIFIER = re.compile(r"\b(?:[A-Z]{3,}\s?)?[A-Z]?\d+\.\d+(?:\.\d+)?\b")
 
 
 def fold(text: str) -> str:  # comparison-only; never stored

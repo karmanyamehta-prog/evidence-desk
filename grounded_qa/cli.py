@@ -9,11 +9,45 @@ import shutil
 import urllib.request
 from pathlib import Path
 
-from grounded_qa.config import Settings, manifest_path
-
-RMF_URL = "https://www.govinfo.gov/content/pkg/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3/pdf/GOVPUB-C13-ef6882c6bd970bc733de394f469ea3f3.pdf"
+from grounded_qa.config import Settings, corpus_documents
 
 logger = logging.getLogger(__name__)
+
+USER_AGENT = "evidence-desk/0.1 (corpus fetch; checksum-verified)"
+
+
+def _local_path(sources_dir: Path, document: dict) -> Path:
+    """A stable local filename per document, derived from its checksum."""
+    name = document.get("file") or f"{document['publication'].replace(' ', '-')}.pdf"
+    return sources_dir / name
+
+
+def fetch_document(document: dict, sources_dir: Path) -> Path:
+    """Download one manifest document and verify it against its checksum."""
+    sources_dir.mkdir(parents=True, exist_ok=True)
+    path = _local_path(sources_dir, document)
+    expected = document["sha256"]
+    if path.exists() and hashlib.sha256(path.read_bytes()).hexdigest() == expected:
+        logger.info("Verified existing %s", path)
+        print(f"Verified existing {path}")
+        return path
+    request = urllib.request.Request(
+        document["source_url"], headers={"User-Agent": USER_AGENT}
+    )
+    with urllib.request.urlopen(request, timeout=120) as r:
+        content = r.read(21 * 1024 * 1024)
+    if (
+        not content.startswith(b"%PDF-")
+        or hashlib.sha256(content).hexdigest() != expected
+    ):
+        raise ValueError(
+            f"Source checksum changed for {document['publication']}; "
+            "review the corpus before using it"
+        )
+    path.write_bytes(content)
+    logger.info("Downloaded and verified %s", path)
+    print(f"Downloaded and verified {path}")
+    return path
 
 
 def main():
@@ -44,45 +78,35 @@ def main():
             )
         )
         return
-    path = args.pdf or s.data_dir / "sources" / "rmf.pdf"
+    sources_dir = s.data_dir / "sources"
     if args.command == "fetch":
-        path.parent.mkdir(parents=True, exist_ok=True)
-        expected = json.loads(manifest_path().read_text())["sha256"]
-        if path.exists() and hashlib.sha256(path.read_bytes()).hexdigest() == expected:
-            logger.info("Verified existing %s", path)
-            print(f"Verified existing {path}")
-            return
-        request = urllib.request.Request(
-            RMF_URL,
-            headers={
-                "User-Agent": "evidence-desk/0.1 (corpus fetch; checksum-verified)"
-            },
-        )
-        with urllib.request.urlopen(request, timeout=60) as r:
-            content = r.read(21 * 1024 * 1024)
-        if (
-            not content.startswith(b"%PDF-")
-            or hashlib.sha256(content).hexdigest() != expected
-        ):
-            raise ValueError(
-                "Source checksum changed; review the corpus before using it"
-            )
-        path.write_bytes(content)
-        logger.info("Downloaded and verified %s", path)
-        print(f"Downloaded and verified {path}")
+        for document in corpus_documents():
+            fetch_document(document, sources_dir)
         return
     from grounded_qa.service import Service
 
-    print(
-        json.dumps(
-            Service(s).ingest(
-                path,
-                path.name if args.pdf else "NIST AI RMF 1.0 (2023)",
-                "" if args.pdf else RMF_URL,
-            ),
-            indent=2,
+    if args.pdf:
+        # An explicit PDF is ingested on its own, with the filename as the title.
+        print(
+            json.dumps(
+                Service(s).ingest(args.pdf, args.pdf.name, ""),
+                indent=2,
+            )
         )
-    )
+        return
+    # Ingest every document in the manifest, in manifest order.
+    service = Service(s)
+    results = []
+    for document in corpus_documents():
+        path = fetch_document(document, sources_dir)
+        results.append(
+            service.ingest(
+                path,
+                document["title"],
+                document.get("source_url", ""),
+            )
+        )
+    print(json.dumps(results, indent=2))
 
 
 if __name__ == "__main__":

@@ -74,5 +74,28 @@ class VectorStore:
             )
         ]
 
+    def distances(self, question, chunk_ids) -> dict[str, float]:
+        """True cosine distance from a question to specific chunks.
+
+        The stored vectors are L2-normalised, so the cosine similarity is the
+        dot product and the distance is 1 - similarity. This is used to give
+        keyword-only hits a real distance instead of a synthetic one, so the
+        distance threshold means the same thing for every retrieved chunk.
+        """
+        ids = list(chunk_ids)
+        if not ids:
+            return {}
+        result = self.collection.get(ids=ids, include=["embeddings"])
+        stored_ids = result.get("ids")
+        embeddings = result.get("embeddings")
+        if stored_ids is None or embeddings is None or len(stored_ids) == 0:
+            return {}
+        query = self.embedder.queries([question])[0]
+        out = {}
+        for cid, vector in zip(stored_ids, embeddings, strict=False):
+            similarity = sum(a * b for a, b in zip(query, vector, strict=False))
+            out[cid] = 1.0 - float(similarity)
+        return out
+
     def delete(self, document_id):
         self.collection.delete(where={"document_id": document_id})
