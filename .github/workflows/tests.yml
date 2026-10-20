@@ -70,7 +70,17 @@ jobs:
       - name: Install uv
         run: python -m pip install uv==0.13.4
       - name: Verify the lock file installs from its pinned hashes
-        run: uv pip install --system --require-hashes -r requirements-linux.lock.txt
+        # The lock pins torch==2.8.0+cpu, which exists only on the PyTorch CPU
+        # index, and it pins packages at versions that live on PyPI rather than
+        # on the CPU index. Resolving the lock therefore needs the same index
+        # set and index strategy that produced it, or the install fails with
+        # "no version of torch==2.8.0+cpu". These flags must stay in step with
+        # the compile step below.
+        run: >
+          uv pip install --system --require-hashes
+          --extra-index-url https://download.pytorch.org/whl/cpu
+          --index-strategy unsafe-best-match
+          -r requirements-linux.lock.txt
       - name: Verify the lock file is up to date
         run: |
           uv pip compile requirements-dev.txt --python-platform linux --python-version 3.12 --generate-hashes --exclude-newer 2026-10-01T00:00:00Z --extra-index-url https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match --output-file /tmp/regenerated.lock.txt
