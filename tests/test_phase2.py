@@ -312,6 +312,28 @@ def test_threshold_applies_to_keyword_only_hits(tmp_path):
     assert [r["id"] for r in result["retrieved"]] == ["near"]
 
 
+def test_keyword_only_hit_beyond_the_threshold_is_dropped(tmp_path):
+    """A keyword-only hit that is too far away must not survive the threshold.
+
+    The distance is computed from the stored vector, so a hit that only BM25
+    found is filtered on the same footing as a cosine hit.
+    """
+    from grounded_qa.service import Service
+
+    hits = [Hit(Chunk("near", "GOVERN 1.6 inventory", {"page": 1}), 0.10)]
+    store = Store(hits)
+    store.distances = lambda question, chunk_ids: dict.fromkeys(chunk_ids, 0.80)
+    service = Service(
+        Settings(data_dir=tmp_path, min_retrieval_distance=0.16),
+        object(),
+        store,
+        Generator([Draft()]),
+    )
+    # The cosine hit is inside the threshold; a keyword-only hit at 0.80 is not.
+    result = service.query("a question")
+    assert all(r["distance"] < 0.16 for r in result["retrieved"])
+
+
 def test_partial_claim_answer_is_answered_not_rejected(tmp_path):
     """A draft with one good and one bad claim must still answer."""
     from grounded_qa.service import Service
