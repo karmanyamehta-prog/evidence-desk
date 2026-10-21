@@ -83,7 +83,10 @@ jobs:
           -r requirements-linux.lock.txt
       - name: Verify the lock file is up to date
         run: |
-          uv pip compile requirements-dev.txt --python-platform linux --python-version 3.12 --generate-hashes --exclude-newer 2026-10-01T00:00:00Z --extra-index-url https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match --output-file /tmp/regenerated.lock.txt
+          uv pip compile requirements-dev.txt --python-platform linux --python-version 3.12 --generate-hashes --exclude-newer 2026-10-21T00:00:00Z --extra-index-url https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match --output-file /tmp/regenerated.lock.txt
           # uv records the output path in a header comment, so compare the
           # package lines only.
           diff -u <(grep -v '^#' requirements-linux.lock.txt) <(grep -v '^#' /tmp/regenerated.lock.txt)
+      # The cutoff above has to be moved in step with the lock file's own
+      # header. Advancing it re-resolves the whole environment, so it is a
+      # reviewed change rather than a background refresh.
