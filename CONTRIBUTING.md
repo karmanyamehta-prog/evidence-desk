@@ -1,23 +1,27 @@
-# How to land a change
+## The rules
 
 Every change lands through a **feature branch and a pull request**. Nothing is
 pushed straight to `main`.
 
-This is not ceremony. Two failures in this repository's history were only
-caught by hand, long after they landed:
+### Why
 
-- The `typecheck` job was broken by a missing `[tool.mypy]` section, so mypy
-  ran without the pydantic plugin and reported 14 errors on correct code. It
-  stayed broken on `main` until someone read a workflow run manually.
-- The `lock` job stayed red across 9 consecutive runs. The cause was a real
-  bug (the install step did not use the index the lock was compiled against),
-  but nothing surfaced it, because nothing required the workflow to be green.
+The `tests` workflow (`lint`, `typecheck`, `unit`, `lock`) has been **red
+during its lifetime**. Two jobs were broken and neither was caught, because
+every commit went straight to `main` and nothing required the workflow to be
+green before a merge:
+
+| Job | Was | After the fix |
+|---|---|---|
+| `lint` | passing | passing |
+| `typecheck` | **failing** (14 false mypy errors, no pydantic plugin) | passing |
+| `unit` | passing | passing |
+| `lock` | **failing** across 9 consecutive runs | passing |
 
 With no pull-request gate, a red workflow on `main` is invisible. A pull
 request makes the check the *entry condition* for landing the change rather
 than something you have to remember to look at.
 
-## The cycle
+### The cycle
 
 ```bash
 git checkout -b fix/short-description   # branch off main
@@ -26,21 +30,15 @@ python -m ruff check . --fix
 python -m ruff format .
 python -m pytest -q
 git add -A
-git commit                                # pre-commit hooks run here
+git commit                               # pre-commit hooks run here
 git push -u origin fix/short-description
 ```
 
-Then open the pull request and wait for `tests` to go green:
+Then open the pull request and wait for `tests` to go green. When the four
+jobs pass, merge with a squash so the history on `main` stays linear and
+each commit reads as one change.
 
-```bash
-gh pr create --fill                     # or use the web UI
-```
-
-When the four jobs (`lint`, `typecheck`, `unit`, `lock`) pass, merge with a
-squash so the history on `main` stays linear and each commit reads as one
-change.
-
-## Before you open the pull request
+### What to check before you push
 
 The `lock` job is strict on purpose. It re-compiles `requirements-dev.txt`
 with the same cutoff and index set that produced the lock, and diffs the
@@ -74,15 +72,25 @@ fine. If the two disagree, recompile with a fresh cache before believing it:
 UV_CACHE_DIR=/tmp/uvfresh uv pip compile ...   # same flags
 ```
 
-## Commit messages
+### Commit messages
 
 One change per commit, and the message says *why*. The repository's history
 is the argument for the project in an interview, so the commits should
 explain the reasoning and the evidence, not just list the files.
 
-## Model jobs
+### Model jobs
 
 A job that calls Ollama must not run concurrently with another one. Two
 concurrent model jobs perturb each other's timing and inflate the measured
-noise floor, which is exactly the thing the evaluation claims to control
-for. Run them one at a time.
+noise floor, which is exactly the thing the whole evaluation is designed to
+control for. Run them one at a time.
+
+### Rules this work must follow
+
+- **A difference measured in one run against a number measured in another run is not a result.** The 3B model drifts between runs. Compare conditions within one session, alternating them so drift hits both arms.
+- **For every A/B prompt comparison, verify that both arms actually contain the evidence under test.** Write the check first.
+- **Analyse at the level the design samples independently.** Repeated asks of one question are one observation, not three.
+- **Measure the noise floor before believing a difference.** Here: 0 of 19 flips within a session, 3 of 19 between runs.
+- **A hypothesis that fails its own test does not get to change the system.**
+- **Every change lands through a feature branch and a pull request.**
+  Push to `main` is blocked by the `tests` workflow.
