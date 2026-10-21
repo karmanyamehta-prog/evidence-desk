@@ -408,3 +408,62 @@ the gate, which is the part a solo maintainer can actually satisfy.
   (#10), independent human review and inter-rater agreement (#11), Docker
   and the Spaces image on Linux (#12), and a coverage badge and Codecov step
   (#13).
+
+# Phase 4 — advancing the lock cutoff
+
+Scope: the pinned environment, not the model. The lock's `--exclude-newer`
+cutoff was `2026-10-01`, and two Dependabot PRs could not pass the `lock`
+job's freshness check because their versions were published after it.
+
+## Fixed
+
+| Area | Change | Evidence |
+|---|---|---|
+| Lock cutoff | Advanced from `2026-10-01T00:00:00Z` to `2026-10-21T00:00:00Z` in all three places it is recorded: the lock's own header comment, the `lock` job's compile step, and the command in `CONTRIBUTING.md`. 47 packages move, 1 is added (`aiohttp-retry`), and several settle back to their previously pinned versions. | The `lock` job's install step resolves 154 packages from the pinned hashes; the freshness diff is empty; 288 tests pass |
+| `CONTRIBUTING.md` | Documents the in-place-compile trap (below) and the three places the cutoff has to move together. | — |
+
+## The in-place compile does not re-resolve
+
+`uv pip compile` without `-U` treats an existing `--output-file` as a set of
+pins to preserve. Compiling straight onto `requirements-linux.lock.txt`
+therefore keeps the versions already in that file, exits 0, and reports
+success — without moving the lock to the current versions.
+
+The symptom is deceptive: an in-place compile of the *same* flags produced a
+lock that differed from a fresh-path compile of those flags, and the
+in-place one looked authoritative because it exited 0 and rewrote the file.
+It also explains the mid-session "5 packages differ" report: that was an
+in-place compile, not a stale cache.
+
+Two compiles to **different fresh paths** with the same flags are
+byte-identical apart from the output path recorded in the header, so the
+resolve itself is deterministic. The rule that follows: compile to a path
+that does not exist yet, compare, and only then copy the result over.
+
+The `lock` job already compiles to `/tmp/regenerated.lock.txt`, so CI was
+never exposed to this. Only the documented local workflow was.
+
+## Measured
+
+- 47 packages change, 1 is added and 1 removed between the `2026-10-01` and
+  `2026-10-21` cutoffs.
+- The advanced lock is **closer** to the environment this machine already
+  has passing tests against: the number of installed packages whose version
+  differs from the lock falls from 31 to 22. The remaining differences are
+  mostly ones where the installed environment is the *older* version
+  (`numpy 2.5.3` vs `2.5.4`, `certifi 2026.7.22` vs `2026.10.19`).
+- 288 tests pass, `ruff check` and `ruff format --check` are clean, and
+  `mypy grounded_qa --ignore-missing-imports --no-strict-optional` exits 0.
+
+## Still not done
+
+- Dependabot PRs #4 (`pycparser` 3.0 → 3.11) and #5 (`gitpython` 3.2.0 →
+  3.2.1) were blocked by the old cutoff. Both versions are published before
+  the new one, so both bumps are now resolvable, but the PR branches still
+  carry the old lock and have to be rebased.
+- The advanced lock has not yet been installed and the suite re-run against
+  the *new* versions; the suite was run against the environment this machine
+  already had, which is close to but not identical to the advanced lock.
+- The `unit` job installs `requirements-dev.txt` directly rather than the
+  lock, so it tests floating versions and only the `lock` job tests what is
+  actually pinned. The two can disagree without either going red.

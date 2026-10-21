@@ -59,7 +59,7 @@ uv pip install --dry-run --require-hashes \
 # The lock must match the requirements. Compare by package version, not by
 # eyeballing a 4000-line diff.
 uv pip compile requirements-dev.txt --python-platform linux --python-version 3.12 \
-  --generate-hashes --exclude-newer 2026-10-01T00:00:00Z \
+  --generate-hashes --exclude-newer 2026-10-21T00:00:00Z \
   --extra-index-url https://download.pytorch.org/whl/cpu \
   --index-strategy unsafe-best-match --output-file /tmp/regenerated.lock.txt
 python tools/diff_locks.py requirements-linux.lock.txt /tmp/regenerated.lock.txt
@@ -71,6 +71,49 @@ fine. If the two disagree, recompile with a fresh cache before believing it:
 ```bash
 UV_CACHE_DIR=/tmp/uvfresh uv pip compile ...   # same flags
 ```
+
+### Compiling the lock in place does not re-resolve it
+
+`uv pip compile` without `-U` treats an existing `--output-file` as a set of
+pins to preserve. So compiling straight onto `requirements-linux.lock.txt`
+keeps the versions already in that file and reports a clean, successful run —
+it does **not** move the lock to the current versions. Writing the output to
+a path that does not exist yet is what actually re-resolves.
+
+This bit hard once: an in-place compile of the same flags produced a lock
+that differed from a fresh-path compile of the *same* flags, and the
+in-place one looked authoritative because it exited 0 and rewrote the file.
+
+The rule that follows from it:
+
+```bash
+# Always compile to a new path, then compare.
+uv pip compile requirements-dev.txt ... --output-file /tmp/regenerated.lock.txt
+python tools/diff_locks.py requirements-linux.lock.txt /tmp/regenerated.lock.txt
+```
+
+To actually *advance* the lock, compile to a fresh path, then copy it over
+and re-attach the header comment block (uv drops the repository's comment
+block on every regeneration). Two compiles to different fresh paths with the
+same flags are byte-identical apart from the output path in the header, so
+the resolve itself is deterministic.
+
+### Advancing the cutoff
+
+`--exclude-newer` is a moving target. A dependency published after the
+cutoff cannot be resolved at all, and a Dependabot bump to such a version
+fails the `lock` job's freshness check until the cutoff moves past its
+upload date. Moving it re-resolves the entire environment, so it is a
+reviewed change like any other:
+
+1. Compile to a fresh path with the new cutoff, and read the package-level
+   diff (`tools/diff_locks.py`) rather than the 4000-line text diff.
+2. Move the cutoff in **all three** places at once: the lock's header
+   comment, the `lock` job's compile step in `.github/workflows/tests.yml`,
+   and the command in this file. A cutoff that is only in two of the three
+   makes the freshness check fail, and the failure names the cutoff rather
+   than the drift.
+3. Land it through the normal branch → PR → green CI → squash-merge cycle.
 
 ### Commit messages
 
