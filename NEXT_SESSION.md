@@ -26,17 +26,34 @@ was a stale local `uv` cache, not a stale lock.) Fixed in PR #6, merged as
 squash-merge.** `CONTRIBUTING.md` has the commands, including the two
 `uv` invocations that catch the two things that break the lock job.
 
-Two things still need the user, because they change repository settings or
-publish to the issue tracker:
+**Branch protection is active on `main`** (ruleset 25510828, "main requires
+tests"). It requires `lint`, `typecheck`, `unit` and `lock` to pass, with
+`strict_required_status_checks_policy` on, so the branch must be up to date
+with `main` before it merges. A direct push to `main` is now rejected:
 
-1. **Branch protection on `main`** (a ruleset requiring `lint`, `typecheck`,
-   `unit`, `lock` to pass). The API call was blocked by the permission
-   classifier as a standing-rule change; it needs an explicit go-ahead.
-2. **An issue for the branch/PR cycle**, so the workflow change is recorded
-   in the tracker and not only in a commit message. Also blocked, as a
-   write to an external system.
+    remote: - 4 of 4 required status checks are expected.
+    ! [remote rejected] main -> main (push declined due to repository rule violations)
 
-The fully-merged `hardening` branch has been deleted.
+The ruleset deliberately has **no approval requirement**. `require_last_push_approval`
+needs approval from someone other than the last pusher, which a solo
+repository can never satisfy — it was tried, and it deadlocked the merge
+("New changes require approval from someone other than the last pusher").
+With `required_approving_review_count: 0` the gate is the four checks, which
+is what a solo maintainer can actually satisfy.
+
+Six issues are open, tracking the work that is no longer in a commit message:
+
+| # | What |
+|---|---|
+| 8 | The cause of the 3B model's false abstentions is still open |
+| 9 | Run the cross-document evaluation |
+| 10 | Add a reproducible 3B measurement protocol (multi-repeat spread) |
+| 11 | Independent human review and inter-rater agreement |
+| 12 | Verify Docker, the Spaces image, and the hosted demo on Linux |
+| 13 | Add a coverage badge and a Codecov step to CI |
+
+The fully-merged `hardening` branch has been deleted, along with the three
+branches used to land PRs #6, #7 and #14. `main` is the only local branch.
 
 ## What was just finished
 
@@ -102,34 +119,38 @@ now exits 0.
 | `ruff format --check .` | clean |
 | `mypy grounded_qa ...` | clean (exit 0) |
 | `pip check` | clean |
-| GitHub Actions `tests` on `main` | **all four jobs green** (run 39502945238) |
+| GitHub Actions `tests` on `main` | **all four jobs green** (run 39564964739) |
 
 ## Still open, in priority order
 
-1. **Branch protection on `main`.** The workflow is green, but nothing
-   *requires* it to be green before a merge. This is the one change that
-   makes the rest of the cycle stick, and it needs the user's explicit
-   go-ahead — see the top of this note.
-2. **The cause of the false abstentions is still open.** Position, retrieval,
+1. **The cause of the false abstentions is still open.** Position, retrieval,
    fact count, prompt size, quote length, retrieval method and the distractors
    have all been refuted. What remains: the model returns `{"claims": []}`
    when the gold text is in the prompt, for 7 of the 20 answerable questions.
    The next step worth taking is a **larger, pre-registered question set with
    the gold-presence check built into the design**, so an A/B comparison is
-   actually powered for the effect it is trying to detect.
-3. **The cross-document evaluation** (`evaluation/queries-crossdoc.json`, 11
+   actually powered for the effect it is trying to detect. Tracked in #8.
+2. **The cross-document evaluation** (`evaluation/queries-crossdoc.json`, 11
    questions, 3 repeats) has not been run. It must not run concurrently with
    any other model job — that would perturb the timing and the noise floor.
-4. **A reproducible 3B measurement protocol.** The runner supports
+   Tracked in #9.
+3. **A reproducible 3B measurement protocol.** The runner supports
    `--repeats`; the reporting does not yet summarise the spread. Any
    published 3B number needs multi-repeat spread, not a single pass.
+   Tracked in #10.
+4. **Independent human review and inter-rater agreement.** Tracked in #11.
 5. **Docker and the Spaces image** remain unverified on this machine. The
    lock *is* now installed and verified on Linux — in CI, on
-   `ubuntu-24.04` — but not on a local Linux box.
-6. **Independent human review and inter-rater agreement** are outstanding for
-   the whole evaluation, and the questions are still assistant-authored.
+   `ubuntu-24.04` — but not on a local Linux box. Tracked in #12.
+6. **A coverage badge and a Codecov step** are not wired up. The `unit` job
+   already uploads `coverage.xml` as an artifact and fails below 80%, but
+   nothing reads the artifact, so the trend is not tracked. Tracked in #13.
 
 ## Method rules established this session — follow them
+
+These are the rules the conclusions now rest on. Breaking them is what
+produced the two wrong claims that had to be retracted. They are also in
+`CONTRIBUTING.md`, where a contributor will actually read them.
 
 These are the rules the conclusions now rest on. Breaking them is what
 produced the two wrong claims that had to be retracted.

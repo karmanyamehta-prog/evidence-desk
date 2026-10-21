@@ -355,6 +355,7 @@ nothing required the workflow to be green.
 | `typecheck` job | `pyproject.toml` had no `[tool.mypy]` section, so mypy ran without the pydantic plugin and reported every defaulted `Settings` field as a missing required argument — 14 errors on correct code. The plugin is enabled and the two real annotations it was masking are added. | `mypy grounded_qa --ignore-missing-imports --no-strict-optional` exits 0; CI job green |
 | `lock` job | The install step resolved the lock against PyPI alone, but the lock pins `torch==2.8.0+cpu`, which exists only on the PyTorch CPU index. The job died at step 5 and never reached the freshness check. The step now passes the same extra index and index strategy that produced the lock. | `uv pip install --require-hashes` resolves 153 packages; both `lock` steps green in CI |
 | Change cycle | Changes land through a feature branch and a pull request. `CONTRIBUTING.md` gives the commands, and names the two `uv` invocations that catch what breaks the lock job. | PR #6, merged as `b6f5773` |
+| Branch protection | A ruleset on `main` ("main requires tests") requires `lint`, `typecheck`, `unit` and `lock` to pass before a merge, with `strict_required_status_checks_policy` on. A direct push to `main` is rejected. | `git push origin main` → "4 of 4 required status checks are expected" |
 
 ## What the `lock` failure actually was
 
@@ -377,20 +378,33 @@ Both flags are required, and each alone fails differently:
 - The index strategy alone fails because `torch==2.8.0+cpu` is only on the
   CPU index.
 
+## Why the ruleset requires no approvals
+
+`require_last_push_approval` was tried first and it **deadlocked the
+repository**: it demands approval from someone other than the last pusher,
+which a solo maintainer can never supply, so every merge was rejected with
+
+    New changes require approval from someone other than the last pusher.
+
+The rule does useful work in a team and does nothing useful in a repository
+with one person in it. The ruleset therefore sets
+`required_approving_review_count: 0` and relies on the four status checks as
+the gate, which is the part a solo maintainer can actually satisfy.
+
 ## Measured
 
 - The `tests` workflow passes on `main` for the first time in the
-  repository's history (run 39502945238, all four jobs green).
+  repository's history (run 39564964739, all four jobs green).
 - The `tests` workflow had been red on 9 consecutive runs before the fix.
 - 35 of 35 commits went straight to `main`; there was no branch protection
   and no pull-request gate.
+- A direct push to `main` is now rejected by the ruleset.
 
 ## Still not done
 
-- **Branch protection on `main`** is not set. The workflow is green, but
-  nothing requires it to be green before a merge — which is the failure mode
-  that let the two broken jobs sit on `main` unnoticed. Creating the ruleset
-  is a standing-rule change to the repository and needs the user's explicit
-  approval.
-- **An issue tracking the cycle change** has not been opened, for the same
-  reason: it publishes to the issue tracker.
+- **Six issues are open** for the work that used to live only in commit
+  messages: the open question on the 3B model's false abstentions (#8), the
+  cross-document evaluation (#9), a reproducible 3B measurement protocol
+  (#10), independent human review and inter-rater agreement (#11), Docker
+  and the Spaces image on Linux (#12), and a coverage badge and Codecov step
+  (#13).
