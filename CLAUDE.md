@@ -33,6 +33,9 @@
 - **Terminal commands**: Send single-line terminal commands only.
 - **Platform**: PowerShell on Windows.
 - **Approvals**: Never merge without user approval.
+- **Secrets & Env files**: Never commit secrets or env files.
+- **API Errors**: If a model call fails with a quota or 402 error, say so instead of retrying in a loop.
+- **Large Storage**: Prefer drive D for large downloads and caches.
 
 ## Session Protocol
 - **At session start**: Read `CLAUDE.md` and the Session handoff section below, compare with `git status`, then give a three-line summary of where we stopped and the next step.
