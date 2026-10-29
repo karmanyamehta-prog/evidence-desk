@@ -51,4 +51,4 @@
   1. Approve and write `CLAUDE.md` to the repo root.
   2. Proceed with local evaluation runs or corpus refinements as requested.
 - **Open Questions**: Are there specific evaluation targets or new datasets to prioritize?
-- **Notes**: Use `python -m pytest` for testing due to local package structure.
+- **Notes**: Use `python -m pytest` for testing due to local package structure. NEXT_SESSION.md holds the detailed research log and open issues 8 to 13, and it should be read when working on evaluation or the 3B model findings.
